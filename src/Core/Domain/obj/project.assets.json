@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\DonghuaFlix.csproj",
-      "projectName": "DonghuaFlix",
-      "projectPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\DonghuaFlix.csproj",
+      "projectUniqueName": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
+      "projectName": "DonghuaFlix.Core.Domain",
+      "projectPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
       "packagesPath": "C:\\Users\\LUANCAR\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\obj\\",
+      "outputPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LUANCAR\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -60,9 +60,6 @@
         "assetTargetFallback": true,
         "warn": true,
         "frameworkReferences": {
-          "Microsoft.AspNetCore.App": {
-            "privateAssets": "none"
-          },
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
