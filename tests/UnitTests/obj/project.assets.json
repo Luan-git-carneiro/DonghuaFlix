@@ -423,10 +423,16 @@
           }
         }
       },
-      "xunit.runner.visualstudio/2.4.3": {
+      "xunit.runner.visualstudio/3.0.2": {
         "type": "package",
+        "compile": {
+          "lib/net6.0/_._": {}
+        },
+        "runtime": {
+          "lib/net6.0/_._": {}
+        },
         "build": {
-          "build/netcoreapp2.1/xunit.runner.visualstudio.props": {}
+          "build/net6.0/xunit.runner.visualstudio.props": {}
         }
       },
       "DonghuaFlix.Core.Domain/1.0.0": {
@@ -963,34 +969,24 @@
         "xunit.extensibility.execution.nuspec"
       ]
     },
-    "xunit.runner.visualstudio/2.4.3": {
-      "sha512": "kZZSmOmKA8OBlAJaquPXnJJLM9RwQ27H7BMVqfMLUcTi9xHinWGJiWksa3D4NEtz0wZ/nxd2mogObvBgJKCRhQ==",
+    "xunit.runner.visualstudio/3.0.2": {
+      "sha512": "oXbusR6iPq0xlqoikjdLvzh+wQDkMv9If58myz9MEzldS4nIcp442Btgs2sWbYWV+caEluMe2pQCZ0hUZgPiow==",
       "type": "package",
-      "path": "xunit.runner.visualstudio/2.4.3",
+      "path": "xunit.runner.visualstudio/3.0.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "License.txt",
-        "build/net452/xunit.abstractions.dll",
-        "build/net452/xunit.runner.reporters.net452.dll",
-        "build/net452/xunit.runner.utility.net452.dll",
-        "build/net452/xunit.runner.visualstudio.props",
-        "build/net452/xunit.runner.visualstudio.testadapter.dll",
-        "build/netcoreapp2.1/xunit.abstractions.dll",
-        "build/netcoreapp2.1/xunit.runner.reporters.netcoreapp10.dll",
-        "build/netcoreapp2.1/xunit.runner.utility.netcoreapp10.dll",
-        "build/netcoreapp2.1/xunit.runner.visualstudio.dotnetcore.testadapter.dll",
-        "build/netcoreapp2.1/xunit.runner.visualstudio.props",
-        "build/uap10.0.16299/xunit.runner.reporters.netstandard15.dll",
-        "build/uap10.0.16299/xunit.runner.utility.netstandard15.dll",
-        "build/uap10.0.16299/xunit.runner.utility.uwp10.dll",
-        "build/uap10.0.16299/xunit.runner.utility.uwp10.pri",
-        "build/uap10.0.16299/xunit.runner.visualstudio.props",
-        "build/uap10.0.16299/xunit.runner.visualstudio.targets",
-        "build/uap10.0.16299/xunit.runner.visualstudio.uwp.testadapter.dll",
-        "build/uap10.0.16299/xunit.runner.visualstudio.uwp.testadapter.pri",
-        "logo-512-transparent.png",
-        "xunit.runner.visualstudio.2.4.3.nupkg.sha512",
+        "_content/README.md",
+        "_content/logo-128-transparent.png",
+        "build/net472/xunit.abstractions.dll",
+        "build/net472/xunit.runner.visualstudio.props",
+        "build/net472/xunit.runner.visualstudio.testadapter.dll",
+        "build/net6.0/xunit.abstractions.dll",
+        "build/net6.0/xunit.runner.visualstudio.props",
+        "build/net6.0/xunit.runner.visualstudio.testadapter.dll",
+        "lib/net472/_._",
+        "lib/net6.0/_._",
+        "xunit.runner.visualstudio.3.0.2.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
     },
@@ -1007,7 +1003,7 @@
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "coverlet.collector >= 6.0.0",
       "xunit >= 2.9.3",
-      "xunit.runner.visualstudio >= 2.4.3"
+      "xunit.runner.visualstudio >= 3.0.2"
     ]
   },
   "packageFolders": {
@@ -1016,11 +1012,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj",
+      "projectUniqueName": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj",
       "projectName": "DonghuaFlix.UnitTests",
-      "projectPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj",
+      "projectPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj",
       "packagesPath": "C:\\Users\\LUANCAR\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\tests\\UnitTests\\obj\\",
+      "outputPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\tests\\UnitTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LUANCAR\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -1074,7 +1070,7 @@
           },
           "xunit.runner.visualstudio": {
             "target": "Package",
-            "version": "[2.4.3, )"
+            "version": "[3.0.2, )"
           }
         },
         "imports": [

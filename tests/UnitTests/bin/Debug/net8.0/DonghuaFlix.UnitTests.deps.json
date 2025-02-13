@@ -13,7 +13,7 @@
           "Microsoft.NET.Test.Sdk": "17.8.0",
           "coverlet.collector": "6.0.0",
           "xunit": "2.9.3",
-          "xunit.runner.visualstudio": "2.4.3"
+          "xunit.runner.visualstudio": "3.0.2"
         },
         "runtime": {
           "DonghuaFlix.UnitTests.dll": {}
@@ -358,7 +358,7 @@
           }
         }
       },
-      "xunit.runner.visualstudio/2.4.3": {},
+      "xunit.runner.visualstudio/3.0.2": {},
       "DonghuaFlix.Core.Domain/1.0.0": {
         "runtime": {
           "DonghuaFlix.Core.Domain.dll": {}
@@ -484,12 +484,12 @@
       "path": "xunit.extensibility.execution/2.9.3",
       "hashPath": "xunit.extensibility.execution.2.9.3.nupkg.sha512"
     },
-    "xunit.runner.visualstudio/2.4.3": {
+    "xunit.runner.visualstudio/3.0.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-kZZSmOmKA8OBlAJaquPXnJJLM9RwQ27H7BMVqfMLUcTi9xHinWGJiWksa3D4NEtz0wZ/nxd2mogObvBgJKCRhQ==",
-      "path": "xunit.runner.visualstudio/2.4.3",
-      "hashPath": "xunit.runner.visualstudio.2.4.3.nupkg.sha512"
+      "sha512": "sha512-oXbusR6iPq0xlqoikjdLvzh+wQDkMv9If58myz9MEzldS4nIcp442Btgs2sWbYWV+caEluMe2pQCZ0hUZgPiow==",
+      "path": "xunit.runner.visualstudio/3.0.2",
+      "hashPath": "xunit.runner.visualstudio.3.0.2.nupkg.sha512"
     },
     "DonghuaFlix.Core.Domain/1.0.0": {
       "type": "project",
