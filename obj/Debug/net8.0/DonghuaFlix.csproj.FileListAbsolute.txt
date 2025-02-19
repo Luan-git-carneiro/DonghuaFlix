@@ -1,7 +1,0 @@
-C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\obj\Debug\net8.0\DonghuaFlix.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\obj\Debug\net8.0\DonghuaFlix.AssemblyInfoInputs.cache
-C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\obj\Debug\net8.0\DonghuaFlix.AssemblyInfo.cs
-C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\obj\Debug\net8.0\DonghuaFlix.csproj.CoreCompileInputs.cache
-C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\obj\Debug\net8.0\DonghuaFlix.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\obj\Debug\net8.0\DonghuaFlix.RazorAssemblyInfo.cache
-C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\obj\Debug\net8.0\DonghuaFlix.RazorAssemblyInfo.cs

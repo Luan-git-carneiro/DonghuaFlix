@@ -58,17 +58,42 @@ public class DonghuaTests
     }
 
     [Theory]
-    [InlineData(null, "Sinopse válida", "O Título do donghua é obrigatório.")]
-    [InlineData("", "Sinopse válida", "O Título do donghua é obrigatório.")]
-    [InlineData("abc", "Sinopse válida",  "O Título do donghua deve conter no mínimo 3 caracteres.")]
-    public void Lancar_ExcecaoParaTituloInvalido(string tituloInvalido, string sinopseValida, string mensagemEsperada = null)
+    [InlineData(null, "Título do donghua é obrigatório.")]
+    [InlineData("", "Título do donghua é obrigatório.")]
+    [InlineData("abc", "Título do donghua deve conter no mínimo 4 caracteres.")]
+    public void Lancar_ExcecaoParaTituloInvalido(string tituloInvalido, string mensagemEsperada = null)
     {
         //Act
-        var ex = Assert.Throws<DonghuaValidationException>( () => new Donghua(tituloInvalido, sinopseValida, DonghuaType.Serie, Genre.Comedia));        
+        var ex = Assert.Throws<DonghuaValidationException>( () => new Donghua(tituloInvalido,"Sinopse válida" , DonghuaType.Serie, Genre.Comedia));        
 
         //Assert
         Assert.Equal(mensagemEsperada, ex.Message);
     }
    
+    [Theory]
+    [InlineData(null, "Sinopse do donghua é obrigatório.")]
+    [InlineData("", "Sinopse do donghua é obrigatório.")]
+    [InlineData("abc", "Sinopse do donghua deve conter no mínimo 4 caracteres.")]
+    public void Lancar_ExcecaoParaSinopseInvalida(string sinopseInvalida, string mensagemEsperada = null)
+    {
+        //Act
+        var ex = Assert.Throws<DonghuaValidationException>( () => new Donghua("Naruto", sinopseInvalida, DonghuaType.Serie, Genre.Comedia));        
+
+        //Assert
+        Assert.Equal(mensagemEsperada, ex.Message);
+    }
+
+    [Theory]
+    [InlineData(2026)]
+    [InlineData(2027)]
+    public void AnoLancamento(int anoLancamento)
+    {
+        //Arange & Act 
+        var donghua = Assert.Throws<DonghuaValidationException>( () => new Donghua("Naruto", "Naruto é um jovem ninja que deseja se tornar o mais forte de todos os ninjas e ser reconhecido por todos.", "terrent", anoLancamento, DonghuaType.Serie, DonghuaStatus.EmAndamento, "/img/arquivo/" , Genre.Comedia) );
+
+        //Assert
+        Assert.Equal("Ano de lançamento do donghua não pode ser maior que o ano atual.", donghua.Message);
+    }
+
 
 }

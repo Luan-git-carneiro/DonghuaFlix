@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
       "projectName": "DonghuaFlix.Core.Domain",
-      "projectPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
+      "projectPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
       "packagesPath": "C:\\Users\\LUANCAR\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\obj\\",
+      "outputPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\LUANCAR\\AppData\\Roaming\\NuGet\\NuGet.Config"
