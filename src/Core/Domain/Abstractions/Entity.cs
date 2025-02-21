@@ -10,11 +10,11 @@ public abstract class Entity
 
     public override bool Equals(object? obj)
     {
-        if (obj is not Entity other)
+        if (obj is null ||  GetType() != obj.GetType())
         {
             return false;
         }
-        return Id == other.Id;
+        return Id == ((Entity)obj).Id;
     }
   
     public override int GetHashCode() => Id.GetHashCode();

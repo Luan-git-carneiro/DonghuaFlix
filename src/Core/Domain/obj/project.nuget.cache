@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "vlkoWbRiTBo=",
+  "dgSpecHash": "SuJGOzMjt7M=",
   "success": true,
   "projectFilePath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\LUANCAR\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

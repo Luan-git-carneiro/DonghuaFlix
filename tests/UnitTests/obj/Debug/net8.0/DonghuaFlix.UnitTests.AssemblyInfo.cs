@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DonghuaFlix.UnitTests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5804c833d07692b23b19fdfe69b5624ada8128f7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b70577a8996ab3af5ce3a6b1091fed49486698f")]
 [assembly: System.Reflection.AssemblyProductAttribute("DonghuaFlix.UnitTests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DonghuaFlix.UnitTests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

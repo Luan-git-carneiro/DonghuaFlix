@@ -19,7 +19,7 @@ public sealed class Email : ValueObject
             throw new DomainException("Formato de e-mail inválido");
         }
  
-        Valor = valor;
+        Valor = valor.Trim().ToLower();
  
     }
 
