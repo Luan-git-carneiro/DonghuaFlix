@@ -7,26 +7,7 @@ using DonghuaFlix.src.Core.Domain.Enum;
 namespace DonghuaFlix.UnitTests.Domain.Entities;
 public class DonghuaTests
 {
-    [Fact]
-    public void CriarDonghua_DeveInstanciarCorretamente()
-    {
-        // Arrange & Act
-        var donghua = new Donghua(
-        "Naruto",
-        "Naruto é um jovem ninja que deseja se tornar o mais forte de todos os ninjas e ser reconhecido por todos.",
-        "Studio Pierrot",
-        2002,
-        DonghuaType.Serie,
-        DonghuaStatus.EmAndamento,
-        "/images/donghuas/naruto.jpg",
-        Genre.Comedia | Genre.Wuxia | Genre.SciFi | Genre.Historico
-        );
 
-        // Assert
-
-        Assert.NotNull(donghua);
-
-    }
 
     [Fact]
     public void Donghua_Deve_Ser_Criado_Corretamente()
@@ -53,7 +34,7 @@ public class DonghuaTests
         Assert.Equal(statuEsperado, donghua.Status);
         Assert.Equal(imagemEsperada, donghua.Image);
         Assert.Equal(generoEsperado, donghua.Genres);
-        Assert.NotEqual(Guid.Empty, donghua.IdDonghua); // Certifica que o ID foi gerado
+        Assert.NotEqual(Guid.Empty, donghua.Id); // Certifica que o ID foi gerado
 
     }
 
@@ -61,10 +42,10 @@ public class DonghuaTests
     [InlineData(null, "Título do donghua é obrigatório.")]
     [InlineData("", "Título do donghua é obrigatório.")]
     [InlineData("abc", "Título do donghua deve conter no mínimo 4 caracteres.")]
-    public void Lancar_ExcecaoParaTituloInvalido(string tituloInvalido, string mensagemEsperada = null)
+    public void Lancar_ExcecaoParaTituloInvalido(string? tituloInvalido, string? mensagemEsperada = null)
     {
         //Act
-        var ex = Assert.Throws<DonghuaValidationException>( () => new Donghua(tituloInvalido,"Sinopse válida" , DonghuaType.Serie, Genre.Comedia));        
+        var ex = Assert.Throws<DomainValidationException>( () => new Donghua(tituloInvalido,"Sinopse válida" , DonghuaType.Serie, Genre.Comedia));        
 
         //Assert
         Assert.Equal(mensagemEsperada, ex.Message);
@@ -74,10 +55,10 @@ public class DonghuaTests
     [InlineData(null, "Sinopse do donghua é obrigatório.")]
     [InlineData("", "Sinopse do donghua é obrigatório.")]
     [InlineData("abc", "Sinopse do donghua deve conter no mínimo 4 caracteres.")]
-    public void Lancar_ExcecaoParaSinopseInvalida(string sinopseInvalida, string mensagemEsperada = null)
+    public void Lancar_ExcecaoParaSinopseInvalida(string? sinopseInvalida, string? mensagemEsperada = null)
     {
         //Act
-        var ex = Assert.Throws<DonghuaValidationException>( () => new Donghua("Naruto", sinopseInvalida, DonghuaType.Serie, Genre.Comedia));        
+        var ex = Assert.Throws<DomainValidationException>( () => new Donghua("Naruto", sinopseInvalida, DonghuaType.Serie, Genre.Comedia));        
 
         //Assert
         Assert.Equal(mensagemEsperada, ex.Message);
@@ -89,7 +70,7 @@ public class DonghuaTests
     public void AnoLancamento(int anoLancamento)
     {
         //Arange & Act 
-        var donghua = Assert.Throws<DonghuaValidationException>( () => new Donghua("Naruto", "Naruto é um jovem ninja que deseja se tornar o mais forte de todos os ninjas e ser reconhecido por todos.", "terrent", anoLancamento, DonghuaType.Serie, DonghuaStatus.EmAndamento, "/img/arquivo/" , Genre.Comedia) );
+        var donghua = Assert.Throws<BusinessRulesException>( () => new Donghua("Naruto", "Naruto é um jovem ninja que deseja se tornar o mais forte de todos os ninjas e ser reconhecido por todos.", "terrent", anoLancamento, DonghuaType.Serie, DonghuaStatus.EmAndamento, "/img/arquivo/" , Genre.Comedia) );
 
         //Assert
         Assert.Equal("Ano de lançamento do donghua não pode ser maior que o ano atual.", donghua.Message);

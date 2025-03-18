@@ -3,6 +3,7 @@ C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\src\Core\Domain\obj\Debug\net8
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\src\Core\Domain\obj\Debug\net8.0\DonghuaFlix.Core.Domain.AssemblyInfoInputs.cache
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\src\Core\Domain\obj\Debug\net8.0\DonghuaFlix.Core.Domain.AssemblyInfo.cs
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\src\Core\Domain\obj\Debug\net8.0\DonghuaFlix.Core.Domain.csproj.CoreCompileInputs.cache
+C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\src\Core\Domain\obj\Debug\net8.0\DonghuaFlix.Core.Domain.sourcelink.json
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\src\Core\Domain\bin\Debug\net8.0\DonghuaFlix.Core.Domain.deps.json
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\src\Core\Domain\bin\Debug\net8.0\DonghuaFlix.Core.Domain.dll
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\src\Core\Domain\bin\Debug\net8.0\DonghuaFlix.Core.Domain.pdb

@@ -11,12 +11,12 @@ public sealed class Email : ValueObject
     {
         if(string.IsNullOrWhiteSpace(valor))
         {
-            throw new DomainException(nameof(valor) , "Email é obrigatório.");
+            throw new DomainValidationException(field: nameof(valor) , message: "Email é obrigatório.");
         }
         
         if (!Regex.IsMatch(valor, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
         {
-            throw new DomainException("Formato de e-mail inválido");
+            throw new DomainValidationException( field: nameof(valor) , message: "Formato de e-mail inválido");
         }
  
         Valor = valor.Trim().ToLower();

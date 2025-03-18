@@ -1,13 +1,13 @@
+using DonghuaFlix.src.Core.Domain.Abstractions;
 using DonghuaFlix.src.Core.Domain.Enum;
 using DonghuaFlix.src.Core.Domain.Exceptions;
 
 namespace DonghuaFlix.src.Core.Domain.Entities;
 
-public class Donghua
+public class Donghua : Entity
 {
-    public Guid IdDonghua { get; private set; }
-    public string Title { get; private set; }
-    public string Sinopse { get; private set; }
+    public  string Title { get; private set; }
+    public string? Sinopse { get; private set; }
     public string? Studio { get; private set; }
     public DateTime ReleaseDate { get; private set; }
     public Genre Genres { get; private set; }
@@ -16,22 +16,23 @@ public class Donghua
     public string? Image { get; private set; }
 
 
+    public Donghua() {}
     public Donghua(string title, string sinopse, DonghuaType type, Genre genre)
     {
-        ParamDonghuaIsNullOrWhiteSpace(title, "Título");
-        ParamDonghuaIsNullOrWhiteSpace(sinopse, "Sinopse");
+        ParamDonghuaIsNullOrWhiteSpace(title);
+        ParamDonghuaIsNullOrWhiteSpace(sinopse);
         
         Title = title;
         Sinopse = sinopse;
         Type = type;
         Genres = genre;
-        IdDonghua = Guid.NewGuid();
+
     }
 
     public Donghua( string title, string sinopse, string studio, int releaseDate, DonghuaType type, DonghuaStatus status, string image, Genre genres)
     {
-        ParamDonghuaIsNullOrWhiteSpace(title,"Título");
-        ParamDonghuaIsNullOrWhiteSpace(sinopse, "Sinopse");
+        ParamDonghuaIsNullOrWhiteSpace(title);
+        ParamDonghuaIsNullOrWhiteSpace(sinopse);
         ValidateDate(releaseDate);
         
         Title = title;
@@ -42,17 +43,17 @@ public class Donghua
         Status = status;
         Image = image;
         Genres = genres;
-        IdDonghua = Guid.NewGuid();
+        
     }
 
-    public void ParamDonghuaIsNullOrWhiteSpace(string value,string param)
+    public void ParamDonghuaIsNullOrWhiteSpace(string field)
     {
-        if(string.IsNullOrWhiteSpace(value))
+        if(string.IsNullOrWhiteSpace(field))
         {
-            throw new DonghuaValidationException($"{param} do donghua é obrigatório.");
-        }else if(value.Length < 4)
+            throw new DomainValidationException( field: nameof(field) , message: $"{field} do donghua é obrigatório." );
+        }else if(field.Length < 4)
         {
-            throw new DonghuaValidationException($"{param} do donghua deve conter no mínimo 4 caracteres.");
+            throw new DomainValidationException(field:nameof(field), message: $"{field} do donghua deve conter no mínimo 4 caracteres.");
         }
     }
 
@@ -60,7 +61,7 @@ public class Donghua
     {
         if(anoLancamento > DateTime.Now.Year)
         {
-            throw new DonghuaValidationException("Ano de lançamento do donghua não pode ser maior que o ano atual.");
+            throw new BusinessRulesException(rulesName: "ANO_NO_FUTURO", message: "Ano de lançamento do donghua não pode ser maior que o ano atual." );
         }
     }
         

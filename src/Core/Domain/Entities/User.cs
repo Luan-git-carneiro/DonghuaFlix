@@ -7,16 +7,17 @@ using DonghuaFlix.src.Core.Domain.Exceptions;
 
 namespace DonghuaFlix.src.Core.Domain.Entities;
 
-class User : Entity
+public class User : Entity
 {
     public string Name { get; private set; }
     public Email Email { get; private set; }
     public Password Password { get; private set; }
-    public UserType UserType { get; private set; }
-    public bool Ativo { get; private set; }
+    public UserRole Role { get; private set; }
+    public  AccountStatus Status { get; private set; }
     
 
-    private List<Favorite> Favorites { get; set; }
+    private readonly List<Favorite> _favorites = new List<Favorite>();
+    public IReadOnlyList<Favorite> Favorites => _favorites.AsReadOnly();
     
     //construtor privado para o EF
     private User() { }
@@ -26,49 +27,58 @@ class User : Entity
         Name = nome;
         Email = email;
         Password = senha;
+        Role = UserRole.Regular;
+        Status = AccountStatus.Active;
         
        // AddDomainEvent(new EventUserRegister(Id, DateTime.UtcNow));
     }
 
-    public void DesativarUsuario()
+    // Com métodos:
+    public void PromoteToAdmin() => Role = UserRole.Admin;
+    public void DemoteToRegular() => Role = UserRole.Regular;
+
+    public void Deactive()
     {
-        Ativo = false;
+        Status = AccountStatus.Inactive;
+        // AddDomainEvent(new UserDeactivatedEvent(Id));
         AtualizarDataModificação();
     }
 
-    public void AtivarUsuario()
+    public void Active()
     {
-        Ativo = true;
+        Status = AccountStatus.Active;
+        // AddDomainEvent(new UseractivatedEvent(Id));
         AtualizarDataModificação();
     }
 
-    public void AddFavorite(Guid idDonghua)
+    public void AddFavorite(Donghua donghua)
     {
-        if(Favorites.Any(f => f.IdDonghua == idDonghua))
+        if(donghua is null)
         {
-            throw new UserValidationException("Donghua já está nos favoritos.");
+            throw new DomainValidationException( field: nameof(donghua) , message: "Donghua é nulo.");
+        }
+        if(_favorites.Any(f => f.IdDonghua == donghua.Id))
+        {
+            throw new BusinessRulesException(rulesName: "DUPLICATE" , message: "Donghua já está nos favoritos.");
         }
 
-        if(idDonghua == Guid.Empty)
-        {
-            throw new UserValidationException("Id do donghua é inválido.");
-        }
 
-        Favorites.Add(new Favorite(idDonghua, Id));
+        _favorites.Add(new Favorite(donghua.Id, Id));
 
     }
 
-    public void RemoveFavorite(Guid idDonghua)
+    public void RemoveFavorite(Donghua donghua)
     {
-        var favorite = Favorites.FirstOrDefault(f => f.IdDonghua == idDonghua);
+        var favorite = _favorites.FirstOrDefault(f => f.IdDonghua == donghua.Id);
 
         if(favorite is null)
         {
-            throw new UserValidationException("Donghua não está nos favoritos.");
+            throw new DomainValidationException( field: nameof(donghua) , message: "Donghua não está nos favoritos.");
         }
 
-        Favorites.Remove(favorite);
+        _favorites.Remove(favorite);
     }
+    
 
     public void UpdatePassword(Password password)
     {
@@ -87,9 +97,9 @@ class User : Entity
         AtualizarDataModificação();
     }
 
-    public void UpdateType(UserType userType)
+    public void UpdateType(UserRole role)
     {
-        UserType = userType;
+        Role = role;
         AtualizarDataModificação();
     }
 
