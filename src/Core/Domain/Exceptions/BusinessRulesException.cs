@@ -5,7 +5,7 @@ public class BusinessRulesException : DomainException
 {
     public string RulesName { get; }
 
-    public BusinessRulesException( String rulesName , string message ) : base(message , "BUSINESS_RULES_VIOLATION")
+    public BusinessRulesException( String rulesName , string message ) : base( "BUSINESS_RULES_VIOLATION" ,  message )
     {
         RulesName = rulesName;
     }

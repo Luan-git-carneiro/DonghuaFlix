@@ -6,7 +6,7 @@ namespace DonghuaFlix.src.Core.Domain.Exceptions
     {
         public string Field { get; }
 
-        public DomainValidationException( String field , string message ) : base(message , "VALIDATION_ERROR")
+        public DomainValidationException( String field , string message ) : base( "VALIDATION_ERROR" , message )
         {
             Field = field;
         }

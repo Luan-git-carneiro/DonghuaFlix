@@ -39,9 +39,9 @@ public class DonghuaTests
     }
 
     [Theory]
-    [InlineData(null, "Título do donghua é obrigatório.")]
-    [InlineData("", "Título do donghua é obrigatório.")]
-    [InlineData("abc", "Título do donghua deve conter no mínimo 4 caracteres.")]
+    [InlineData(null, "title do donghua é obrigatório.")]
+    [InlineData("", "title do donghua é obrigatório.")]
+    [InlineData("abc", "title do donghua deve conter no mínimo 4 caracteres.")]
     public void Lancar_ExcecaoParaTituloInvalido(string? tituloInvalido, string? mensagemEsperada = null)
     {
         //Act
@@ -52,9 +52,9 @@ public class DonghuaTests
     }
    
     [Theory]
-    [InlineData(null, "Sinopse do donghua é obrigatório.")]
-    [InlineData("", "Sinopse do donghua é obrigatório.")]
-    [InlineData("abc", "Sinopse do donghua deve conter no mínimo 4 caracteres.")]
+    [InlineData(null, "sinopse do donghua é obrigatório.")]
+    [InlineData("", "sinopse do donghua é obrigatório.")]
+    [InlineData("abc", "sinopse do donghua deve conter no mínimo 4 caracteres.")]
     public void Lancar_ExcecaoParaSinopseInvalida(string? sinopseInvalida, string? mensagemEsperada = null)
     {
         //Act
@@ -75,6 +75,5 @@ public class DonghuaTests
         //Assert
         Assert.Equal("Ano de lançamento do donghua não pode ser maior que o ano atual.", donghua.Message);
     }
-
 
 }

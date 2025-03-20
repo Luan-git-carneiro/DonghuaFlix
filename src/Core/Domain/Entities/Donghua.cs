@@ -19,8 +19,8 @@ public class Donghua : Entity
     public Donghua() {}
     public Donghua(string title, string sinopse, DonghuaType type, Genre genre)
     {
-        ParamDonghuaIsNullOrWhiteSpace(title);
-        ParamDonghuaIsNullOrWhiteSpace(sinopse);
+        ParamDonghuaIsNullOrWhiteSpace(nameof(title) , title);
+        ParamDonghuaIsNullOrWhiteSpace( nameof(sinopse) , sinopse);
         
         Title = title;
         Sinopse = sinopse;
@@ -31,8 +31,8 @@ public class Donghua : Entity
 
     public Donghua( string title, string sinopse, string studio, int releaseDate, DonghuaType type, DonghuaStatus status, string image, Genre genres)
     {
-        ParamDonghuaIsNullOrWhiteSpace(title);
-        ParamDonghuaIsNullOrWhiteSpace(sinopse);
+        ParamDonghuaIsNullOrWhiteSpace( nameof(title) , title );
+        ParamDonghuaIsNullOrWhiteSpace( nameof(sinopse) , sinopse );
         ValidateDate(releaseDate);
         
         Title = title;
@@ -46,14 +46,14 @@ public class Donghua : Entity
         
     }
 
-    public void ParamDonghuaIsNullOrWhiteSpace(string field)
+    public void ParamDonghuaIsNullOrWhiteSpace(string param , string value)
     {
-        if(string.IsNullOrWhiteSpace(field))
+        if(string.IsNullOrWhiteSpace(value))
         {
-            throw new DomainValidationException( field: nameof(field) , message: $"{field} do donghua é obrigatório." );
-        }else if(field.Length < 4)
+            throw new DomainValidationException( field: param , message: $"{param} do donghua é obrigatório." );
+        }else if(value.Length < 4)
         {
-            throw new DomainValidationException(field:nameof(field), message: $"{field} do donghua deve conter no mínimo 4 caracteres.");
+            throw new DomainValidationException(field: param, message: $"{param} do donghua deve conter no mínimo 4 caracteres.");
         }
     }
 
