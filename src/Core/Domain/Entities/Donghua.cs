@@ -15,8 +15,9 @@ public class Donghua : Entity
     public DonghuaStatus Status { get; private set; }
     public string? Image { get; private set; }
 
-
-    public Donghua() {}
+    private List<Episode> _episodes = new();
+    public IReadOnlyList<Episode> Episodes => _episodes.AsReadOnly();
+ 
     public Donghua(string title, string sinopse, DonghuaType type, Genre genre)
     {
         ParamDonghuaIsNullOrWhiteSpace(nameof(title) , title);

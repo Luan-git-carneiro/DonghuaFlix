@@ -1,7 +1,14 @@
+using DonghuaFlix.src.Core.Aplication.Commands.Favorites;
+using DonghuaFlix.src.Core.Aplication.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddMediatR(cfg =>  cfg.RegisterServicesFromAssembly(typeof(AddFavoriteCommand).Assembly));
+
+builder.Services.AddScoped<IUserRepository, UsuarioRepository>();
+builder.Services.AddScoped<IDonghuaRepository, DonghuaRepository>();
 
 var app = builder.Build();
 
