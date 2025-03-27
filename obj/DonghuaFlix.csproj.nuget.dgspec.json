@@ -51,6 +51,10 @@
               "target": "Package",
               "version": "[12.4.1, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
             "xunit": {
               "target": "Package",
               "version": "[2.9.3, )"

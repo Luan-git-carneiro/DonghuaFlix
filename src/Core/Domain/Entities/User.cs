@@ -15,7 +15,8 @@ public class User : Entity
     public UserRole Role { get; private set; }
     public  AccountStatus Status { get; private set; }
     
-
+    private readonly List<History> _history = new();
+    public IReadOnlyList<History> History => _history.AsReadOnly();
     private readonly List<Favorite> _favorites = new List<Favorite>();
     public IReadOnlyList<Favorite> Favorites => _favorites.AsReadOnly();
     
@@ -57,19 +58,19 @@ public class User : Entity
         {
             throw new DomainValidationException( field: nameof(donghua) , message: "Donghua é nulo.");
         }
-        if(_favorites.Any(f => f.IdDonghua == donghua.Id))
+        if(_favorites.Any(f => f.DonghuaId == donghua.Id))
         {
             throw new BusinessRulesException(rulesName: "DUPLICATE" , message: "Donghua já está nos favoritos.");
         }
 
 
-        _favorites.Add(new Favorite(donghua.Id, Id));
+        _favorites.Add(new Favorite(donghua.Id, DateTime.UtcNow));
 
     }
 
     public void RemoveFavorite(Donghua donghua)
     {
-        var favorite = _favorites.FirstOrDefault(f => f.IdDonghua == donghua.Id);
+        var favorite = _favorites.FirstOrDefault(f => f.DonghuaId == donghua.Id);
 
         if(favorite is null)
         {
@@ -103,5 +104,13 @@ public class User : Entity
         AtualizarDataModificação();
     }
 
-    
+    public void AddHistory(Guid episodioId)
+    {
+        var existente = _history.FirstOrDefault(h => h.IdEpisode == episodioId);
+        
+        if (existente != null)
+            _history.Remove(existente);
+
+        _history.Add(new History(episodioId , DateTime.UtcNow));
+    }
 }
