@@ -6,13 +6,16 @@ namespace DonghuaFlix.src.Core.Domain.Entities;
 public class VideoAsset : Entity
 {
     private List<VideoManifest> _manifests = new();
-    public VideoMetadata Metadata { get; private set; }
-
     public IReadOnlyList<VideoManifest> Manifests => _manifests.AsReadOnly();
+ 
+    // Metadados básicos
+    public DateTime DataUpload { get; private set; } = DateTime.UtcNow;
+    public string CaminhoStorage { get; private set; } // Caminho no S3/Blob Storage
 
-    public VideoAsset(VideoMetadata metadata)
+
+    public VideoAsset(string caminhoStorage)
     {
-        Metadata = metadata;
+        CaminhoStorage = caminhoStorage;
     }
 
     public void AddManifest(VideoManifest manifest)

@@ -7,15 +7,15 @@ public class Episode : Entity
     public int Number { get; private set; }
     public TimeSpan Duration { get; private set; }
     public VideoAsset Video { get; private set; }
-    public Guid IdDonghua { get; private set; }
+    public Guid DonghuaId { get; private set; }
 
  
-    public Episode(int number, TimeSpan duration, VideoAsset video, Guid idDonghua)
+    public Episode(int number, TimeSpan duration, VideoAsset video, Guid donghuaId)
     {
         Number = number;
         Duration = duration;
         Video = video;
-        IdDonghua = idDonghua;
+        DonghuaId = donghuaId;
     }
 
     public void UpdateVideo(VideoAsset video)

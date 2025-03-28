@@ -15,8 +15,8 @@ public class User : Entity
     public UserRole Role { get; private set; }
     public  AccountStatus Status { get; private set; }
     
-    private readonly List<History> _history = new();
-    public IReadOnlyList<History> History => _history.AsReadOnly();
+    private readonly List<History> _histories = new();
+    public IReadOnlyList<History> Histories => _histories.AsReadOnly();
     private readonly List<Favorite> _favorites = new List<Favorite>();
     public IReadOnlyList<Favorite> Favorites => _favorites.AsReadOnly();
     
@@ -64,7 +64,7 @@ public class User : Entity
         }
 
 
-        _favorites.Add(new Favorite(donghua.Id, DateTime.UtcNow));
+        _favorites.Add(new Favorite( this.Id , donghua.Id, DateTime.UtcNow));
 
     }
 
@@ -106,11 +106,11 @@ public class User : Entity
 
     public void AddHistory(Guid episodioId)
     {
-        var existente = _history.FirstOrDefault(h => h.IdEpisode == episodioId);
+        var existente = _histories.FirstOrDefault(h => h.EpisodeId == episodioId);
         
         if (existente != null)
-            _history.Remove(existente);
+            _histories.Remove(existente);
 
-        _history.Add(new History(episodioId , DateTime.UtcNow));
+        _histories.Add(new History( this.Id , episodioId , DateTime.UtcNow));
     }
 }

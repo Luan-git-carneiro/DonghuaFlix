@@ -1,24 +1,31 @@
 using DonghuaFlix.src.Core.Domain.Abstractions;
+using DonghuaFlix.src.Core.Domain.Exceptions;
 
 namespace DonghuaFlix.src.Core.Domain.ValueObjects;
 
 public class History : ValueObject
 {
-
-    public Guid IdEpisode { get; private set; }
-    public DateTime DateCreat { get; private set; }
+    public Guid UserId { get; private set; }
+    public Guid EpisodeId { get; private set; }
+    public DateTime DateVisualization { get; private set; }
    
 
     //construtor privado para o EF
-    public History( Guid idEpisode, DateTime dateCreat)
+    public History( Guid userId ,Guid episodeId, DateTime dateVisualization)
     {
-        IdEpisode = idEpisode;
-        DateCreat = dateCreat;
+        if(episodeId == Guid.Empty)
+        {
+            throw new DomainValidationException(field: nameof(episodeId) , message: "Id do episódio é inválido.");
+        }
+        UserId = userId;
+        EpisodeId = episodeId;
+        DateVisualization = dateVisualization;
     }
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return IdEpisode;
-        yield return DateCreat;
+        yield return UserId;
+        yield return EpisodeId;
+        yield return DateVisualization;
     }
 }
