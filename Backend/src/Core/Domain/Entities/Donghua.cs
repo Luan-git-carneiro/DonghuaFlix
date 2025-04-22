@@ -62,7 +62,54 @@ public class Donghua : Entity
             throw new BusinessRulesException(rulesName: "ANO_NO_FUTURO", message: "Ano de lançamento do donghua não pode ser maior que o ano atual." );
         }
     }
-        
-    
+
+    public void UpdateTitle(string title)
+    {
+        ParamDonghuaIsNullOrWhiteSpace(nameof(title), title);
+        Title = title;
+    }
+    public void UpdateSinopse(string sinopse)
+    {
+        ParamDonghuaIsNullOrWhiteSpace(nameof(sinopse), sinopse);
+        Sinopse = sinopse;
+    }
+    public void UpdateStudio(string studio)
+    {
+        ParamDonghuaIsNullOrWhiteSpace(nameof(studio), studio);
+        Studio = studio;
+    }
+    public void UpdateReleaseDate(int releaseDate)
+    {
+        ValidateDate(releaseDate);
+        ReleaseDate = new DateTime(releaseDate, 1, 1);
+    }
+    public void UpdateGenres(Genre genres)
+    {
+        Genres = genres;
+    }
+    public void UpdateType(DonghuaType type)
+    {
+        Type = type;
+    }
+    public void UpdateStatus(DonghuaStatus status)
+    {
+        Status = status;
+    }
+    public void UpdateImage(string image)
+    {
+        ParamDonghuaIsNullOrWhiteSpace(nameof(image), image);
+        Image = image;
+    }
+    public void UpdateDonghua(string title, string sinopse, string studio, int releaseDate, DonghuaType type, DonghuaStatus status, string image, Genre genres)
+    {
+        UpdateTitle(title);
+        UpdateSinopse(sinopse);
+        UpdateStudio(studio);
+        UpdateReleaseDate(releaseDate);
+        UpdateGenres(genres);
+        UpdateType(type);
+        UpdateStatus(status);
+        UpdateImage(image);
+    }
 
 }

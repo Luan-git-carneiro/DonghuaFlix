@@ -1039,6 +1039,7 @@
         "net8.0"
       ],
       "sources": {
+        "\\\\chade\\Packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

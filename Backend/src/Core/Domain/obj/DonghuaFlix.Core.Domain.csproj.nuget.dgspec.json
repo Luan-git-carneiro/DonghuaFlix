@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\DonghuaFlix.csproj": {}
+    "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\DonghuaFlix.csproj": {
+    "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\DonghuaFlix.csproj",
-        "projectName": "DonghuaFlix",
-        "projectPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\DonghuaFlix.csproj",
+        "projectUniqueName": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
+        "projectName": "DonghuaFlix.Core.Domain",
+        "projectPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
         "packagesPath": "C:\\Users\\LUANCAR\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\obj\\",
+        "outputPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LUANCAR\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -47,28 +47,6 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
-            },
-            "MediatR": {
-              "target": "Package",
-              "version": "[12.4.1, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[9.0.3, )"
-            },
-            "Microsoft.EntityFrameworkCore.Relational": {
-              "target": "Package",
-              "version": "[9.0.3, )"
-            },
-            "xunit": {
-              "target": "Package",
-              "version": "[2.9.3, )"
-            },
-            "xunit.runner.visualstudio": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[3.0.2, )"
             }
           },
           "imports": [
@@ -83,9 +61,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

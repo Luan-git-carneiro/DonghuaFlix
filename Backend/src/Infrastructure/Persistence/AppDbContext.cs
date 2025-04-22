@@ -86,16 +86,14 @@ public class AppDbContext : DbContext
 
                 // Mapear propriedades do VO History
                 hist.Property(h => h.EpisodeId).IsRequired();
-                hist.Property(h => h.Progress).HasDefaultValue(TimeSpan.Zero); // Ex: Tempo assistido
-                hist.Property(h => h.LastWatchedAt).IsRequired();
+                hist.Property(h => h.DateVisualization).IsRequired();
 
                 // Chave Primária Composta (assumindo uma entrada por usuário/episódio)
                 hist.HasKey("UserId", "EpisodeId");
             });
 
             // Mapear outras propriedades do User (Nome, Sobrenome, etc.)
-            u.Property(user => user.FirstName).HasMaxLength(100);
-            u.Property(user => user.LastName).HasMaxLength(100);
+            u.Property(user => user.Name).HasMaxLength(100);
             u.Property(user => user.CreatedAt).IsRequired();
 
         });
@@ -106,13 +104,21 @@ public class AppDbContext : DbContext
             d.ToTable("Donghuas");
             d.HasKey(donghua => donghua.Id);
 
+
+             // Relação com Episode sem carregamento automático
+            d.HasMany<Episode>()
+            .WithOne()
+            .HasForeignKey(e => e.DonghuaId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict); // Impede exclusão em cascata
+
             // Relação com Episodes foi REMOVIDA daqui (Opção 2)
             // A relação é definida pela FK 'DonghuaId' na entidade Episode
 
             // Mapear propriedades do Donghua
             d.Property(donghua => donghua.Title).IsRequired().HasMaxLength(250);
-            d.Property(donghua => donghua.Synopsis).HasMaxLength(2000); // Ou tipo TEXT/NVARCHAR(MAX)
-            d.Property(donghua => donghua.CoverImageUrl).HasMaxLength(500);
+            d.Property(donghua => donghua.Sinopse).HasMaxLength(2000); // Ou tipo TEXT/NVARCHAR(MAX)
+            d.Property(donghua => donghua.Image).HasMaxLength(500);
 
             d.Property(donghua => donghua.Status)
                 .HasConversion<int>()
@@ -124,7 +130,7 @@ public class AppDbContext : DbContext
             // Exemplo simplificado (requer mais detalhes se for coleção):
             // d.Property(donghua => donghua.Genres) ...
 
-            d.Property(donghua => donghua.ReleaseYear);
+            d.Property(donghua => donghua.ReleaseDate);
             d.Property(donghua => donghua.CreatedAt).IsRequired();
         });
 
@@ -141,10 +147,7 @@ public class AppDbContext : DbContext
             // e.HasOne<Donghua>().WithMany().HasForeignKey(ep => ep.DonghuaId);
 
             // Mapear propriedades do Episode
-            e.Property(ep => ep.EpisodeNumber).IsRequired();
-            e.Property(ep => ep.Title).HasMaxLength(250);
-            e.Property(ep => ep.Synopsis).HasMaxLength(1000);
-            e.Property(ep => ep.AirDate); // Pode ser DateOnly ou DateTime
+            e.Property(ep => ep.Number).IsRequired();
             e.Property(ep => ep.CreatedAt).IsRequired();
 
             // Índice para buscar episódios por Donghua
@@ -160,12 +163,9 @@ public class AppDbContext : DbContext
                  va.ToTable("VideoAssets");
 
                  // Mapear propriedades simples do VideoAsset
-                 va.Property(v => v.Duration); // Ex: TimeSpan
                  va.Property(v => v.CaminhoStorage)
                    .IsRequired()
                    .HasMaxLength(500); // Ou mais se necessário (URLs podem ser longas)
-                 // Adicione outras propriedades do VideoAsset aqui (ex: ThumbnailUrl)
-                 va.Property(v => v.ThumbnailUrl).HasMaxLength(500);
 
                  // Coleção de Value Objects Manifests (Owned, aninhado dentro de VideoAsset)
                  va.OwnsMany(v => v.Manifests, m =>
@@ -175,7 +175,7 @@ public class AppDbContext : DbContext
                      // O nome da FK depende de como EF Core nomeia a relação OwnsOne (Episode->Video).
                      // Pode ser "EpisodeId" ou um nome composto se VideoAsset tiver tabela própria com PK diferente.
                      // Tente sem especificar primeiro, ou ajuste se der erro.
-                     m.WithOwner().HasForeignKey("EpisodeId"); // Ajuste o nome da FK se necessário!
+                     m.WithOwner().HasForeignKey("VideoAssetId"); // Ajuste o nome da FK se necessário!
 
                       // Mapear propriedades do VO VideoManifest
                       m.Property(manifest => manifest.Protocolo).IsRequired().HasMaxLength(10); // "HLS", "DASH"
@@ -184,22 +184,20 @@ public class AppDbContext : DbContext
 
                      // Chave Primária Composta para o Manifest dentro da coleção
                      // Precisa da(s) chave(s) do dono (EpisodeId) + algo único do Manifest (Protocolo?)
-                      m.HasKey("EpisodeId", "Protocolo"); // Assumindo Protocolo único por vídeo
+                      m.HasKey("VideoAssetId", "Protocolo"); // Assumindo Protocolo único por vídeo
 
                       // Coleção de Value Objects Qualities (Owned, aninhado dentro de Manifest)
                       m.OwnsMany(manifest => manifest.Qualities, q =>
                       {
-                          q.ToTable("VideoQualityProfiles");
+                        q.ToTable("VideoQualityProfiles");
                          // Chave estrangeira para Manifest
                          // Precisa das chaves do dono (EpisodeId, Protocolo)
-                         q.WithOwner().HasForeignKey("EpisodeId", "ManifestProtocolo"); // Ajuste os nomes das FKs!
+                        q.WithOwner().HasForeignKey("VideoAssetId", "ManifestProtocolo"); // Ajuste os nomes das FKs!
 
                           // Mapear propriedades do VO VideoQualityProfile
-                          q.Property(quality => quality.Qualidade).IsRequired().HasMaxLength(20); // "1080p", "720p_HDR"
-                         q.Property(quality => quality.Url).IsRequired().HasMaxLength(500);
-                         q.Property(quality => quality.Bitrate); // Ex: int (kbps)
-                         q.Property(quality => quality.ResolutionWidth); // Ex: int
-                         q.Property(quality => quality.ResolutionHeight); // Ex: int
+                        q.Property(quality => quality.Quality).IsRequired().HasMaxLength(20); // "1080p", "720p_HDR"
+                        q.Property(quality => quality.Path).IsRequired().HasMaxLength(500);
+                        q.Property(quality => quality.Bitrate); // Ex: int (kbps)
                          // Adicione outras propriedades da Qualidade
 
                          // Chave Primária Composta para a Qualidade dentro da coleção
