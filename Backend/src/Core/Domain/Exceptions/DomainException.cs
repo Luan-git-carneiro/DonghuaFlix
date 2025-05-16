@@ -1,4 +1,4 @@
-namespace DonghuaFlix.src.Core.Domain.Exceptions;
+namespace DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 
 public class DomainException : Exception
 {

@@ -1,9 +1,9 @@
-using DonghuaFlix.src.Core.Application.Repositories;
-using DonghuaFlix.src.Core.Domain.Entities;
-using DonghuaFlix.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Application.Repositories;
+using DonghuaFlix.Backend.src.Core.Domain.Entities;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace DonghuaFlix.src.Infrastructure.Persistence.Repositories;
+namespace DonghuaFlix.Backend.src.Infrastructure.Persistence.Repositories;
 
 public class EpisodeRepository : IEpisodeRepository
 {

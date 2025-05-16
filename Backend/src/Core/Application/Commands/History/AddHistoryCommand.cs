@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace DonghuaFlix.src.Core.Application.Commands.History;
+namespace DonghuaFlix.Backend.src.Core.Application.Commands.History;
 
 public record AddHistoryCommand(
     Guid UserId,

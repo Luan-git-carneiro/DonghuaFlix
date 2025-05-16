@@ -1,8 +1,8 @@
-using DonghuaFlix.src.Core.Domain.Abstractions;
-using DonghuaFlix.src.Core.Domain.Exceptions;
-using DonghuaFlix.src.Core.Domain.ValueObjects;
+using DonghuaFlix.Backend.src.Core.Domain.Abstractions;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 
-namespace DonghuaFlix.src.Core.Domain.Entities;
+namespace DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 
     public class VideoManifest : ValueObject
     {

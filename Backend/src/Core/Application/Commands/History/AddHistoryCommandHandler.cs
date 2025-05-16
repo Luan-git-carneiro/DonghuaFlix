@@ -1,10 +1,9 @@
-using DonghuaFlix.src.Core.Aplication.Repositories;
-using DonghuaFlix.src.Core.Application.Repositories;
-using DonghuaFlix.src.Core.Domain.Entities;
-using DonghuaFlix.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Application.Repositories;
+using DonghuaFlix.Backend.src.Core.Domain.Entities;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using MediatR;
 
-namespace DonghuaFlix.src.Core.Application.Commands.History;
+namespace DonghuaFlix.Backend.src.Core.Application.Commands.History;
 
 public class AddHistoryCommandHandler : IRequestHandler< AddHistoryCommand , Unit>
 {

@@ -1,6 +1,6 @@
-using DonghuaFlix.src.Core.Domain.Entities;
+using  DonghuaFlix.Backend.src.Core.Domain.Entities;
 
-namespace DonghuaFlix.src.Core.Application.Repositories;
+namespace DonghuaFlix.Backend.src.Core.Application.Repositories;
 
 public interface IEpisodeRepository 
 {

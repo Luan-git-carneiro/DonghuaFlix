@@ -101,3 +101,10 @@ C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\tests\UnitTests\obj\Debug\net8
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\tests\UnitTests\obj\Debug\net8.0\DonghuaFlix.UnitTests.pdb
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\tests\UnitTests\obj\Debug\net8.0\DonghuaFlix.UnitTests.genruntimeconfig.cache
 C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\tests\UnitTests\obj\Debug\net8.0\ref\DonghuaFlix.UnitTests.dll
+C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\Backend\tests\UnitTests\bin\Debug\net8.0\CoverletSourceRootsMapping_DonghuaFlix.UnitTests
+C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\Backend\tests\UnitTests\obj\Debug\net8.0\DonghuaFlix.UnitTests.csproj.AssemblyReference.cache
+C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\Backend\tests\UnitTests\obj\Debug\net8.0\DonghuaFlix.UnitTests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\Backend\tests\UnitTests\obj\Debug\net8.0\DonghuaFlix.UnitTests.AssemblyInfoInputs.cache
+C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\Backend\tests\UnitTests\obj\Debug\net8.0\DonghuaFlix.UnitTests.AssemblyInfo.cs
+C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\Backend\tests\UnitTests\obj\Debug\net8.0\DonghuaFlix.UnitTests.csproj.CoreCompileInputs.cache
+C:\Users\LUANCAR\projetos\donghuaFlix\DonghuaFlix\Backend\tests\UnitTests\obj\Debug\net8.0\DonghuaFlix.UnitTests.sourcelink.json

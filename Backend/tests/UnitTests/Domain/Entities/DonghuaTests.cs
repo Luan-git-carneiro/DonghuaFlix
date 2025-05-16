@@ -1,8 +1,8 @@
 
 using Donghua = DonghuaFlix.src.Core.Domain.Entities.Donghua;
-using DonghuaFlix.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using Xunit;
-using DonghuaFlix.src.Core.Domain.Enum;
+using DonghuaFlix.Backend.src.Core.Domain.Enum;;
 
 namespace DonghuaFlix.UnitTests.Domain.Entities;
 public class DonghuaTests

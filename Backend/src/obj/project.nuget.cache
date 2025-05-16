@@ -1,12 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "HyYPK43Dm10=",
+  "dgSpecHash": "626iT37O5/Q=",
   "success": true,
   "projectFilePath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\DonghuaFlix.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\LUANCAR\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\LUANCAR\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\LUANCAR\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
-    "C:\\Users\\LUANCAR\\.nuget\\packages\\mediatr\\12.4.1\\mediatr.12.4.1.nupkg.sha512",
+    "C:\\Users\\LUANCAR\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
+    "C:\\Users\\LUANCAR\\.nuget\\packages\\mediatr\\12.5.0\\mediatr.12.5.0.nupkg.sha512",
     "C:\\Users\\LUANCAR\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\LUANCAR\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\LUANCAR\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.3\\microsoft.entityframeworkcore.9.0.3.nupkg.sha512",
     "C:\\Users\\LUANCAR\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.3\\microsoft.entityframeworkcore.abstractions.9.0.3.nupkg.sha512",
     "C:\\Users\\LUANCAR\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\9.0.3\\microsoft.entityframeworkcore.analyzers.9.0.3.nupkg.sha512",

@@ -1,9 +1,10 @@
-using DonghuaFlix.src.Core.Aplication.Repositories;
-using DonghuaFlix.src.Core.Domain.Entities;
-using DonghuaFlix.src.Core.Domain.Exceptions;
+using System.Linq.Expressions;
+using DonghuaFlix.Backend.src.Core.Application.Repositories;
+using DonghuaFlix.Backend.src.Core.Domain.Entities;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace DonghuaFlix.src.Infrastructure.Persistence.Repositories;
+namespace DonghuaFlix.Backend.src.Infrastructure.Persistence.Repositories;
 
 public class DonghuaRepository : IDonghuaRepository
 {
@@ -21,11 +22,11 @@ public class DonghuaRepository : IDonghuaRepository
             throw new DomainValidationException(field: nameof(donghuaId) , message: "Id do donghua é inválido.");
         }
 
-        return await _context.Donghuas.Include( d => d.Episodes).ThenInclude( e => e.Video).FirstOrDefaultAsync(d => d.Id == donghuaId);
+        return await _context.Donghuas.FirstOrDefaultAsync(d => d.Id == donghuaId);
     }
     public async Task<List<Donghua>> GetAllAsync(int limit)
     {
-        return await _context.Donghuas.Include( d => d.Episodes).ThenInclude( e => e.Video).Take(limit).ToListAsync();
+        return await _context.Donghuas.Take(limit).ToListAsync();
     }
 
     public async Task AddAsync(Donghua donghua)
@@ -61,6 +62,9 @@ public class DonghuaRepository : IDonghuaRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> ExistsAsync(Guid id)
-        => await _context.Donghuas.AnyAsync(d => d.Id == id);
+    // Implementação do AnyAsync
+    public async Task<bool> AnyAsync(Expression<Func<Donghua, bool>> predicate)
+    {
+        return await _context.Donghuas.AnyAsync(predicate);
+    }
 }

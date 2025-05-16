@@ -1,6 +1,6 @@
-using DonghuaFlix.src.Core.Domain.Enum;
+using DonghuaFlix.Backend.src.Core.Domain.Enum;
 
-namespace DonghuaFlix.src.Core.Application.Helpers;
+namespace DonghuaFlix.Backend.src.Core.Application.Helpers;
 
 public static class GenreConverter
 {

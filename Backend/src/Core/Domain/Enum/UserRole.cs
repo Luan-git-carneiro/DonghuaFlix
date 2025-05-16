@@ -1,4 +1,4 @@
-namespace DonghuaFlix.src.Core.Domain.Enum;
+namespace DonghuaFlix.Backend.src.Core.Domain.Enum;
 
 public enum UserRole
 {

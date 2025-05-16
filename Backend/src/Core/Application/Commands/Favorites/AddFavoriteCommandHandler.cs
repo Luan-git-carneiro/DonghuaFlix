@@ -1,8 +1,8 @@
-using DonghuaFlix.src.Core.Aplication.Repositories;
-using DonghuaFlix.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Application.Repositories;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using MediatR;
 
-namespace DonghuaFlix.src.Core.Aplication.Commands.Favorites;
+namespace DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
 
 public class AddFavoriteCommandHandler : IRequestHandler<AddFavoriteCommand, Unit>
 {

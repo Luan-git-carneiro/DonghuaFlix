@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace DonghuaFlix.src.Core.Application.Commands.Donghua;
+namespace DonghuaFlix.Backend.src.Core.Application.Commands.Donghua;
 
 // Exemplo: Define a intenção e os dados necessários para deletar
 public class DeleteDonghuaCommand : IRequest<Unit> // Unit indica que não retorna dados

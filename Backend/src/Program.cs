@@ -1,6 +1,8 @@
-using DonghuaFlix.src.Core.Aplication.Commands.Favorites;
-using DonghuaFlix.src.Core.Aplication.Repositories;
-using DonghuaFlix.src.Infrastructure.Persistence.Repositories;
+using DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
+using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries;
+using DonghuaFlix.Backend.src.Core.Application.Repositories;
+using DonghuaFlix.Backend.src.Infrastructure.Persistence.Repositories;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -12,10 +14,14 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Registre MediatR e AutoMapper
+
 builder.Services.AddMediatR(cfg =>  cfg.RegisterServicesFromAssembly(typeof(AddFavoriteCommand).Assembly));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDonghuaRepository, DonghuaRepository>();
+builder.Services.AddScoped<AbstractValidator<GetDonghuaByIdQuery>, GetDonghuaByIdQueryValidator>();
+
 
 builder.Services.AddCors(options => 
 {

@@ -1,6 +1,6 @@
-using DonghuaFlix.src.Core.Domain.Abstractions;
+using DonghuaFlix.Backend.src.Core.Domain.Abstractions;
 
-namespace DonghuaFlix.src.Core.Domain.Entities;
+namespace DonghuaFlix.Backend.src.Core.Domain.Entities;
 
 public class Episode : Entity
 {

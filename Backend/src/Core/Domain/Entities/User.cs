@@ -1,11 +1,12 @@
-using DonghuaFlix.src.Core.Domain.Abstractions;
+using DonghuaFlix.Backend.src.Core.Domain.Abstractions;
 using DonghuaFlix.src.Core.Domain.Events;
-using DonghuaFlix.src.Core.Domain.ValueObjects;
-using DonghuaFlix.src.Core.Domain.Enum;
-using DonghuaFlix.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
+using DonghuaFlix.Backend.src.Core.Domain.Enum;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 
 
-namespace DonghuaFlix.src.Core.Domain.Entities;
+
+namespace DonghuaFlix.Backend.src.Core.Domain.Entities;
 
 public class User : Entity
 {

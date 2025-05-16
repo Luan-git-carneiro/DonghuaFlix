@@ -1,10 +1,10 @@
-using DonghuaFlix.src.Core.Domain.Entities;
-using DonghuaFlix.src.Core.Domain.Enum;
-using DonghuaFlix.src.Core.Domain.ValueObjects;
+using DonghuaFlix.Backend.src.Core.Domain.Entities;
+using DonghuaFlix.Backend.src.Core.Domain.Enum;
+using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DonghuaFlix.src.Infrastructure.Persistence;
+namespace DonghuaFlix.Backend.src.Infrastructure.Persistence;
 
 public class AppDbContext : DbContext
 {
@@ -103,14 +103,6 @@ public class AppDbContext : DbContext
         {
             d.ToTable("Donghuas");
             d.HasKey(donghua => donghua.Id);
-
-
-             // Relação com Episode sem carregamento automático
-            d.HasMany<Episode>()
-            .WithOne()
-            .HasForeignKey(e => e.DonghuaId)
-            .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict); // Impede exclusão em cascata
 
             // Relação com Episodes foi REMOVIDA daqui (Opção 2)
             // A relação é definida pela FK 'DonghuaId' na entidade Episode

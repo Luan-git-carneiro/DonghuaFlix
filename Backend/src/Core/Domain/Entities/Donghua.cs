@@ -1,8 +1,8 @@
-using DonghuaFlix.src.Core.Domain.Abstractions;
-using DonghuaFlix.src.Core.Domain.Enum;
-using DonghuaFlix.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Domain.Abstractions;
+using DonghuaFlix.Backend.src.Core.Domain.Enum;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 
-namespace DonghuaFlix.src.Core.Domain.Entities;
+namespace DonghuaFlix.Backend.src.Core.Domain.Entities;
 
 public class Donghua : Entity
 {
@@ -27,7 +27,7 @@ public class Donghua : Entity
 
     }
 
-    public Donghua( string title, string sinopse, string studio, int releaseDate, DonghuaType type, DonghuaStatus status, string image, Genre genres)
+    public Donghua( string title, string sinopse, string studio, DateTime releaseDate, DonghuaType type, DonghuaStatus status, string? image, Genre genres)
     {
         ParamDonghuaIsNullOrWhiteSpace( nameof(title) , title );
         ParamDonghuaIsNullOrWhiteSpace( nameof(sinopse) , sinopse );
@@ -36,7 +36,7 @@ public class Donghua : Entity
         Title = title;
         Sinopse = sinopse;
         Studio = studio;
-        ReleaseDate = new DateTime(releaseDate, 1, 1);
+        ReleaseDate = releaseDate;
         Type = type;
         Status = status;
         Image = image;
@@ -55,9 +55,9 @@ public class Donghua : Entity
         }
     }
 
-    public void ValidateDate(int anoLancamento)
+    public void ValidateDate(DateTime anoLancamento)
     {
-        if(anoLancamento > DateTime.Now.Year)
+        if(anoLancamento.Year > DateTime.Now.Year)
         {
             throw new BusinessRulesException(rulesName: "ANO_NO_FUTURO", message: "Ano de lançamento do donghua não pode ser maior que o ano atual." );
         }
@@ -78,10 +78,10 @@ public class Donghua : Entity
         ParamDonghuaIsNullOrWhiteSpace(nameof(studio), studio);
         Studio = studio;
     }
-    public void UpdateReleaseDate(int releaseDate)
+    public void UpdateReleaseDate(DateTime releaseDate)
     {
         ValidateDate(releaseDate);
-        ReleaseDate = new DateTime(releaseDate, 1, 1);
+        ReleaseDate = releaseDate;
     }
     public void UpdateGenres(Genre genres)
     {
@@ -100,7 +100,7 @@ public class Donghua : Entity
         ParamDonghuaIsNullOrWhiteSpace(nameof(image), image);
         Image = image;
     }
-    public void UpdateDonghua(string title, string sinopse, string studio, int releaseDate, DonghuaType type, DonghuaStatus status, string image, Genre genres)
+    public void UpdateDonghua(string title, string sinopse, string studio, DateTime releaseDate, DonghuaType type, DonghuaStatus status, string? image, Genre genres)
     {
         UpdateTitle(title);
         UpdateSinopse(sinopse);

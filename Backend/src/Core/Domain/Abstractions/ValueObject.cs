@@ -1,4 +1,4 @@
-namespace DonghuaFlix.src.Core.Domain.Abstractions;
+namespace DonghuaFlix.Backend.src.Core.Domain.Abstractions;
 
 public abstract class ValueObject
 {

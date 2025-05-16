@@ -1,6 +1,6 @@
 
 
-namespace DonghuaFlix.src.Core.Application.DTOs.Donghuas;
+namespace DonghuaFlix.Backend.src.Core.Application.DTOs.Donghuas;
 
 public record DonghuaDto
 (

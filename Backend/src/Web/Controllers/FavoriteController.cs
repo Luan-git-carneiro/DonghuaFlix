@@ -1,5 +1,5 @@
-using DonghuaFlix.src.Core.Aplication.Commands.Favorites;
-using DonghuaFlix.src.Core.Aplication.DTOs.Favorites;
+using DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
+using DonghuaFlix.Backend.src.Core.Aplication.DTOs.Favorites;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 /*

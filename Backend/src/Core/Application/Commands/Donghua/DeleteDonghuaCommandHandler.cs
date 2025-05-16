@@ -1,14 +1,17 @@
-using DonghuaFlix.src.Core.Aplication.Repositories;
-using DonghuaFlix.src.Core.Application.Commands.Donghua;
+using DonghuaFlix.Backend.src.Core.Application.Repositories;
+using DonghuaFlix.Backend.src.Core.Application.Commands.Donghua;
 using MediatR;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 
 public class DeleteDonghuaCommandHandler : IRequestHandler<DeleteDonghuaCommand, Unit>
 {
     private readonly IDonghuaRepository _donghuaRepository;
     // Injete serviços de autorização se necessário
+    private readonly IUserRepository _userRepository;
 
-    public DeleteDonghuaCommandHandler(IDonghuaRepository donghuaRepository)
-    {
+    public DeleteDonghuaCommandHandler(IDonghuaRepository donghuaRepository , IUserRepository userRepository)
+    { 
+        _userRepository = userRepository;   
         _donghuaRepository = donghuaRepository;
     }
 
@@ -22,10 +25,16 @@ public class DeleteDonghuaCommandHandler : IRequestHandler<DeleteDonghuaCommand,
         }
 
         // 2. Verificar permissão (MUITO IMPORTANTE para delete)
-        // if (!await CanUserDelete(request.UserId, donghua))
-        // {
-        //     throw new UnauthorizedAccessException("Usuário não tem permissão para deletar este Donghua.");
-        // }
+        var user = await _userRepository.GetByIdAsync(request.UserId);
+        if (user == null)
+        {
+            throw new DomainValidationException(field: "USER_NOT_FOUND" ,"Usuário não encontrado.");
+        }
+
+        if(!user.Role.Equals("Admin"))
+        {
+            throw new BusinessRulesException(rulesName: "Só Admin" , message: "Apenas administradores podem deletar donghuas");
+        }
 
         // 3. Executar a deleção
         await _donghuaRepository.DeleteAsync(donghua); // Ou talvez _donghuaRepository.DeleteByIdAsync(request.DonghuaId);

@@ -1,7 +1,7 @@
-using DonghuaFlix.src.Core.Domain.Entities;
+using  DonghuaFlix.Backend.src.Core.Domain.Entities;
 
-namespace DonghuaFlix.src.Core.Aplication.Repositories
-{
+namespace DonghuaFlix.Backend.src.Core.Application.Repositories;
+
     public interface IUserRepository
     {
         Task AddAsync(User user);
@@ -11,4 +11,3 @@ namespace DonghuaFlix.src.Core.Aplication.Repositories
         Task<bool> ExistsAsync(Guid id);
         
     }
-}

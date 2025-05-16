@@ -1,16 +1,16 @@
-using DonghuaFlix.src.Core.Domain.Enum;
+using DonghuaFlix.Backend.src.Core.Domain.Enum;
 
-namespace DonghuaFlix.src.Core.Application.DTOs.Donghuas
+namespace DonghuaFlix.Backend.src.Core.Application.DTOs.Donghuas
 {
     public record UpdateDonghuaInput
     (
         string? Title,
         string? Sinopse,
         string? Studio,
-        int? ReleaseYear,  // Note que usamos int em vez de DateTime
-        List<string> Genres,
-        string? Type,
-        string? Status,
+        DateTime? ReleaseYear,  // Note que usamos int em vez de DateTime
+        Genre? Genres,
+        DonghuaType? Type,
+        DonghuaStatus? Status,
         string? Image
     );
 }

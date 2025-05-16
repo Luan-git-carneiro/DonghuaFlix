@@ -1,6 +1,6 @@
-using DonghuaFlix.src.Core.Domain.Abstractions;
+using DonghuaFlix.Backend.src.Core.Domain.Abstractions;
 
-namespace DonghuaFlix.src.Core.Domain.ValueObjects;
+namespace DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 
 public sealed class VideoQualityProfile : ValueObject
 {

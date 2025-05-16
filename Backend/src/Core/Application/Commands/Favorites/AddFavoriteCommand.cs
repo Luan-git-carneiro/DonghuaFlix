@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace DonghuaFlix.src.Core.Aplication.Commands.Favorites;
+namespace DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
 
     public record AddFavoriteCommand 
     (

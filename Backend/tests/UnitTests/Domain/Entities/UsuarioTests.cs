@@ -1,9 +1,9 @@
 
-using DonghuaFlix.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using Xunit;
-using DonghuaFlix.src.Core.Domain.Enum;
-using DonghuaFlix.src.Core.Domain.Entities;
-using DonghuaFlix.src.Core.Domain.ValueObjects;
+using DonghuaFlix.Backend.src.Core.Domain.Enum;;
+using Namespace namespace DonghuaFlix.Backend.src.Core.Domain.Entities;;
+using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 using BCryptNet = BCrypt.Net;
 
 namespace DonghuaFlix.UnitTests.Domain.Entities;

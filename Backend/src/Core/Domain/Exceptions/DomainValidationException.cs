@@ -1,7 +1,8 @@
 using System.Data.SqlTypes;
+using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 
-namespace DonghuaFlix.src.Core.Domain.Exceptions
-{
+namespace DonghuaFlix.Backend.src.Core.Domain.Exceptions;
+
     public class DomainValidationException : DomainException
     {
         public string Field { get; }
@@ -13,4 +14,3 @@ namespace DonghuaFlix.src.Core.Domain.Exceptions
     
     }
 
-}
