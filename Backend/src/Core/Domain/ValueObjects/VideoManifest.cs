@@ -14,6 +14,10 @@ namespace DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 
 
         //construtor privado para o EF
+        // Construtor PROTEGIDO SEM PARÂMETROS para o EF Core
+        protected VideoManifest() { }
+
+        // Construtor público para uso em outras partes do código
         public VideoManifest( Guid videoAssetId , string protocolo, string codecPrincipal)
         {
             VideoAssetId = videoAssetId;

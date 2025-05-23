@@ -9,7 +9,7 @@ public class Episode : Entity
     public VideoAsset Video { get; private set; }
     public Guid DonghuaId { get; private set; }
 
- 
+    protected Episode() { }
     public Episode(int number, TimeSpan duration, VideoAsset video, Guid donghuaId)
     {
         Number = number;

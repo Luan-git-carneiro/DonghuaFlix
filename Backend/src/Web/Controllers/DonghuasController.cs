@@ -1,4 +1,7 @@
-using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries;
+using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries.GetDonghua;
+using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries.ListDonghua;
+using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries.ListDonghua.DTOs;
+using DonghuaFlix.Backend.src.Core.Application.DTOs.Donghuas;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,4 +32,14 @@ public class DonghuasController : ControllerBase
 
         return Ok(result);
     }
+
+    // DonghuasController.cs
+    [HttpGet]
+    public async Task<ActionResult<PagedDonghuaResultDto>> ListPaged([FromQuery] ListDonghuasPagedQuery query)
+    {
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
+
 }

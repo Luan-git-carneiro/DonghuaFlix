@@ -67,4 +67,23 @@ public class DonghuaRepository : IDonghuaRepository
     {
         return await _context.Donghuas.AnyAsync(predicate);
     }
+
+    public async Task<(List<Donghua> Items, int TotalItems)> GetPagedAsync(int page, int pageSize, string? searchTerm = null)
+    {
+        var query = _context.Donghuas.AsQueryable();
+
+        // Aplicar filtro de pesquisa, se fornecido
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            query = query.Where(d => d.Title.Contains(searchTerm));
+        }
+
+        // Calcula total de itens
+        var totalItems = await query.CountAsync();
+
+        // Aplica paginação
+        var items = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+        return (items, totalItems);
+    }
 }

@@ -1,8 +1,11 @@
 using DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
-using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries;
+using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries.GetDonghua;
+using DonghuaFlix.Backend.src.Core.Application.Helpers;
 using DonghuaFlix.Backend.src.Core.Application.Repositories;
+using DonghuaFlix.Backend.src.Infrastructure.Persistence;
 using DonghuaFlix.Backend.src.Infrastructure.Persistence.Repositories;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -12,12 +15,18 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
     Args = args
 });
 
+builder.Services.AddDbContext<AppDbContext>( options => options.UseSqlite("Data Source=donghuaflix.db") );
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 // Registre MediatR e AutoMapper
 
 builder.Services.AddMediatR(cfg =>  cfg.RegisterServicesFromAssembly(typeof(AddFavoriteCommand).Assembly));
 
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+// ou o Assembly da camada Application
+
+builder.Services.AddScoped<IEpisodeRepository , EpisodeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDonghuaRepository, DonghuaRepository>();
 builder.Services.AddScoped<AbstractValidator<GetDonghuaByIdQuery>, GetDonghuaByIdQueryValidator>();
@@ -32,6 +41,9 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 
 
@@ -48,6 +60,13 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseStaticFiles();
 
 app.UseRouting();

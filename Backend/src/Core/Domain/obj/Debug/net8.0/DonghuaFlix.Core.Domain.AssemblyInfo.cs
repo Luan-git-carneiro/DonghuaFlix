@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DonghuaFlix.Core.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8070a8d437988553ea779f16274faa76bf2f679")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+069e8109c78e3ad434258d96448af4cf64a5c0b2")]
 [assembly: System.Reflection.AssemblyProductAttribute("DonghuaFlix.Core.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DonghuaFlix.Core.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

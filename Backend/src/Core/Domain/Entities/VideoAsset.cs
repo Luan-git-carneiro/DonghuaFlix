@@ -13,6 +13,7 @@ public class VideoAsset : Entity
     public string CaminhoStorage { get; private set; } // Caminho no S3/Blob Storage
 
 
+    protected VideoAsset() {}
     public VideoAsset(string caminhoStorage)
     {
         CaminhoStorage = caminhoStorage;

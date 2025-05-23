@@ -12,4 +12,5 @@ public interface IDonghuaRepository
     Task UpdateAsync(Donghua donghua);
     Task DeleteAsync(Donghua donghua);
     Task<bool> AnyAsync(Expression<Func<Donghua, bool>> predicate);
+    Task<(List<Donghua> Items, int TotalItems )> GetPagedAsync(int page, int pageSize, string? searchTerm = null);
 }

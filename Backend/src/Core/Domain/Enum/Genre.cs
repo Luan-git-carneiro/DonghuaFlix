@@ -19,4 +19,7 @@ public enum Genre
     Horror = 1 << 12,
     SliceOfLife = 1 << 13,
     Sports = 1 << 14,
+    Sobrenatural = 1 << 15,
+    Fantasia = 1 << 16,
+    Drama = 1 << 17,
 }

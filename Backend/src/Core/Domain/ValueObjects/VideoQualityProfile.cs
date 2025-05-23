@@ -9,6 +9,8 @@ public sealed class VideoQualityProfile : ValueObject
     public string Codec { get; }
     public string Path { get; } // Caminho para playlist/segmentos
 
+
+    protected VideoQualityProfile() { }
     public VideoQualityProfile(string qualidade, int bitrate, string codec, string caminho)
     {
         Quality = qualidade;
