@@ -39,6 +39,17 @@ public class User : Entity
     public void PromoteToAdmin() => Role = UserRole.Admin;
     public void DemoteToRegular() => Role = UserRole.Regular;
 
+    // Métodos de consulta
+    public bool IsAdmin() => Role == UserRole.Admin;
+    public bool IsRegular() => Role == UserRole.Regular;
+
+    public static User CreateAdmin(string name, Email email , Password password)
+    {
+        var user = new User(name, email, password);
+        user.Role = UserRole.Admin;
+        return user;
+    }
+
     public void Deactive()
     {
         Status = AccountStatus.Inactive;

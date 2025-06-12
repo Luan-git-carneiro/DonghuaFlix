@@ -1,0 +1,41 @@
+using DonghuaFlix.Backend.src.Core.Application.Commands.User.Login;
+using DonghuaFlix.Backend.src.Core.Application.DTOs.User;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+
+namespace DonghuaFlix.Backend.src.Web.Controllers;
+
+
+[ApiController]
+[Route("api/[controller]")]
+public class UserController : ControllerBase
+{
+    private readonly IMediator _mediator;
+
+    public UserController(IMediator mediator)
+    {
+        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+    }
+
+    [HttpPost("login")]
+    [ProducesResponseType(typeof(AuthenticationResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
+    {
+        // 1. Criar o Command com os dados da requisição
+        var command = new LoginUserCommand(request.Email, request.Password);
+
+        // 2. Enviar o Command para o Mediator
+        // O MediatR encontrará o Handler correto (LoginUserCommandHandler) e o executará
+        var result = await _mediator.Send(command);
+
+        // 3. Retornar a resposta com base no resultado Handler.
+        if(result.IsSuccess)
+        {
+            return Ok( new { result.Token, result.Role});
+        }
+
+        return Unauthorized(new { Message = result.Message });
+    }
+
+}

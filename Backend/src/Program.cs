@@ -4,8 +4,12 @@ using DonghuaFlix.Backend.src.Core.Application.Helpers;
 using DonghuaFlix.Backend.src.Core.Application.Repositories;
 using DonghuaFlix.Backend.src.Infrastructure.Persistence;
 using DonghuaFlix.Backend.src.Infrastructure.Persistence.Repositories;
+using DonghuaFlix.Backend.src.Infrastructure.Security;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -30,6 +34,7 @@ builder.Services.AddScoped<IEpisodeRepository , EpisodeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDonghuaRepository, DonghuaRepository>();
 builder.Services.AddScoped<AbstractValidator<GetDonghuaByIdQuery>, GetDonghuaByIdQueryValidator>();
+builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
 
 builder.Services.AddCors(options => 
@@ -46,6 +51,25 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]!)),
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
+
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

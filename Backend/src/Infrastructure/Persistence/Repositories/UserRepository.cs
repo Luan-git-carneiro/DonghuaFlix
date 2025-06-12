@@ -1,6 +1,7 @@
 using DonghuaFlix.Backend.src.Core.Application.Repositories;
 using DonghuaFlix.Backend.src.Core.Domain.Entities;
 using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
+using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace DonghuaFlix.Backend.src.Infrastructure.Persistence.Repositories;
@@ -13,7 +14,7 @@ public class UserRepository : IUserRepository
     {
         _context = context;
     }
-
+ 
     public async Task<User?> GetByIdAsync(Guid userId)
     {
         if(userId == Guid.Empty)
@@ -24,9 +25,9 @@ public class UserRepository : IUserRepository
        return  await _context.Users.Include(u => u.Favorites).FirstOrDefaultAsync(u => u.Id == userId);
     }
 
-     public async Task<User> GetByEmailAsync(string email)
+     public async Task<User> GetByEmailAsync(Email email)
      {
-         if(string.IsNullOrWhiteSpace(email))
+         if(string.IsNullOrWhiteSpace(email.Valor))
          {
              throw new DomainValidationException(field: nameof(email) , message: "Email é inválido.");
          }
@@ -41,7 +42,8 @@ public class UserRepository : IUserRepository
         }
 
         await _context.Users.AddAsync(user);
-        await _context.SaveChangesAsync();
+        
+        // A responsabilidade de chamar SaveChangesAsync agora é do handler que usar este método.
     }
 
     public async Task<bool> ExistsAsync(Guid id)

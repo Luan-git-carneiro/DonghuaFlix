@@ -1,4 +1,5 @@
 using  DonghuaFlix.Backend.src.Core.Domain.Entities;
+using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 
 namespace DonghuaFlix.Backend.src.Core.Application.Repositories;
 
@@ -6,8 +7,8 @@ namespace DonghuaFlix.Backend.src.Core.Application.Repositories;
     {
         Task AddAsync(User user);
         Task<User?> GetByIdAsync(Guid id);
-        Task<User> GetByEmailAsync(string email);
         Task UpdateAsync(User user);
         Task<bool> ExistsAsync(Guid id);
+        Task<User> GetByEmailAsync(Email email);
         
     }

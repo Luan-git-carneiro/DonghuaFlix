@@ -9,7 +9,7 @@ namespace DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 public class Password : ValueObject
 {
     public string Value {get; }
-
+ 
 
     protected Password() { } // Construtor protegido para o EF Core
     public Password(string passwordValue)
@@ -22,7 +22,7 @@ public class Password : ValueObject
          Value = BCryptNet.BCrypt.HashPassword(passwordValue);
     }
 
-     public bool Validar (string passwordValue) => BCryptNet.BCrypt.Verify(passwordValue, Value);
+    public bool Validar (string passwordValue) => BCryptNet.BCrypt.Verify(passwordValue, Value);
     protected override IEnumerable<object> GetEqualityComponents()
     {
         yield return Value;
