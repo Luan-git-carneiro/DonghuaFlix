@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using MediatR;
+using DonghuaFlix.Backend.src.Core.Application.Behaviors;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -26,6 +29,8 @@ builder.Services.AddControllersWithViews();
 // Registre MediatR e AutoMapper
 
 builder.Services.AddMediatR(cfg =>  cfg.RegisterServicesFromAssembly(typeof(AddFavoriteCommand).Assembly));
+
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 // ou o Assembly da camada Application
@@ -68,8 +73,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
-builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 
@@ -95,7 +101,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// IMPORTANTE: A ordem é crucial!
+app.UseAuthentication(); // Deve vir ANTES de UseAuthorization
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

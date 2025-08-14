@@ -1,4 +1,5 @@
 using DonghuaFlix.Backend.src.Core.Application.DTOs.User;
+using DonghuaFlix.Backend.src.Core.Application.DTOs.User.Login;
 using DonghuaFlix.Backend.src.Core.Application.Repositories;
 using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
@@ -20,34 +21,20 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand , Authen
 
     public async Task<AuthenticationResult> Handle(LoginUserCommand request , CancellationToken  cancellationToken)
     {
-        if(string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
-        {
-            return AuthenticationResult.Failure("Email and password cannot be empty.");
-        }
 
-        Email email;
 
-        try
-        {
-            email = new Email(request.Email);
-
-        } catch (DomainValidationException ex)
-        {
-            return AuthenticationResult.Failure(ex.Message);
-        }
-
-        var user = await _userRepository.GetByEmailAsync(email);
+        var user = await _userRepository.GetByEmailAsync(request.Email);
 
         if(user == null )
         {
-            return AuthenticationResult.Failure("User not found.");
+            return AuthenticationResult.Failure("User not found.", "ERROR_NOT_FOUND");
         }
 
         bool isPasswordValid = user.Password.Validar(request.Password);
 
         if(!isPasswordValid)
         {
-            return AuthenticationResult.Failure("Invalid password.");
+            return AuthenticationResult.Failure("Invalid password." , "UNAUTHORIZED" );
         }
 
         var token = _tokenService.GenerateToken(user.Id, user.Email.Valor, user.Role);

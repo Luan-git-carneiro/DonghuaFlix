@@ -1,5 +1,8 @@
+using System.Net.Http.Headers;
+using DonghuaFlix.Backend.src.Core.Application.Commands.User;
 using DonghuaFlix.Backend.src.Core.Application.Commands.User.Login;
 using DonghuaFlix.Backend.src.Core.Application.DTOs.User;
+using DonghuaFlix.Backend.src.Core.Application.DTOs.User.Login;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,17 +28,46 @@ public class UserController : ControllerBase
         // 1. Criar o Command com os dados da requisição
         var command = new LoginUserCommand(request.Email, request.Password);
 
-        // 2. Enviar o Command para o Mediator
+        // 2. Enviar o Command para o MediatorDD
         // O MediatR encontrará o Handler correto (LoginUserCommandHandler) e o executará
         var result = await _mediator.Send(command);
 
         // 3. Retornar a resposta com base no resultado Handler.
-        if(result.IsSuccess)
+        
+        if(result.IsSucess)
         {
-            return Ok( new { result.Token, result.Role});
+            return Ok( new { result.Data});
         }
 
-        return Unauthorized(new { Message = result.Message });
+        return Unauthorized(new { result });
     }
+
+    [HttpPost("register")]
+    [ProducesResponseType(typeof(AuthenticationResult) , StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> Register([FromBody] RegisterUserInput request)
+    {
+        // 1. criar o command para o Mediator
+        var command = new RegisterUserCommand(request.Email, request.Password, request.Name );
+        // 2. Enviar o Command para o Mediator
+        var result = await _mediator.Send(command);
+        // 3. Retornar a resposta com base no resultado Handler.
+        if (result.IsSucess)
+        {
+            return CreatedAtAction(nameof(Register), new { result });
+        }
+
+        if(result.Message.Contains("Conflict"))
+        {
+            return Conflict(new { result });
+        }
+
+        return BadRequest(new { result });
+
+
+    }
+
+
 
 }

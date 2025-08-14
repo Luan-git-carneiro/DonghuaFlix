@@ -1,0 +1,50 @@
+
+using DonghuaFlix.Backend.src.Core.Application.DTOs.User;
+using DonghuaFlix.Backend.src.Core.Application.Repositories;
+using UserVo = DonghuaFlix.Backend.src.Core.Domain.Entities.User;
+using EmailVo = DonghuaFlix.Backend.src.Core.Domain.ValueObjects.Email;
+using PasswordVo = DonghuaFlix.Backend.src.Core.Domain.ValueObjects.Password;
+using MediatR;
+using DonghuaFlix.Backend.src.Core.Application.DTOs.User.Login;
+
+namespace DonghuaFlix.Backend.src.Core.Application.Commands.User.Register;
+
+public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, AuthenticationResult>
+{
+    private readonly IUserRepository userRepository;
+    private readonly ITokenService tokenService;
+
+    public RegisterUserCommandHandler(IUserRepository userRepository, ITokenService tokenService)
+    {
+        this.userRepository = userRepository;
+        this.tokenService = tokenService;
+    }
+
+    public async Task<AuthenticationResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    {
+        var email = new EmailVo(request.Email);
+        var password = new PasswordVo(request.Password);
+        var user = new UserVo(
+            email: email,
+            senha: password,
+            nome: request.Name
+        );
+
+        // Verifica se o usuário já existe
+        if(await userRepository.ExistsAsync(user.Id))
+        {
+            return AuthenticationResult.UserAlreadyExists();
+        }
+
+        await userRepository.AddAsync(user);
+
+        // Gera o token de autenticação
+        var token = tokenService.GenerateToken(user.Id, user.Email.Valor, user.Role);
+
+        // Cria o resultado de autenticação
+       return AuthenticationResult.Success(token, user.Role);
+
+
+    }
+
+}
