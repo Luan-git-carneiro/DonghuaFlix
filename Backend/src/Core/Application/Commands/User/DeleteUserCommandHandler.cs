@@ -25,11 +25,6 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Authe
             return AuthenticationResult.Failure("User not found.", "ERROR_NOT_FOUND");
         }
 
-        //Verificar se usuario tem permissão
-        if (user.Role != UserRole.Admin)
-        {
-            return AuthenticationResult.Failure("You do not have permission to delete this user.", "FORBIDDEN");
-        }
 
         return AuthenticationResult.Success("User deleted successfully", user.Role);
     }

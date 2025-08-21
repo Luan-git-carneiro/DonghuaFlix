@@ -31,12 +31,13 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
         );
 
         // Verifica se o usuário já existe
-        if(await userRepository.ExistsAsync(user.Id))
+        if(await userRepository.ExistsAsync(user.Name, user.Email.Valor))
         {
             return AuthenticationResult.UserAlreadyExists();
         }
 
         await userRepository.AddAsync(user);
+        await userRepository.SaveChangesAsync();
 
         // Gera o token de autenticação
         var token = tokenService.GenerateToken(user.Id, user.Email.Valor, user.Role);

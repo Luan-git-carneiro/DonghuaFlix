@@ -6,7 +6,7 @@ namespace DonghuaFlix.Backend.src.Core.Application.DTOs.User.Login
 {
 public class AuthenticationResult  : BaseResult<AuthenticationData>
 {
-    private AuthenticationResult(bool isSuccess, string message ,  string errorCode = null, AuthenticationData data = null)
+    private AuthenticationResult(bool isSuccess, string? message ,  string? errorCode = null , AuthenticationData? data = null )
         : base(isSuccess, message,  errorCode , data)
     {
 
@@ -27,7 +27,7 @@ public class AuthenticationResult  : BaseResult<AuthenticationData>
     // Este método está correto porque ele não depende de dados externos.
     // Ele simplesmente cria um resultado de falha com valores fixos.
     public static AuthenticationResult UserAlreadyExists() 
-        => new(false, "Usuário já existe", errorCode: "USER_ALREADY_EXISTS");
+        => new(false, "Usuário já existe , Conflict", errorCode: "USER_ALREADY_EXISTS");
 
     public static AuthenticationResult Failure(string message, string errorCode )
         => new(false, message, errorCode);

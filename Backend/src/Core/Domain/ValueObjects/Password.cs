@@ -11,7 +11,7 @@ public class Password : ValueObject
     public string Value {get; }
  
 
-    protected Password() { } // Construtor protegido para o EF Core
+    public Password() { } // Construtor protegido para o EF Core
     public Password(string passwordValue)
     {
         if( string.IsNullOrWhiteSpace(passwordValue) || passwordValue.Length < 6)

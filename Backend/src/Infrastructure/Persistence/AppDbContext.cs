@@ -23,6 +23,9 @@ public class AppDbContext : DbContext
         // É uma boa prática chamar o método base
         base.OnModelCreating(modelBuilder);
 
+        //Criar Dados
+
+
         // --- Configuração de User (Raiz de Agregado) ---
         modelBuilder.Entity<User>(u =>
         {
@@ -97,6 +100,8 @@ public class AppDbContext : DbContext
             u.Property(user => user.CreatedAt).IsRequired();
 
         });
+
+
 
         // --- Configuração de Donghua (Raiz de Agregado) ---
         modelBuilder.Entity<Donghua>(d =>

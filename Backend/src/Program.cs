@@ -13,6 +13,7 @@ using System.Text;
 using MediatR;
 using DonghuaFlix.Backend.src.Core.Application.Behaviors;
 using System.Reflection;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -53,7 +54,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+
 
 
 
@@ -76,8 +78,64 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 
+// Configuração do Swagger
+// Configuração do Swagger com suporte ao JWT
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Minha API", Version = "v1" });
+
+    // Define o esquema de segurança JWT
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Digite 'Bearer' [espaço] e então o seu token JWT.\n\nExemplo: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\""
+    });
+
+    // Exige o token nos endpoints protegidos
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
 
 var app = builder.Build();
+
+// ===== [1] CONFIGURAÇÃO DO SEED DO BANCO DE DADOS =====
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        
+        // Aplica migrações pendentes
+        await context.Database.MigrateAsync();
+        
+        // Executa o seed do usuário admin
+        await UserSeed.SeedAdminUserAsync(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Erro ao aplicar migrações ou executar seed");
+    }
+}
 
 app.UseCors("Frontend");
 
@@ -110,7 +168,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+await app.RunAsync();
 
 
 

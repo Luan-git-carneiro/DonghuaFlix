@@ -22,7 +22,7 @@ public class User : Entity
     public IReadOnlyList<Favorite> Favorites => _favorites.AsReadOnly();
     
     //construtor privado para o EF
-    private User() { }
+    public User() { }
 
     public User(string nome, Email email, Password senha)
     {
@@ -33,6 +33,28 @@ public class User : Entity
         Status = AccountStatus.Active;
         
        // AddDomainEvent(new EventUserRegister(Id, DateTime.UtcNow));
+    }
+
+        public User(string nome, Email email, Password senha, UserRole role)
+    {
+        Name = nome;
+        Email = email;
+        Password = senha;
+        Role = role;
+        Status = AccountStatus.Active;
+        
+       // AddDomainEvent(new EventUserRegister(Id, DateTime.UtcNow));
+    }
+
+    public User(Guid id, string Name , Email email, Password password, UserRole role, AccountStatus status)    : base(id)
+    {
+        this.Name = Name;
+        this.Email = email;
+        this.Password = password;
+        this.Role = role;
+        this.Status = status;
+
+        // AddDomainEvent(new EventUserRegister(Id, DateTime.UtcNow));
     }
 
     // Com métodos:
@@ -47,6 +69,7 @@ public class User : Entity
     {
         var user = new User(name, email, password);
         user.Role = UserRole.Admin;
+        user.Status = AccountStatus.Active;
         return user;
     }
 

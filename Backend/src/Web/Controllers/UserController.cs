@@ -1,9 +1,12 @@
 using System.Net.Http.Headers;
 using DonghuaFlix.Backend.src.Core.Application.Commands.User;
+using DonghuaFlix.Backend.src.Core.Application.Commands.User.DeleteUser;
 using DonghuaFlix.Backend.src.Core.Application.Commands.User.Login;
 using DonghuaFlix.Backend.src.Core.Application.DTOs.User;
 using DonghuaFlix.Backend.src.Core.Application.DTOs.User.Login;
+using DonghuaFlix.Backend.src.Core.Application.Queries.User;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DonghuaFlix.Backend.src.Web.Controllers;
@@ -68,6 +71,79 @@ public class UserController : ControllerBase
 
     }
 
+
+    [HttpDelete("{userId}")]
+    [Authorize(Roles = "Admin")] // Apenas usuários com papel de Admin podem deletar usuários
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> DeleteUser(Guid userId)
+    {
+
+        // 1. Criar o Command com o UserId
+        var command = new DeleteUserCommand(userId);
+
+        // 2. Enviar o Command para o Mediator
+        var result = await _mediator.Send(command);
+
+        // 3. Retornar a resposta com base no resultado Handler.
+        if (result.IsSucess)
+        {
+            return NoContent();
+        }
+        if (result.ErrorCode == "USER_NOT_FOUND")
+        {
+            return NotFound(new { result });
+        }
+
+        return BadRequest(new { result });
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")] // Apenas usuários com papel de Admin podem listar usuários
+    [ProducesResponseType(typeof(IEnumerable<UserDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult>  GetAllUsers(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        [FromQuery] string searchTerm = "",
+        [FromQuery] bool? isActive = null
+        )
+    {
+
+        // 1. Criar a Query
+        var query = new GetUsersQuery
+        {
+            Page = page,
+            PageSize = pageSize,
+            SearchTerm = searchTerm,
+            IsActive = isActive
+        };
+        
+        // 2. Enviar a Query para o Mediator
+        var result = await _mediator.Send(query);
+
+        // Adicionar headers para informações de paginação (opcional)
+                Response.Headers.Append("X-Total-Count", result.TotalCount.ToString());
+                Response.Headers.Append("X-Total-Pages", result.TotalPages.ToString());
+                Response.Headers.Append("X-Current-Page", result.CurrentPage.ToString());
+                Response.Headers.Append("X-Page-Size", result.PageSize.ToString());
+                Response.Headers.Append("X-Has-Next-Page", result.HasNextPage.ToString());
+                Response.Headers.Append("X-Has-Prev-Page", result.HasPreviousPage.ToString());
+
+
+        if (result == null )
+            {
+                return NotFound(new { message = "Nenhum usuário encontrado" });
+            }
+            
+            return Ok(new JsonResult(result));
+
+
+    }
 
 
 }
