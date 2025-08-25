@@ -14,6 +14,9 @@ using MediatR;
 using DonghuaFlix.Backend.src.Core.Application.Behaviors;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
+using DonghuaFlix.Backend.src.Core.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
@@ -41,6 +44,13 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDonghuaRepository, DonghuaRepository>();
 builder.Services.AddScoped<AbstractValidator<GetDonghuaByIdQuery>, GetDonghuaByIdQueryValidator>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
+builder.Services.AddScoped<IHateoasProvider, HateoasHelper>();
+builder.Services.AddScoped(provider =>
+{
+    var urlHelperFactory = provider.GetService<IUrlHelperFactory>();
+    var actionContext = provider.GetService<IActionContextAccessor>().ActionContext;
+    return urlHelperFactory.GetUrlHelper(actionContext);
+});
 
 
 builder.Services.AddCors(options => 

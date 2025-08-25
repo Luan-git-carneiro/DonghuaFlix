@@ -4,6 +4,8 @@ using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries.GetDonghua;
 using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries.ListDonghua;
 using DonghuaFlix.Backend.src.Core.Application.Donghuas.Queries.ListDonghua.DTOs;
 using DonghuaFlix.Backend.src.Core.Application.DTOs.Donghuas;
+using DonghuaFlix.Backend.src.Core.Application.Helpers;
+using DonghuaFlix.Backend.src.Core.Application.Interfaces;
 using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,28 +20,39 @@ namespace DonghuaFlix.Backend.src.Web.Controllers;
 public class DonghuasController : ControllerBase
 {
     private readonly IMediator _mediator;
-    public DonghuasController(IMediator mediator)
+    private readonly IUrlHelper _urlHelper;
+    public DonghuasController(IMediator mediator,  IUrlHelper urlHelper)
     {
         _mediator = mediator;
+        _urlHelper = urlHelper;
     }
 
     [HttpGet("{donghuaId}")]
-    public async Task<IActionResult> GetDonghuaById(Guid donghuaId)
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> Donghua(Guid donghuaId)
     {
         var query = new GetDonghuaByIdQuery(donghuaId);
         var result = await _mediator.Send(query);
 
-        if (result == null)
+        var linkHelper = new HateoasHelper(_urlHelper);
+        var links = linkHelper.GenerateLinks("GetDonghuaById" , donghuaId  , null);
+            
+         result.AddLinks(links);
+
+        if(result.ErrorCode == "NOT_FOUND")
         {
-            return NotFound();
+            return NotFound(result);
         }
 
         return Ok(result);
+
     }
 
     // DonghuasController.cs
     [HttpGet]
-    public async Task<ActionResult<PagedDonghuaResultDto>> ListPaged([FromQuery] ListDonghuasPagedQuery query)
+    public async Task<ActionResult<ApiResponse<IEnumerable<DonghuaWithLinksDto>>>> Donghua([FromQuery] ListDonghuasPagedQuery query)
     {
         var result = await _mediator.Send(query);
         return Ok(result);
