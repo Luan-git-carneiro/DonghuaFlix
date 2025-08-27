@@ -9,7 +9,9 @@ using DonghuaFlix.Backend.src.Core.Application.Interfaces;
 using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 
 namespace DonghuaFlix.Backend.src.Web.Controllers;
@@ -17,26 +19,26 @@ namespace DonghuaFlix.Backend.src.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class DonghuasController : ControllerBase
+public class DonghuaController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IUrlHelper _urlHelper;
-    public DonghuasController(IMediator mediator,  IUrlHelper urlHelper)
+    public DonghuaController(IMediator mediator)
     {
         _mediator = mediator;
-        _urlHelper = urlHelper;
+
     }
 
     [HttpGet("{donghuaId}")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Donghua(Guid donghuaId)
     {
         var query = new GetDonghuaByIdQuery(donghuaId);
         var result = await _mediator.Send(query);
 
-        var linkHelper = new HateoasHelper(_urlHelper);
+        var linkHelper = new HateoasHelper(Url);
         var links = linkHelper.GenerateLinks("GetDonghuaById" , donghuaId  , null);
             
          result.AddLinks(links);
@@ -52,63 +54,129 @@ public class DonghuasController : ControllerBase
 
     // DonghuasController.cs
     [HttpGet]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<DonghuaWithLinksDto>>) ,StatusCodes.Status200OK )]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<DonghuaWithLinksDto>>) ,StatusCodes.Status404NotFound )]
     public async Task<ActionResult<ApiResponse<IEnumerable<DonghuaWithLinksDto>>>> Donghua([FromQuery] ListDonghuasPagedQuery query)
     {
         var result = await _mediator.Send(query);
-        return Ok(result);
+        
+        if(result.ErrorCode == "NOT_FOUND")
+        {
+            return NotFound(result);
+        }
+
+        var linkHelper = new HateoasHelper(Url);
+
+        var donghuaWithLinks = result.Data?.Items?.Select(donghua => new DonghuaWithLinksDto{
+            Donghua =  donghua ,
+            Links = linkHelper.GenerateLinks("Donghua" , donghua.DonghuaId , null).ToList()
+        }).ToList();
+
+        //Criar a resposta
+        var resposta = new ApiResponse<IEnumerable<DonghuaWithLinksDto>>(
+            true,
+            "Donghuas recuperados com sucesso" , 
+            donghuaWithLinks ,
+            null
+        );
+
+        //criar links de paginação
+        AddPaginationLinks( resposta , result.Data! , query);
+
+        return Ok(resposta);
+
     }
 
     [HttpPost]
-    [Authorize]
-    public async Task<ActionResult> AddDonghua([FromBody] AddDonghuaInput donghua)
+    [Authorize(Roles = "Admin")]
+    [ProducesResponseType(StatusCodes.Status203NonAuthoritative)]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status409Conflict)]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status201Created)]
+
+    public async Task<ActionResult<ApiResponse<DonghuaDto>>> Donghua([FromBody] AddDonghuaInput donghua)
     {
-        try
+        var command = new CreateDonghuaCommand(
+                title: donghua.Title,
+                sinopse: donghua.Sinopse,
+                studio: donghua.Studio,
+                releaseYear: donghua.ReleaseYear,
+                genres: donghua.Genres,
+                type: donghua.Type,
+                status: donghua.Status,
+                imaagem: donghua.Image
+        );
+
+        var result = await _mediator.Send(command);
+
+        if(!result.IsSucess)
         {
-            //Validação básica do ModelState
-            if(!ModelState.IsValid)
+            if(result.ErrorCode!.Contains("409"))
             {
-                return BadRequest(ModelState);
+                return Conflict(result);
             }
-
-            //Obter UserId do token/claims (assumindo autenticação JWT)
-            var userIdClaim = User.FindFirst("UserId")?.Value
-                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if(!Guid.TryParse(userIdClaim, out var userId))
-            {
-                return Unauthorized("UserId não encontrado no token.");
-            }
-
-            //criar o comando
-            var command = new CreateDonghuaCommand
-            {
-                Title = donghua.Title,
-                Sinopse = donghua.Sinopse,
-                Studio = donghua.Studio,
-                ReleaseYear = donghua.ReleaseYear,
-                Type = donghua.Type,
-                Status = donghua.Status,
-                Image = donghua.Image,
-                Genres = donghua.Genres,
-                UserId = userId
-            };
-
-            // Enviar o comando para o Mediator
-            await _mediator.Send(command);
-
-            return CreatedAtAction(
-                nameof(GetDonghuaById), 
-                new { id = "placehold" },
-                new { message = "Donghua criado com sucesso." }   
-            );
-        
-        } catch(DomainValidationException ex) {
-            return BadRequest(new { message = ex.Message, field = ex.Field });
-        } catch(BusinessRulesException ex) {
-            return BadRequest(new { message = ex.Message, rulesName = ex.RulesName });
-        } catch(Exception ex) {
-            return StatusCode(500, new { message = "Erro interno do servidor.", details = ex.Message });
         }
+
+        var urls = new HateoasHelper(Url);
+
+        result.AddLinks(urls.GenerateLinks("Donghua" , result.Data!.DonghuaId , null));
+
+        return Ok(result);
+        
+
+    }
+
+
+    private void AddPaginationLinks( ApiResponse<IEnumerable<DonghuaWithLinksDto>> response, PagedResult<DonghuaDto> pagedResult , ListDonghuasPagedQuery query)
+    {
+        //link para a primeira pagina
+        if (pagedResult.CurrentPage > 1)
+        {
+            var firstPageLink = Url.Link("GetDonghuas", new { 
+                page = 1, 
+                pageSize = query.PageSize,
+                searchTerm = query.SearchTerm
+            });
+            response.AddLink(new Link(firstPageLink, "first", "GET"));
+        }
+
+        // Link para página anterior
+        if (pagedResult.HasPrevious)
+        {
+            var prevPageLink = Url.Link("GetDonghuas", new { 
+                page = pagedResult.CurrentPage - 1, 
+                pageSize = query.PageSize,
+                searchTerm = query.SearchTerm
+            });
+            response.AddLink(new Link(prevPageLink, "prev", "GET"));
+        }
+
+        // Link para próxima página
+        if (pagedResult.HasNext)
+        {
+            var nextPageLink = Url.Link("GetDonghuas", new { 
+                page = pagedResult.CurrentPage + 1, 
+                pageSize = query.PageSize,
+                searchTerm = query.SearchTerm
+            });
+            response.AddLink(new Link(nextPageLink, "next", "GET"));
+        }
+
+        // Link para última página
+        if (pagedResult.CurrentPage < pagedResult.TotalPages)
+        {
+            var lastPageLink = Url.Link("GetDonghuas", new { 
+                page = pagedResult.TotalPages, 
+                pageSize = query.PageSize,
+                searchTerm = query.SearchTerm
+            });
+            response.AddLink(new Link(lastPageLink, "last", "GET"));
+        }
+
+        // Link para criar novo donghua
+        var createLink = Url.Link("CreateDonghua", new {});
+        response.AddLink(new Link(createLink, "create", "POST"));
+
     }
 
 

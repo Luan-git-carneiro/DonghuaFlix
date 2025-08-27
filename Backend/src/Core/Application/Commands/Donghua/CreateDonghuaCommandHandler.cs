@@ -5,32 +5,26 @@ using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using DonghuaFlix.Backend.src.Core.Domain.Enum;
 using DonghuaFlix.Backend.src.Core.Application.Helpers;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;  
+using System.Linq.Expressions;
+using DonghuaFlix.Backend.src.Core.Application.DTOs.Donghuas;
+using AutoMapper;
 
 namespace DonghuaFlix.Backend.src.Core.Application.Commands.Donghua;
 
-public class CreateDonghuaCommandHandler : IRequestHandler<CreateDonghuaCommand, Unit>
+public class CreateDonghuaCommandHandler : IRequestHandler<CreateDonghuaCommand, ApiResponse<DonghuaDto>>
 {
     private readonly IDonghuaRepository _donghuaRepository;
-    private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper ;
 
-    public CreateDonghuaCommandHandler(IDonghuaRepository donghuaRepository, IUserRepository userRepository)
+    public CreateDonghuaCommandHandler(IDonghuaRepository donghuaRepository , IMapper mapper)
     {
         _donghuaRepository = donghuaRepository;
-        _userRepository = userRepository;
+        _mapper = mapper ;
+
     }
 
-   public async Task<Unit> Handle(CreateDonghuaCommand request, CancellationToken cancellationToken)
+   public async Task<ApiResponse<DonghuaDto>> Handle(CreateDonghuaCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetByIdAsync(request.UserId);
-        
-        if (user == null)
-            throw new DomainValidationException("User", "Usuário não encontrado");
-            
-        if (!user.Role.Equals("Admin"))
-            throw new BusinessRulesException( "Só Admin" , "Apenas administradores podem criar donghuas");
-
-
 
         // Verifica se o título já existe no repositório
         var existingDonghua = await _donghuaRepository.AnyAsync(
@@ -39,7 +33,14 @@ public class CreateDonghuaCommandHandler : IRequestHandler<CreateDonghuaCommand,
 
         if(!existingDonghua)
         {
-            throw new DomainValidationException(field: nameof(request.Title), message: "Título já existe");
+            var responseError = new ApiResponse<DonghuaDto>(
+                sucess: false,
+                message: "Donghua ja existe no Sitema" ,
+                data: null,
+                errorCode: "409_CONFLITCT_DONGHUA_ALREADY_EXISTS"
+            ); 
+
+            return responseError ; 
         }
 
         // Criamos a entidade Donghua usando seu construtor
@@ -55,10 +56,16 @@ public class CreateDonghuaCommandHandler : IRequestHandler<CreateDonghuaCommand,
             genres: request.Genres
         );
         
-        // Toda validação acontece dentro do construtor do Donghua
-        
         await _donghuaRepository.AddAsync(donghua);
+
+        //Criar a resposta
+        var response = new ApiResponse<DonghuaDto>(
+            sucess: true ,
+            message: "Donghua criado com sucesso" , 
+            data: _mapper.Map<DonghuaDto>(donghua),
+            errorCode: null 
+        );
         
-        return Unit.Value;
+        return response;
     }
 }

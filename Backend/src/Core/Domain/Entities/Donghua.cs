@@ -9,7 +9,7 @@ public class Donghua : Entity
     public  string Title { get; private set; }
     public string? Sinopse { get; private set; }
     public string? Studio { get; private set; }
-    public DateTime ReleaseDate { get; private set; }
+    public DateTime? ReleaseDate { get; private set; }
     public Genre Genres { get; private set; }
     public DonghuaType Type { get; private set; }
     public DonghuaStatus Status { get; private set; }
@@ -27,11 +27,10 @@ public class Donghua : Entity
 
     }
 
-    public Donghua( string title, string sinopse, string studio, DateTime releaseDate, DonghuaType type, DonghuaStatus status, string? image, Genre genres)
+    public Donghua( string title, string sinopse, string studio, DateTime? releaseDate, DonghuaType type, DonghuaStatus status, string? image, Genre genres)
     {
         ParamDonghuaIsNullOrWhiteSpace( nameof(title) , title );
         ParamDonghuaIsNullOrWhiteSpace( nameof(sinopse) , sinopse );
-        ValidateDate(releaseDate);
         
         Title = title;
         Sinopse = sinopse;
@@ -55,14 +54,6 @@ public class Donghua : Entity
         }
     }
 
-    public void ValidateDate(DateTime anoLancamento)
-    {
-        if(anoLancamento.Year > DateTime.Now.Year)
-        {
-            throw new BusinessRulesException(rulesName: "ANO_NO_FUTURO", message: "Ano de lançamento do donghua não pode ser maior que o ano atual." );
-        }
-    }
-
     public void UpdateTitle(string title)
     {
         ParamDonghuaIsNullOrWhiteSpace(nameof(title), title);
@@ -80,7 +71,6 @@ public class Donghua : Entity
     }
     public void UpdateReleaseDate(DateTime releaseDate)
     {
-        ValidateDate(releaseDate);
         ReleaseDate = releaseDate;
     }
     public void UpdateGenres(Genre genres)
