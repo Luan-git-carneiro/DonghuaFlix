@@ -39,7 +39,7 @@ public class DonghuaController : ControllerBase
         var result = await _mediator.Send(query);
 
         var linkHelper = new HateoasHelper(Url);
-        var links = linkHelper.GenerateLinks("GetDonghuaById" , donghuaId  , null);
+        var links = linkHelper.GenerateLinks("Donghua" , donghuaId  , null);
             
          result.AddLinks(links);
 
@@ -132,7 +132,7 @@ public class DonghuaController : ControllerBase
         //link para a primeira pagina
         if (pagedResult.CurrentPage > 1)
         {
-            var firstPageLink = Url.Link("GetDonghuas", new { 
+            var firstPageLink = Url.Link("GDonghua", new { 
                 page = 1, 
                 pageSize = query.PageSize,
                 searchTerm = query.SearchTerm
@@ -143,7 +143,7 @@ public class DonghuaController : ControllerBase
         // Link para página anterior
         if (pagedResult.HasPrevious)
         {
-            var prevPageLink = Url.Link("GetDonghuas", new { 
+            var prevPageLink = Url.Link("Donghua", new { 
                 page = pagedResult.CurrentPage - 1, 
                 pageSize = query.PageSize,
                 searchTerm = query.SearchTerm
@@ -154,7 +154,7 @@ public class DonghuaController : ControllerBase
         // Link para próxima página
         if (pagedResult.HasNext)
         {
-            var nextPageLink = Url.Link("GetDonghuas", new { 
+            var nextPageLink = Url.Link("Donghua", new { 
                 page = pagedResult.CurrentPage + 1, 
                 pageSize = query.PageSize,
                 searchTerm = query.SearchTerm
@@ -165,7 +165,7 @@ public class DonghuaController : ControllerBase
         // Link para última página
         if (pagedResult.CurrentPage < pagedResult.TotalPages)
         {
-            var lastPageLink = Url.Link("GetDonghuas", new { 
+            var lastPageLink = Url.Link("Donghua", new { 
                 page = pagedResult.TotalPages, 
                 pageSize = query.PageSize,
                 searchTerm = query.SearchTerm
@@ -174,7 +174,7 @@ public class DonghuaController : ControllerBase
         }
 
         // Link para criar novo donghua
-        var createLink = Url.Link("CreateDonghua", new {});
+        var createLink = Url.Link("Donghua", new {});
         response.AddLink(new Link(createLink, "create", "POST"));
 
     }

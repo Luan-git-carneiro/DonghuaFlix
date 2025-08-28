@@ -15,22 +15,22 @@ public class HateoasHelper :  IHateoasProvider
     {
         var links = new List<Link>();
        // Adiciona o link "self"
-        var selfLink = _urlHelper.Link($"Get{controllerName}", new { id });
-        if (!string.IsNullOrEmpty(selfLink))
+        var selfLink = _urlHelper.Link($"{controllerName}", new { id });
+        if (string.IsNullOrEmpty(selfLink))
         {
             links.Add(new Link(selfLink, "self", "GET"));
         }
 
         // Adiciona o link "update"
-        var updateLink = _urlHelper.Link($"Update{controllerName}", new { id });
-        if (!string.IsNullOrEmpty(updateLink))
+        var updateLink = _urlHelper.Link($"{controllerName}", new { id });
+        if (string.IsNullOrEmpty(updateLink))
         {
             links.Add(new Link(updateLink, "update", "PUT"));
         }
 
         // Adiciona o link "delete"
-        var deleteLink = _urlHelper.Link($"Delete{controllerName}", new { id });
-        if (!string.IsNullOrEmpty(deleteLink))
+        var deleteLink = _urlHelper.Link($"{controllerName}", new { id });
+        if (string.IsNullOrEmpty(deleteLink))
         {
             links.Add(new Link(deleteLink, "delete", "DELETE"));
         }
@@ -38,8 +38,8 @@ public class HateoasHelper :  IHateoasProvider
         // Adiciona links específicos para o controller "Donghua"
         if (controllerName.Equals("Donghua", StringComparison.OrdinalIgnoreCase))
         {
-            var addToFavoritesLink = _urlHelper.Link("AddToFavorites", new { donghuaId = id });
-            if (!string.IsNullOrEmpty(addToFavoritesLink))
+            var addToFavoritesLink = _urlHelper.Link("Favorite", new { donghuaId = id });
+            if (string.IsNullOrEmpty(addToFavoritesLink))
             {
                 links.Add(new Link(addToFavoritesLink, "add-to-favorites", "POST"));
             }

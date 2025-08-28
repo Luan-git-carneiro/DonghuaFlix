@@ -38,7 +38,7 @@ public class GetDonghuaByIdQueryHandler : IRequestHandler<GetDonghuaByIdQuery, A
         
         return new ApiResponse<DonghuaDto>(
                 sucess: true ,
-                message: "Excluido com sucesso",
+                message: "Donghua encontrado com sucesso",
                 data: _mapper.Map<DonghuaDto>(donghua),
                 errorCode: null
         );
