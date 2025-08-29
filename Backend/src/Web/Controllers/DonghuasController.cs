@@ -22,14 +22,14 @@ namespace DonghuaFlix.Backend.src.Web.Controllers;
 public class DonghuaController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly IUrlHelper _urlHelper;
+
     public DonghuaController(IMediator mediator)
     {
         _mediator = mediator;
 
     }
 
-    [HttpGet("{donghuaId}")]
+    [HttpGet("{donghuaId}", Name = "GetDonghua")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status404NotFound)]
@@ -39,6 +39,9 @@ public class DonghuaController : ControllerBase
         var result = await _mediator.Send(query);
 
         var linkHelper = new HateoasHelper(Url);
+        Console.WriteLine($"Context1 - Controller: {this.GetType().Name}");
+        Console.WriteLine($"Context1 - HttpContext: {HttpContext != null}");
+        Console.WriteLine($"Context1 - Request Path: {HttpContext?.Request?.Path}");
         var links = linkHelper.GenerateLinks("Donghua" , donghuaId  , null);
             
          result.AddLinks(links);
@@ -53,11 +56,11 @@ public class DonghuaController : ControllerBase
     }
 
     // DonghuasController.cs
-    [HttpGet]
+    [HttpGet(Name = "GetDonghuasWhithPaged")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<DonghuaWithLinksDto>>) ,StatusCodes.Status200OK )]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<DonghuaWithLinksDto>>) ,StatusCodes.Status404NotFound )]
-    public async Task<ActionResult<ApiResponse<IEnumerable<DonghuaWithLinksDto>>>> Donghua([FromQuery] ListDonghuasPagedQuery query)
+    public async Task<ActionResult<ApiResponse<IEnumerable<DonghuaWithLinksDto>>>> Donghuas([FromQuery] ListDonghuasPagedQuery query)
     {
         var result = await _mediator.Send(query);
         
@@ -68,10 +71,26 @@ public class DonghuaController : ControllerBase
 
         var linkHelper = new HateoasHelper(Url);
 
-        var donghuaWithLinks = result.Data?.Items?.Select(donghua => new DonghuaWithLinksDto{
-            Donghua =  donghua ,
-            Links = linkHelper.GenerateLinks("Donghua" , donghua.DonghuaId , null).ToList()
-        }).ToList();
+        //Criando o Dado papa o result
+        var donghuaWithLinks = result.Data?.Items?.Select(donghua => {
+                        var donghuaId = donghua.DonghuaId;  
+                         // Teste diferentes nomes de rota
+                        var links1 = linkHelper.GenerateLinks("Donghua", donghua.DonghuaId, null);
+                        var links2 = linkHelper.GenerateLinks("GetDonghuasWithPaged", donghua.DonghuaId, null);
+                        var links3 = linkHelper.GenerateLinks("Donghuas", donghua.DonghuaId, null);
+
+
+                            Console.WriteLine($"Links with 'Donghua': {links1?.Count() ?? 0}");
+                            Console.WriteLine($"Links with 'GetDonghuasWithPaged': {links2?.Count() ?? 0}");
+                            Console.WriteLine($"Links with 'GetDonghuasWithPaged': {links3?.Count() ?? 0}");
+
+                        return new DonghuaWithLinksDto{
+                            Donghua =  donghua ,
+                            Links = linkHelper.GenerateLinks("Donghua" , donghuaId , null).ToList()
+                        };
+                    }
+                ).ToList();
+
 
         //Criar a resposta
         var resposta = new ApiResponse<IEnumerable<DonghuaWithLinksDto>>(
@@ -88,7 +107,7 @@ public class DonghuaController : ControllerBase
 
     }
 
-    [HttpPost]
+    [HttpPost(Name = "CreateDonghua")]
     [Authorize(Roles = "Admin")]
     [ProducesResponseType(StatusCodes.Status203NonAuthoritative)]
     [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status409Conflict)]
@@ -132,7 +151,7 @@ public class DonghuaController : ControllerBase
         //link para a primeira pagina
         if (pagedResult.CurrentPage > 1)
         {
-            var firstPageLink = Url.Link("GDonghua", new { 
+            var firstPageLink = Url.Link("GetDonghuasWhithPaged", new { 
                 page = 1, 
                 pageSize = query.PageSize,
                 searchTerm = query.SearchTerm
@@ -143,7 +162,7 @@ public class DonghuaController : ControllerBase
         // Link para página anterior
         if (pagedResult.HasPrevious)
         {
-            var prevPageLink = Url.Link("Donghua", new { 
+            var prevPageLink = Url.Link("GetDonghuasWhithPaged", new { 
                 page = pagedResult.CurrentPage - 1, 
                 pageSize = query.PageSize,
                 searchTerm = query.SearchTerm
@@ -154,7 +173,7 @@ public class DonghuaController : ControllerBase
         // Link para próxima página
         if (pagedResult.HasNext)
         {
-            var nextPageLink = Url.Link("Donghua", new { 
+            var nextPageLink = Url.Link("GetDonghuasWhithPaged", new { 
                 page = pagedResult.CurrentPage + 1, 
                 pageSize = query.PageSize,
                 searchTerm = query.SearchTerm
@@ -165,7 +184,7 @@ public class DonghuaController : ControllerBase
         // Link para última página
         if (pagedResult.CurrentPage < pagedResult.TotalPages)
         {
-            var lastPageLink = Url.Link("Donghua", new { 
+            var lastPageLink = Url.Link("GetDonghuasWhithPaged", new { 
                 page = pagedResult.TotalPages, 
                 pageSize = query.PageSize,
                 searchTerm = query.SearchTerm
@@ -174,7 +193,7 @@ public class DonghuaController : ControllerBase
         }
 
         // Link para criar novo donghua
-        var createLink = Url.Link("Donghua", new {});
+        var createLink = Url.Link("GetDonghuasWhithPaged", new {});
         response.AddLink(new Link(createLink, "create", "POST"));
 
     }
