@@ -12,7 +12,10 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Donghua> Donghuas { get; set; }
     public DbSet<Episode> Episodes { get; set; }
-    // DbSet<VideoAsset> REMOVIDO
+
+    public DbSet<Favorite> Favorites { get; set; }
+    public DbSet<History> Histories { get; set;}
+    
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -67,38 +70,58 @@ public class AppDbContext : DbContext
                 .HasDefaultValue(AccountStatus.Active) // Valor padrão
                 .IsRequired();
 
-            // Coleção de Value Objects Favorites (Owned)
-            u.OwnsMany(user => user.Favorites, fav =>
-            {
-                fav.ToTable("UserFavorites"); // Tabela para os favoritos
-                fav.WithOwner().HasForeignKey("UserId"); // Chave estrangeira para User
-
-                // Mapear propriedades do VO Favorite
-                fav.Property(f => f.DonghuaId).IsRequired();
-                fav.Property(f => f.DateCreat).IsRequired(); // Exemplo de propriedade adicional
-
-                // Chave Primária Composta para a entrada na coleção de favoritos
-                fav.HasKey("UserId", "DonghuaId");
-            });
-
-            // Coleção de Value Objects Histories (Owned)
-            u.OwnsMany(user => user.Histories, hist =>
-            {
-                hist.ToTable("UserHistories"); // Tabela para o histórico
-                hist.WithOwner().HasForeignKey("UserId"); // Chave estrangeira para User
-
-                // Mapear propriedades do VO History
-                hist.Property(h => h.EpisodeId).IsRequired();
-                hist.Property(h => h.DateVisualization).IsRequired();
-
-                // Chave Primária Composta (assumindo uma entrada por usuário/episódio)
-                hist.HasKey("UserId", "EpisodeId");
-            });
-
             // Mapear outras propriedades do User (Nome, Sobrenome, etc.)
             u.Property(user => user.Name).HasMaxLength(100);
             u.Property(user => user.CreatedAt).IsRequired();
 
+        });
+
+        //Configuração da tabela de favoritos dos usuarios
+
+        modelBuilder.Entity<Favorite>(entity =>
+        {
+            entity.ToTable("Favorites");
+            
+            entity.HasKey(f => new { f.UserId, f.DonghuaId });
+            
+            entity.Property(f => f.UserId).IsRequired();
+            entity.Property(f => f.DonghuaId).IsRequired();
+            entity.Property(f => f.DateCreat).IsRequired();
+            
+            // Opcional: Configurar relacionamentos com outras tabelas
+            entity.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            entity.HasOne<Donghua>()
+                .WithMany()
+                .HasForeignKey(f => f.DonghuaId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+                
+
+        //Configuração da tabela de Historico dos usuarios
+        modelBuilder.Entity<History>(entity =>
+        {
+            entity.ToTable("historico");
+            
+            entity.HasKey(f => new { f.UserId, f.EpisodeId });
+            
+            entity.Property(f => f.UserId).IsRequired();
+            entity.Property(f => f.EpisodeId).IsRequired();
+            entity.Property(f => f.DateVisualization).IsRequired();
+            
+            // Opcional: Configurar relacionamentos com outras tabelas
+            entity.HasOne<User>()
+                .WithMany()
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+            entity.HasOne<Donghua>()
+                .WithMany()
+                .HasForeignKey(f => f.EpisodeId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
 

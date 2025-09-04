@@ -1,3 +1,4 @@
+using DonghuaFlix.Backend.src.Core.Application.Helpers;
 using MediatR;
 
 namespace DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
@@ -6,4 +7,4 @@ namespace DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
     (
         Guid  UserId ,
         Guid  DonghuaId 
-    ) : IRequest<Unit>;
+    ) : IRequest<ApiResponse<Object>>;

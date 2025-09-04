@@ -26,7 +26,7 @@ public class UserRepository : IUserRepository
             throw new DomainValidationException(field: nameof(userId) , message: "Id do usuário é inválido.");
         }
 
-       return  await _context.Users.Include(u => u.Favorites).FirstOrDefaultAsync(u => u.Id == userId);
+       return  await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
 
      public async Task<User> GetByEmailAsync(Email email)

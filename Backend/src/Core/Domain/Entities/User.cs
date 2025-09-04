@@ -16,10 +16,6 @@ public class User : Entity
     public UserRole Role { get; private set; }
     public  AccountStatus Status { get; private set; }
     
-    private readonly List<History> _histories = new();
-    public IReadOnlyList<History> Histories => _histories.AsReadOnly();
-    private readonly List<Favorite> _favorites = new List<Favorite>();
-    public IReadOnlyList<Favorite> Favorites => _favorites.AsReadOnly();
     
     //construtor privado para o EF
     public User() { }
@@ -87,50 +83,6 @@ public class User : Entity
         AtualizarDataModificação();
     }
 
-    public void AddFavorite(Donghua donghua)
-    {
-        if(donghua is null)
-        {
-            throw new DomainValidationException( field: nameof(donghua) , message: "Donghua é nulo.");
-        }
-        if(_favorites.Any(f => f.DonghuaId == donghua.Id))
-        {
-            throw new BusinessRulesException(rulesName: "DUPLICATE" , message: "Donghua já está nos favoritos.");
-        }
-
-
-        _favorites.Add(new Favorite( this.Id , donghua.Id, DateTime.UtcNow));
-
-    }
-
-    public void RemoveFavorite(Donghua donghua)
-    {
-        var favorite = _favorites.FirstOrDefault(f => f.DonghuaId == donghua.Id);
-
-        if(favorite is null)
-        {
-            throw new DomainValidationException( field: nameof(donghua) , message: "Donghua não está nos favoritos.");
-        }
-
-        _favorites.Remove(favorite);
-    }
-    
-    public void AddHistory(Guid episodioId, DateTime data )
-    {
-        if (episodioId == Guid.Empty)
-            throw new DomainValidationException(field: nameof(episodioId), message: "Episódio inválido.");
-        
-
-        if (data == DateTime.MinValue)
-            throw new DomainValidationException(field: nameof(data), message: "Data inválida.");
-    
-        var existente = _histories.FirstOrDefault(h => h.EpisodeId == episodioId);
-        
-        if (existente != null)
-            _histories.Remove(existente);
-
-        _histories.Add(new History( this.Id , episodioId , data));
-    }
 
     public void UpdatePassword(Password password)
     {
@@ -153,15 +105,5 @@ public class User : Entity
     {
         Role = role;
         AtualizarDataModificação();
-    }
-
-    public void AddHistory(Guid episodioId)
-    {
-        var existente = _histories.FirstOrDefault(h => h.EpisodeId == episodioId);
-        
-        if (existente != null)
-            _histories.Remove(existente);
-
-        _histories.Add(new History( this.Id , episodioId , DateTime.UtcNow));
     }
 }

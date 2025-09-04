@@ -4,40 +4,38 @@ using DonghuaFlix.Backend.src.Core.Domain.Enum;
 using DonghuaFlix.Backend.src.Core.Application.Repositories;
 using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using DonghuaFlix.Backend.src.Core.Application.Helpers;
+using AutoMapper;
 
 namespace DonghuaFlix.Backend.src.Core.Application.Commands.Donghua;
 
-public class UpdateDonghuaCommandHandler : IRequestHandler<UpdateDonghuaCommand, Unit>
+public class UpdateDonghuaCommandHandler : IRequestHandler<UpdateDonghuaCommand, ApiResponse<DonghuaDto>>
 {
     readonly  IDonghuaRepository _donghuaRepository;
-    readonly IUserRepository _userRepository;
+    readonly IMapper  _mapper;
   
 
-    public UpdateDonghuaCommandHandler( IUserRepository userRepository ,IDonghuaRepository donghuaRepository)
+    public UpdateDonghuaCommandHandler( IDonghuaRepository donghuaRepository , IMapper mapper)
     {
-        _userRepository = userRepository;
         _donghuaRepository = donghuaRepository;
+        _mapper = mapper;
     }
 
-    public async Task<Unit> Handle(UpdateDonghuaCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<DonghuaDto>> Handle(UpdateDonghuaCommand request, CancellationToken cancellationToken)
     {
-        // Verifica se o usuário existe
-        var user = await _userRepository.GetByIdAsync(request.UserId);
-        if (user == null)
-            throw new DomainValidationException(field: "UserId", "Usuário não encontrado");
 
-        // Verifica se o usuário tem permissão para atualizar
-        if (!user.Role.Equals("Admin"))
-            throw new BusinessRulesException(rulesName: "Só Admin", message: "Apenas administradores podem atualizar donghuas");
+        var donghua = await _donghuaRepository.GetByIdAsync(request.DonghuaId.HasValue ? request.DonghuaId.Value : Guid.Empty);
 
+        if(donghua == null)                     //validação
+        {
+            var errorResult = new ApiResponse<DonghuaDto>(
+                sucess: false ,
+                message: "Donghua com Id passado não encontrado" ,
+                data: null ,
+                errorCode: "NOT_FOUND" 
+            );
 
-        if(request.DonghuaId == Guid.Empty)                     //validação
-            throw new DomainValidationException(field: "DonghuaId", "DonghuaId não pode ser vazio");
-
-        var donghua = await _donghuaRepository.GetByIdAsync(request.DonghuaId);         //carregar donghua  
-        
-        if (donghua == null)
-            throw new DomainValidationException(field: "DonghuaId", "Donghua não encontrado");
+            return errorResult ;
+        }
 
         if (request.Title != null)
                 donghua.UpdateTitle(request.Title);
@@ -81,7 +79,12 @@ public class UpdateDonghuaCommandHandler : IRequestHandler<UpdateDonghuaCommand,
         await  _donghuaRepository.UpdateAsync(donghua); // Atualiza o donghua no repositório
                 
 
-        return Unit.Value;
+        return new ApiResponse<DonghuaDto>(
+            sucess: true ,
+            message: "Donghua atualizado com sucesso" ,
+            data: _mapper.Map<DonghuaDto>(donghua) ,
+            errorCode: null 
+        );
         
     }
 

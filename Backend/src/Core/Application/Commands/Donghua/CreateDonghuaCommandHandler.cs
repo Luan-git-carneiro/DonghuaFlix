@@ -27,11 +27,9 @@ public class CreateDonghuaCommandHandler : IRequestHandler<CreateDonghuaCommand,
     {
 
         // Verifica se o título já existe no repositório
-        var existingDonghua = await _donghuaRepository.AnyAsync(
-            d => EF.Functions.Collate(d.Title, "SQL_Latin1_General_CP1_CI_AS") == request.Title
-        );
+        var existingDonghua = await _donghuaRepository.AnyAsync(d => d.Title == request.Title && d.Studio == request.Studio);
 
-        if(!existingDonghua)
+        if(existingDonghua)
         {
             var responseError = new ApiResponse<DonghuaDto>(
                 sucess: false,

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
 namespace DonghuaFlix.Backend.src.Web.Controllers;
@@ -29,21 +30,21 @@ public class DonghuaController : ControllerBase
 
     }
 
-    [HttpGet("{donghuaId}", Name = "GetDonghua")]
+    [HttpGet("{id}", Name = "GetDonghua")]
     [Produces("application/json")]
     [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Donghua(Guid donghuaId)
+    public async Task<IActionResult> Donghua(Guid id)
     {
-        var query = new GetDonghuaByIdQuery(donghuaId);
+
+        var query = new GetDonghuaByIdQuery(id);
         var result = await _mediator.Send(query);
 
         var linkHelper = new HateoasHelper(Url);
-        Console.WriteLine($"Context1 - Controller: {this.GetType().Name}");
-        Console.WriteLine($"Context1 - HttpContext: {HttpContext != null}");
-        Console.WriteLine($"Context1 - Request Path: {HttpContext?.Request?.Path}");
-        var links = linkHelper.GenerateLinks("Donghua" , donghuaId  , null);
-            
+
+        var links = linkHelper.GenerateLinks("Donghua" , id , null);
+                Console.WriteLine($"Context1 - Request links: {links.ToList()}");
+
          result.AddLinks(links);
 
         if(result.ErrorCode == "NOT_FOUND")
@@ -55,14 +56,19 @@ public class DonghuaController : ControllerBase
 
     }
 
+   
     // DonghuasController.cs
     [HttpGet(Name = "GetDonghuasWhithPaged")]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(ApiResponse<IEnumerable<DonghuaWithLinksDto>>) ,StatusCodes.Status200OK )]
-    [ProducesResponseType(typeof(ApiResponse<IEnumerable<DonghuaWithLinksDto>>) ,StatusCodes.Status404NotFound )]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<DonghuaWithLinksDto>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<DonghuaWithLinksDto>>), StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ApiResponse<IEnumerable<DonghuaWithLinksDto>>>> Donghuas([FromQuery] ListDonghuasPagedQuery query)
     {
         var result = await _mediator.Send(query);
+        if (result.ErrorCode == "SOME_ERROR_CODE") // Replace with the actual error code condition
+        {
+            throw new Exception("deu ruim");
+        }
         
         if(result.ErrorCode == "NOT_FOUND")
         {
@@ -71,44 +77,90 @@ public class DonghuaController : ControllerBase
 
         var linkHelper = new HateoasHelper(Url);
 
-        //Criando o Dado papa o result
-        var donghuaWithLinks = result.Data?.Items?.Select(donghua => {
-                        var donghuaId = donghua.DonghuaId;  
-                         // Teste diferentes nomes de rota
-                        var links1 = linkHelper.GenerateLinks("Donghua", donghua.DonghuaId, null);
-                        var links2 = linkHelper.GenerateLinks("GetDonghuasWithPaged", donghua.DonghuaId, null);
-                        var links3 = linkHelper.GenerateLinks("Donghuas", donghua.DonghuaId, null);
+        //Criando o Dado para o result
+        var donghuaWithLinks = result.Data?.Items?.Select((donghua) => {
 
-
-                            Console.WriteLine($"Links with 'Donghua': {links1?.Count() ?? 0}");
-                            Console.WriteLine($"Links with 'GetDonghuasWithPaged': {links2?.Count() ?? 0}");
-                            Console.WriteLine($"Links with 'GetDonghuasWithPaged': {links3?.Count() ?? 0}");
-
-                        return new DonghuaWithLinksDto{
-                            Donghua =  donghua ,
-                            Links = linkHelper.GenerateLinks("Donghua" , donghuaId , null).ToList()
-                        };
-                    }
-                ).ToList();
-
+            var donghuaId = donghua.DonghuaId;  
+            var links = linkHelper.GenerateLinks("Donghua", donghuaId, null);
+            
+            return new DonghuaWithLinksDto{
+                Donghua = donghua,
+                Links = links?.ToList() 
+            };
+        }).ToList();
 
         //Criar a resposta
         var resposta = new ApiResponse<IEnumerable<DonghuaWithLinksDto>>(
             true,
-            "Donghuas recuperados com sucesso" , 
-            donghuaWithLinks ,
+            "Donghuas recuperados com sucesso", 
+            donghuaWithLinks,
             null
         );
 
-        //criar links de paginação
-        AddPaginationLinks( resposta , result.Data! , query);
+        AddPaginationLinks(resposta, result.Data!, query);
 
         return Ok(resposta);
+    }
+
+    [HttpDelete( "{id}" , Name = "DeleteDonghua")]
+    [Authorize(Roles = "Admin")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status203NonAuthoritative)]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status200OK)]
+    public  async Task<ActionResult<ApiResponse<DonghuaDto>>> DeleteDonghua(Guid id) 
+    {
+        var command = new DeleteDonghuaCommand(id);
+        var result = await _mediator.Send(command);
+
+        if(!result.IsSucess)
+        {
+            return NotFound(result);
+        }
+
+        var urlHelper = new HateoasHelper(Url) ;
+
+        var links = urlHelper.GenerateLinks("Donghua" , id , null) ;
+
+        result.AddLinks(links);
+
+        return Ok( result ) ;        
 
     }
 
+
+    [HttpPut("{id}" , Name = "UpdateDonghua")]
+    [Authorize(Roles = "Admin")]
+    [Produces("application/json")]
+    [ProducesResponseType(StatusCodes.Status203NonAuthoritative)]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ApiResponse<DonghuaDto>>> UpdateDonghua(Guid id , [FromBody] UpdateDonghuaCommand request)
+    {
+        request.DonghuaId = id ;
+
+        var result = await _mediator.Send(request);
+
+        if(!result.IsSucess)
+        {
+            return NotFound(result);
+        }
+
+        var urlHelper = new HateoasHelper(Url);
+
+        var links = urlHelper.GenerateLinks("Donghua" , id , null) ;
+
+        result.AddLinks(links) ;
+
+        return Ok( result );
+
+    }
+
+    
+
     [HttpPost(Name = "CreateDonghua")]
     [Authorize(Roles = "Admin")]
+    [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status203NonAuthoritative)]
     [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(ApiResponse<DonghuaDto>) , StatusCodes.Status201Created)]
@@ -197,6 +249,6 @@ public class DonghuaController : ControllerBase
         response.AddLink(new Link(createLink, "create", "POST"));
 
     }
-
+  
 
 }

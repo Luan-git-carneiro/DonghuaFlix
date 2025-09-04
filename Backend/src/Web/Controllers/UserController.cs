@@ -89,7 +89,7 @@ public class UserController : ControllerBase
         // 3. Retornar a resposta com base no resultado Handler.
         if (result.IsSucess)
         {
-            return NoContent();
+            return Ok(result);
         }
         if (result.ErrorCode == "USER_NOT_FOUND")
         {

@@ -33,7 +33,7 @@ namespace DonghuaFlix.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("ReleaseDate")
+                    b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Sinopse")
@@ -256,6 +256,42 @@ namespace DonghuaFlix.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("DonghuaFlix.Backend.src.Core.Domain.ValueObjects.Favorite", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DonghuaId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateCreat")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "DonghuaId");
+
+                    b.HasIndex("DonghuaId");
+
+                    b.ToTable("Favorites", (string)null);
+                });
+
+            modelBuilder.Entity("DonghuaFlix.Backend.src.Core.Domain.ValueObjects.History", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("EpisodeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateVisualization")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserId", "EpisodeId");
+
+                    b.HasIndex("EpisodeId");
+
+                    b.ToTable("historico", (string)null);
+                });
+
             modelBuilder.Entity("DonghuaFlix.Backend.src.Core.Domain.Entities.Episode", b =>
                 {
                     b.OwnsOne("DonghuaFlix.Backend.src.Core.Domain.Entities.VideoAsset", "Video", b1 =>
@@ -385,46 +421,6 @@ namespace DonghuaFlix.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsMany("DonghuaFlix.Backend.src.Core.Domain.ValueObjects.Favorite", "Favorites", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<Guid>("DonghuaId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("TEXT");
-
-                            b1.Property<DateTime>("DateCreat")
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("UserId", "DonghuaId");
-
-                            b1.ToTable("UserFavorites", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
-                    b.OwnsMany("DonghuaFlix.Backend.src.Core.Domain.ValueObjects.History", "Histories", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<Guid>("EpisodeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("TEXT");
-
-                            b1.Property<DateTime>("DateVisualization")
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("UserId", "EpisodeId");
-
-                            b1.ToTable("UserHistories", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
                     b.OwnsOne("DonghuaFlix.Backend.src.Core.Domain.ValueObjects.Password", "Password", b1 =>
                         {
                             b1.Property<Guid>("UserId")
@@ -447,11 +443,37 @@ namespace DonghuaFlix.Migrations
                     b.Navigation("Email")
                         .IsRequired();
 
-                    b.Navigation("Favorites");
-
-                    b.Navigation("Histories");
-
                     b.Navigation("Password")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DonghuaFlix.Backend.src.Core.Domain.ValueObjects.Favorite", b =>
+                {
+                    b.HasOne("DonghuaFlix.Backend.src.Core.Domain.Entities.Donghua", null)
+                        .WithMany()
+                        .HasForeignKey("DonghuaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DonghuaFlix.Backend.src.Core.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DonghuaFlix.Backend.src.Core.Domain.ValueObjects.History", b =>
+                {
+                    b.HasOne("DonghuaFlix.Backend.src.Core.Domain.Entities.Donghua", null)
+                        .WithMany()
+                        .HasForeignKey("EpisodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DonghuaFlix.Backend.src.Core.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
