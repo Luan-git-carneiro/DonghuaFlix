@@ -1,7 +1,7 @@
 using DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
 using FluentValidation;
 
-namespace DonghuaFlix.Backend.src.Core.Application.Validation;
+namespace DonghuaFlix.Backend.src.Core.Application.Validation.Favorite;
 
 public class AddFavoriteCommandValidator : AbstractValidator<AddFavoriteCommand>
 {

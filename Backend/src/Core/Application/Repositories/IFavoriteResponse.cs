@@ -9,5 +9,5 @@ public interface IFavoriteRepository
     Task<List<Favorite>> GetByDonghuaIdAsync(Guid donghuaId);
     Task<bool> ExistsAsync(Guid userId, Guid donghuaId);
     Task AddAsync(Favorite favorite);
-    Task RemoveAsync(Guid userId, Guid donghuaId);
+    Task RemoveAsync(Favorite favorite);
 }

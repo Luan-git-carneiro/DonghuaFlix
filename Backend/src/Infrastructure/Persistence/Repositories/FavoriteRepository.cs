@@ -19,5 +19,29 @@ public class FavoriteRepository : IFavoriteRepository
             .AsNoTracking()
             .ToListAsync() ;
     }
+
+    public async Task<List<Favorite>> GetByDonghuaIdAsync(Guid donghuaId)
+    {
+        return await _context.Favorites.Where(f => f.DonghuaId == donghuaId)
+            .AsNoTracking()
+            .ToListAsync() ;
+    }
+
+    public async Task<bool> ExistsAsync(Guid userId , Guid donghuaId )
+    {
+        return await _context.Favorites.AnyAsync(fa => fa.UserId == userId && fa.DonghuaId == donghuaId );
+    }
+
+    public async Task AddAsync(Favorite favorite)
+    { 
+        await _context.AddAsync(favorite);
+        await _context.SaveChangesAsync() ;
+    }
+
+    public async Task RemoveAsync(Favorite favorite)
+    {
+        _context.Favorites.Remove(favorite) ;
+        await _context.SaveChangesAsync() ;
+    }
     
 }

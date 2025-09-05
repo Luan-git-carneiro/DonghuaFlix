@@ -192,7 +192,7 @@ public class DonghuaController : ControllerBase
 
         result.AddLinks(urls.GenerateLinks("Donghua" , result.Data!.DonghuaId , null));
 
-        return Ok(result);
+        return StatusCode(201 ,result);
         
 
     }

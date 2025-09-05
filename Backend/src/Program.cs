@@ -42,7 +42,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddScoped<IEpisodeRepository , EpisodeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IDonghuaRepository, DonghuaRepository>();
-builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 builder.Services.AddScoped<AbstractValidator<GetDonghuaByIdQuery>, GetDonghuaByIdQueryValidator>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 

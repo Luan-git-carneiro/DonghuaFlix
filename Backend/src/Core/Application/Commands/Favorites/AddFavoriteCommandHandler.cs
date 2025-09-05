@@ -32,7 +32,7 @@ public class AddFavoriteCommandHandler : IRequestHandler<AddFavoriteCommand, Api
             errorCode: null
         );
 
-        return response ;
+        return  response ;
     }
 }
 
