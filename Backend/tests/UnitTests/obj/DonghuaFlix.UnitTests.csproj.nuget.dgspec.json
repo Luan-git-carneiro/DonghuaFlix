@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj": {}
+    "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj": {}
   },
   "projects": {
-    "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj": {
+    "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
         "projectName": "DonghuaFlix.Core.Domain",
-        "projectPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
+        "projectPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj",
         "packagesPath": "C:\\Users\\LUANCAR\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LUANCAR\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -69,14 +69,14 @@
         }
       }
     },
-    "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj": {
+    "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj",
+        "projectUniqueName": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj",
         "projectName": "DonghuaFlix.UnitTests",
-        "projectPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj",
+        "projectPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\DonghuaFlix.UnitTests.csproj",
         "packagesPath": "C:\\Users\\LUANCAR\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\obj\\",
+        "outputPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\tests\\UnitTests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LUANCAR\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -92,8 +92,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj": {
-                "projectPath": "c:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj"
+              "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj": {
+                "projectPath": "C:\\Users\\LUANCAR\\projetos\\donghuaFlix\\DonghuaFlix\\Backend\\src\\Core\\Domain\\DonghuaFlix.Core.Domain.csproj"
               }
             }
           }

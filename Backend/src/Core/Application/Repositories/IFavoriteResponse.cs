@@ -5,6 +5,7 @@ namespace DonghuaFlix.Backend.src.Core.Application.Repositories;
 
 public interface IFavoriteRepository
 {
+    Task<Favorite?> GetFavoriteAsync(Guid userId , Guid donghuaId);
     Task<List<Favorite>> GetByUserIdAsync(Guid userId);
     Task<List<Favorite>> GetByDonghuaIdAsync(Guid donghuaId);
     Task<bool> ExistsAsync(Guid userId, Guid donghuaId);

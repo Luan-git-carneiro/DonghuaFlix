@@ -1,6 +1,8 @@
 using System.Security.Claims;
 using DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
 using DonghuaFlix.Backend.src.Core.Aplication.DTOs.Favorites;
+using DonghuaFlix.Backend.src.Core.Application.Commands.Favorites;
+using DonghuaFlix.Backend.src.Core.Application.Commands.User.DeleteUser;
 using DonghuaFlix.Backend.src.Core.Application.Helpers;
 using DonghuaFlix.Backend.src.Core.Application.Queries.Favorites;
 using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
@@ -25,6 +27,8 @@ public  class FavoriteController : ControllerBase
     [HttpGet(Name = "GetFavorite")]
     [Authorize]
     [Produces("application/json")]
+    [ProducesResponseType(typeof(ApiResponse<Favorite>) , StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponse<List<Favorite>>) , StatusCodes.Status200OK)]
     public async Task <ActionResult<ApiResponse<List<Favorite>>>> GetFavoriteForUser()
     {
         var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ;
@@ -86,4 +90,46 @@ public  class FavoriteController : ControllerBase
 
         return StatusCode(201 , result);
     }
+
+    [HttpDelete("{id}" , Name = "DeleteFavorite")]
+    [Produces("application/json")]
+    [Authorize]
+    [ProducesResponseType(typeof(ApiResponse<List<Favorite>>) , StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<Favorite>>> DeleteFavorite(Guid id) 
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier) ;
+
+         if (userIdClaim == null)
+            return Unauthorized();
+
+        if(!Guid.TryParse(userIdClaim.Value , out Guid userId))
+        {
+            var responseError = new ApiResponse<Favorite>(
+                sucess: false ,
+                message: "Id do usuario esta incorreto" ,
+                data: null ,
+                errorCode: "NOT_FOUND"
+            ); 
+            return NotFound(responseError);
+        }
+
+        // Operação de regra de negocio 
+        var command = new DeleteFavoriteCommand(userId , id);
+
+        var reponse = await _mediator.Send(command);
+
+        //LINHAS  para criar links para o recurso retornado
+
+        var linkHelper = new HateoasHelper(Url);
+
+        reponse.AddLinks(linkHelper.GenerateLinks("Favorite" , id , null));
+
+        //linhas para retorna resposta
+        return Ok(Response);
+
+        
+    }
+
+
+
 }

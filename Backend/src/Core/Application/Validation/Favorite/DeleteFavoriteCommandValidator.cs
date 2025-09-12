@@ -1,11 +1,11 @@
-using DonghuaFlix.Backend.src.Core.Aplication.Commands.Favorites;
+using DonghuaFlix.Backend.src.Core.Application.Commands.Favorites;
 using FluentValidation;
 
 namespace DonghuaFlix.Backend.src.Core.Application.Validation.Favorite;
 
-public class AddFavoriteCommandValidator : AbstractValidator<AddFavoriteCommand>
+public class DeleteFavoriteCommandValidator : AbstractValidator<DeleteFavoriteCommand>
 {
-    public AddFavoriteCommandValidator()
+    public DeleteFavoriteCommandValidator()
     {
         RuleFor(x => x.UserId)
             .NotNull().WithMessage("UserId cannot be null.")

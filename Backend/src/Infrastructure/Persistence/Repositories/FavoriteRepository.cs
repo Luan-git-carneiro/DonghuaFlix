@@ -13,6 +13,11 @@ public class FavoriteRepository : IFavoriteRepository
         _context  = context ;
     } 
 
+    public async Task<Favorite?> GetFavoriteAsync(Guid userId , Guid donghuaId)
+    {
+        return await _context.Favorites.Where(f => f.UserId == userId && f.DonghuaId == donghuaId).AsNoTracking().FirstOrDefaultAsync() ;
+    }
+
     public async Task<List<Favorite>> GetByUserIdAsync(Guid userId)
     {
         return await _context.Favorites.Where(f => f.UserId == userId)
