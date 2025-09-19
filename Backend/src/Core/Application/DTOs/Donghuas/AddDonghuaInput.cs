@@ -11,7 +11,8 @@ namespace DonghuaFlix.Backend.src.Core.Application.DTOs.Donghuas;
         Genre Genres , // Lista de nomes dos gêneros ,
         DonghuaType Type ,
         DonghuaStatus Status ,
-        string? Image 
+        string? Image ,
+        float Rating
     
     
     );

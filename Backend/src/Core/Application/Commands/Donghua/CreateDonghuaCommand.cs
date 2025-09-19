@@ -16,8 +16,9 @@ public class CreateDonghuaCommand : IRequest<ApiResponse<DonghuaDto>>
     public  DonghuaType Type { get; set; }
     public DonghuaStatus  Status { get; set; }
     public string? Image { get; set; }
+    public float? Rating { get; set; }
 
-    public CreateDonghuaCommand( string title , string sinopse, string studio , DateTime? releaseYear , Genre genres , DonghuaType type, DonghuaStatus status , string? imaagem)
+    public CreateDonghuaCommand( string title , string sinopse, string studio , DateTime? releaseYear , Genre genres , DonghuaType type, DonghuaStatus status , string? imaagem , float rating)
     {
         Title = title;
         Sinopse = sinopse;
@@ -27,5 +28,6 @@ public class CreateDonghuaCommand : IRequest<ApiResponse<DonghuaDto>>
         Type = type;
         Status = status;
         Image = imaagem;
+        Rating = rating;
     }
 }

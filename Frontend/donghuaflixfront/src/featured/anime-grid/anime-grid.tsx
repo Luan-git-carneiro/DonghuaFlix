@@ -62,9 +62,9 @@ const popularAnimes = [
 export function AnimeGrid() {
   return (
     <section className="py-12 bg-muted/30">
-      <div className="container px-4">
+      <div className="container px-4 mx-auto">
         <h2 className="text-3xl font-bold mb-8">Populares Agora</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 ">
           {popularAnimes.map((anime) => (
             <Card
               key={anime.id}

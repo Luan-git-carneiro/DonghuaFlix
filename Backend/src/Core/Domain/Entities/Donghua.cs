@@ -14,8 +14,9 @@ public class Donghua : Entity
     public DonghuaType Type { get; private set; }
     public DonghuaStatus Status { get; private set; }
     public string? Image { get; private set; }
+    public float? Rating { get; private set; } 
  
-    public Donghua(string title, string sinopse, DonghuaType type, Genre genre)
+    public Donghua(string title, string sinopse, DonghuaType type, Genre genre, float rating)
     {
         ParamDonghuaIsNullOrWhiteSpace(nameof(title) , title);
         ParamDonghuaIsNullOrWhiteSpace( nameof(sinopse) , sinopse);
@@ -24,10 +25,11 @@ public class Donghua : Entity
         Sinopse = sinopse;
         Type = type;
         Genres = genre;
+        Rating = rating;
 
     }
 
-    public Donghua( string title, string sinopse, string studio, DateTime? releaseDate, DonghuaType type, DonghuaStatus status, string? image, Genre genres)
+    public Donghua( string title, string sinopse, string studio, DateTime? releaseDate, DonghuaType type, DonghuaStatus status, string? image, Genre genres, float? rating )
     {
         ParamDonghuaIsNullOrWhiteSpace( nameof(title) , title );
         ParamDonghuaIsNullOrWhiteSpace( nameof(sinopse) , sinopse );
@@ -40,7 +42,7 @@ public class Donghua : Entity
         Status = status;
         Image = image;
         Genres = genres;
-        
+        Rating = rating ;
     }
 
     public void ParamDonghuaIsNullOrWhiteSpace(string param , string value)
@@ -90,7 +92,11 @@ public class Donghua : Entity
         ParamDonghuaIsNullOrWhiteSpace(nameof(image), image);
         Image = image;
     }
-    public void UpdateDonghua(string title, string sinopse, string studio, DateTime releaseDate, DonghuaType type, DonghuaStatus status, string? image, Genre genres)
+    public void UpdateRating(float rating)
+    {
+        Rating = rating ;
+    }
+    public void UpdateDonghua(string title, string sinopse, string studio, DateTime releaseDate, DonghuaType type, DonghuaStatus status, string? image, Genre genres , float rating)
     {
         UpdateTitle(title);
         UpdateSinopse(sinopse);
@@ -100,6 +106,7 @@ public class Donghua : Entity
         UpdateType(type);
         UpdateStatus(status);
         UpdateImage(image);
+        UpdateRating(rating);
     }
 
 }

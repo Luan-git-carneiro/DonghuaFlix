@@ -175,7 +175,8 @@ public class DonghuaController : ControllerBase
                 genres: donghua.Genres,
                 type: donghua.Type,
                 status: donghua.Status,
-                imaagem: donghua.Image
+                imaagem: donghua.Image,
+                rating: donghua.Rating
         );
 
         var result = await _mediator.Send(command);

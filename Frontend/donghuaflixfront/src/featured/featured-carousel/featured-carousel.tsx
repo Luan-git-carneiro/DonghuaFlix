@@ -1,3 +1,5 @@
+"use client"
+
 import { Carousel } from "@/components/carousel/Carousel"
 import { Donghua } from "@/Domain/entities/donghua"
 import { DonghuaStatus } from "@/Domain/enum/donghuaStatus"

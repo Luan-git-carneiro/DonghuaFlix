@@ -51,7 +51,8 @@ public class CreateDonghuaCommandHandler : IRequestHandler<CreateDonghuaCommand,
             type: request.Type,
             status: request.Status,
             image: string.IsNullOrEmpty(request.Image) ?  request.Image : null,
-            genres: request.Genres
+            genres: request.Genres,
+            rating: request.Rating
         );
         
         await _donghuaRepository.AddAsync(donghua);

@@ -15,4 +15,5 @@ public class DonghuaDto
     public DonghuaType Type { get; set; }
     public DonghuaStatus Status { get; set; }
     public string? Image { get; set; }
+    public float Rating { get; set;}
 }

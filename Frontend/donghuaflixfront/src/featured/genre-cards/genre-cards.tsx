@@ -35,9 +35,9 @@ const genres = [
 
 export function GenreCards() {
   return (
-    <section className="py-12">
-      <div className="container px-4">
-        <h2 className="text-3xl font-bold mb-8 text-center">Explore por Gênero</h2>
+    <section className="py-12 ">
+      <div className="container px-4 mx-auto">
+        <h2 className="text-3xl font-bold mb-8 text-center py-8">Explore por Gênero</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {genres.map((genre) => (
             <Card key={genre.name} className="group cursor-pointer hover:scale-105 transition-transform duration-300">
