@@ -1,5 +1,6 @@
 
 
+using DonghuaFlix.Backend.src.Core.Application.DTOs.User;
 using DonghuaFlix.Backend.src.Core.Application.DTOs.User.Login;
 using DonghuaFlix.Backend.src.Core.Application.Repositories;
 using DonghuaFlix.Backend.src.Core.Domain.Enum;
@@ -26,6 +27,14 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Authe
         }
 
 
-        return AuthenticationResult.Success("User deleted successfully", user.Role);
+        var userDto = new  UserDto(
+            id: user.Id,
+            name: user.Name,
+            email: user.Email.Valor,
+            createdAt: user.CreatedAt
+
+        );
+
+        return AuthenticationResult.Success("User deleted successfully", user.Role , userDto);
     }
 }

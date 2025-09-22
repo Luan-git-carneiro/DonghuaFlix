@@ -21,7 +21,7 @@ namespace DonghuaFlix.Backend.src.Core.Application.Repositories;
         /// <param name="searchTerm">Termo para buscar em Nome ou Email</param>
         /// <param name="isActive">Filtro por status ativo/inativo</param>
         /// <returns>Total de usuários que atendem aos critérios</returns>
-        Task<int> CountUsersAsync(string? searchTerm = null, bool? isActive = null);
+        Task<int> CountUsersAsync(string? searchTerm = null);
 
         /// <summary>
         /// Busca usuários com paginação e filtros
@@ -34,8 +34,7 @@ namespace DonghuaFlix.Backend.src.Core.Application.Repositories;
         Task<List<UserDto>> GetUsersPagedAsync(
             int page, 
             int pageSize, 
-            string? searchTerm = null, 
-            bool? isActive = null);
+            string? searchTerm = null);
 
         // =================== OPERAÇÕES DE NEGÓCIO ESPECÍFICAS ===================
         Task<List<UserDto>> GetActiveUsersAsync();

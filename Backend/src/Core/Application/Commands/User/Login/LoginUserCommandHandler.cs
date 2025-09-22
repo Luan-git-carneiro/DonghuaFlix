@@ -38,8 +38,19 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand , Authen
         }
 
         var token = _tokenService.GenerateToken(user.Id, user.Email.Valor, user.Role);
+
+        var expirationDate = DateTime.UtcNow.AddHours(2);
+
+        
+        var userDto = new  UserDto(
+            id: user.Id,
+            name: user.Name,
+            email: user.Email.Valor,
+            createdAt: user.CreatedAt
+
+        );
          
-        return AuthenticationResult.Success(token, user.Role);
+        return AuthenticationResult.Success(token, expirationDate , user.Role, userDto);
 
     }
 

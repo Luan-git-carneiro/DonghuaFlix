@@ -18,7 +18,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery , GetUsersQuer
     public async Task<GetUsersQueryResult> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
         // =================== 2. CONTAR REGISTROS (via Repository) ===================
-        var TotalCount = await _userRepository.CountUsersAsync(request.SearchTerm, request.IsActive);
+        var TotalCount = await _userRepository.CountUsersAsync(request.SearchTerm);
 
         // =================== 3. CALCULAR METADADOS DE PAGINAÇÃO ===================
         var TotalPages = TotalCount == 0 ? 1 : (int)Math.Ceiling((double)TotalCount / request.PageSize);
@@ -38,8 +38,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery , GetUsersQuer
         var users = TotalCount > 0 ? await _userRepository.GetUsersPagedAsync(
             request.Page,
             request.PageSize,
-            request.SearchTerm,
-            request.IsActive
+            request.SearchTerm
         ) : new List<UserDto>();
 
         // =================== 6. MONTAR RESPOSTA COMPLETA ===================

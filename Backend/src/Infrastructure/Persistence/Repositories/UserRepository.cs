@@ -75,12 +75,12 @@ public class UserRepository : IUserRepository
     /// 🎯 MÉTODO PRINCIPAL: Conta usuários com filtros
     /// Este método é fundamental para paginação inteligente
     /// </summary>
-    public async Task<int> CountUsersAsync(string? searchTerm = null, bool? isActive = null)
+    public async Task<int> CountUsersAsync(string? searchTerm = null)
     {
         var query = _context.Users.AsNoTracking().AsQueryable();
 
         // Aplicar filtros usando método reutilizável
-        query = ApplyFilters(query, searchTerm, isActive);
+        query = ApplyFilters(query, searchTerm);
 
         return await query.CountAsync();
     }
@@ -89,12 +89,12 @@ public class UserRepository : IUserRepository
     /// 🎯 MÉTODO PRINCIPAL: Busca paginada com filtros
     /// Implementa toda a lógica de paginação de forma otimizada
     /// </summary>
-    public async Task<List<UserDto>> GetUsersPagedAsync(int page, int pageSize, string? searchTerm = null, bool? isActive = null)
+    public async Task<List<UserDto>> GetUsersPagedAsync(int page, int pageSize, string? searchTerm = null)
     {
         var query = _context.Users.AsNoTracking().AsQueryable();
         
         //Aplicar Filtros
-        query = ApplyFilters(query, searchTerm, isActive);
+        query = ApplyFilters(query, searchTerm);
 
         //Aplicar ordenação consistente e Paginação
         var users = await query
@@ -102,13 +102,12 @@ public class UserRepository : IUserRepository
         .ThenBy(u => u.Id) // Garantir consistência na ordenação
         .Skip((page - 1) * pageSize) // Pular os itens das páginas anteriores
         .Take(pageSize) // Pegar apenas o tamanho da página
-        .Select(u => new UserDto
+       .Select(u => new UserDto
         {
             Id = u.Id,
             Name = u.Name,
             Email = u.Email.Valor,
-            CreatedAt = u.CreatedAt,
-            IsActive = u.Status == AccountStatus.Active ? true : false
+            CreatedAt = u.CreatedAt
         })
         .ToListAsync();
 
@@ -126,9 +125,8 @@ public class UserRepository : IUserRepository
             {
                 Id = u.Id,
                 Name = u.Name,
-                Email = u.Email,
-                IsActive = true,
-                CreatedAt = u.CreatedAt,
+                Email = u.Email.Valor,
+                CreatedAt = u.CreatedAt
             })
             .ToListAsync();
 
@@ -145,8 +143,7 @@ public class UserRepository : IUserRepository
             {
                 Id = u.Id,
                 Name = u.Name,
-                Email = u.Email,
-                IsActive = u.Status == AccountStatus.Active? true : false,
+                Email = u.Email.Valor,
                 CreatedAt = u.CreatedAt,
             })
             .ToListAsync();
@@ -175,8 +172,7 @@ public class UserRepository : IUserRepository
     /// </summary>
     private static IQueryable<User> ApplyFilters(
         IQueryable<User> query, 
-        string? searchTerm, 
-        bool? isActive)
+        string? searchTerm)
     {
         // Filtro de busca por texto (Nome ou Email)
         if (!string.IsNullOrWhiteSpace(searchTerm))
@@ -185,20 +181,6 @@ public class UserRepository : IUserRepository
             query = query.Where(u => 
                 u.Name.ToLower().Contains(search) || 
                 u.Email.Valor.ToLower().Contains(search));
-        }
-
-        // Filtro por status ativo/inativo
-        if (isActive.HasValue)
-        {
-            if(isActive.Value == true)
-            {
-                query = query.Where(u => u.Status == AccountStatus.Active);
-            }
-            else
-            {
-                query = query.Where(u => u.Status == AccountStatus.Inactive);
-            }
-
         }
 
         return query;
@@ -214,8 +196,7 @@ public class UserRepository : IUserRepository
         {
             Id = user.Id,
             Name = user.Name,
-            Email = user.Email,
-            IsActive = user.Status == AccountStatus.Active ? true : false,
+            Email = user.Email.Valor,
             CreatedAt = user.CreatedAt,
         };
     }

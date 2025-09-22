@@ -42,8 +42,16 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
         // Gera o token de autenticação
         var token = tokenService.GenerateToken(user.Id, user.Email.Valor, user.Role);
 
+        var userDto = new  UserDto(
+            id: user.Id,
+            name: user.Name,
+            email: user.Email.Valor,
+            createdAt: user.CreatedAt
+
+        );
+
         // Cria o resultado de autenticação
-       return AuthenticationResult.Success(token, user.Role);
+       return AuthenticationResult.Success(token, user.Role , userDto );
 
 
     }

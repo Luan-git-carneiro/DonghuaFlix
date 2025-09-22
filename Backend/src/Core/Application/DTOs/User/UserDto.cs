@@ -6,5 +6,15 @@ public class UserDto
     public string Name { get; set; }
     public string Email { get; set; }
     public DateTime CreatedAt { get; set; }
-    public bool IsActive { get; set; }
+
+    public UserDto(Guid id , string name , string email, DateTime createdAt)
+    {
+        Id = id;
+        Name = name ;
+        Email = email ;
+        CreatedAt = createdAt;
+    }
+        // Adicione este construtor vazio
+    public UserDto() { }
+
 }

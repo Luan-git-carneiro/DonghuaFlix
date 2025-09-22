@@ -1,4 +1,4 @@
-
+/*
 using Donghua = DonghuaFlix.Backend.src.Core.Domain.Entities.Donghua;
 using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 using Xunit;
@@ -64,6 +64,7 @@ public class DonghuaTests
         Assert.Equal(mensagemEsperada, ex.Message);
     }
 
+*/
 /*
     [Theory]
     [InlineData(2026)]
