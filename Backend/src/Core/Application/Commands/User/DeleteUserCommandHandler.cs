@@ -35,6 +35,6 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, Authe
 
         );
 
-        return AuthenticationResult.Success("User deleted successfully", user.Role , userDto);
+        return AuthenticationResult.Success("User deleted successfully", null, user.Role , userDto);
     }
 }

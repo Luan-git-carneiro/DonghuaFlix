@@ -28,8 +28,9 @@ export default function LoginPage() {
       return
     }
 
-    const success = await login(email, password)
-    if (success) {
+    const success = await login({email, password})
+    if (success.success) {
+      console.log(`sucesso?  : ${success.success}`)
       router.push("/")
     } else {
       setError("Email ou senha incorretos")

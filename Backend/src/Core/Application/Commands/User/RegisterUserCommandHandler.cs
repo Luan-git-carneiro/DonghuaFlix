@@ -39,8 +39,11 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
         await userRepository.AddAsync(user);
         await userRepository.SaveChangesAsync();
 
+
         // Gera o token de autenticação
         var token = tokenService.GenerateToken(user.Id, user.Email.Valor, user.Role);
+
+        var expirationDate = DateTime.UtcNow.AddHours(2);
 
         var userDto = new  UserDto(
             id: user.Id,
@@ -51,7 +54,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
         );
 
         // Cria o resultado de autenticação
-       return AuthenticationResult.Success(token, user.Role , userDto );
+       return AuthenticationResult.Success(token,expirationDate, user.Role , userDto );
 
 
     }

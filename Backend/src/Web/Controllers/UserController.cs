@@ -145,5 +145,36 @@ public class UserController : ControllerBase
 
     }
 
+    //End point que valida o token de autenticação
+    [HttpGet("validate-token")]
+    [ProducesResponseType(typeof(ValidationResult), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> ValidateToken()
+    {
+        // 1. Extrair token do header Authorization
+        var authHeader = Request.Headers["Authorization"].FirstOrDefault();
+        if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+        {
+            return Unauthorized(new ValidationResult 
+            { 
+                IsValid = false, 
+                Error = "Token não fornecido" 
+            });
+        }
+
+        var token = authHeader.Substring("Bearer ".Length).Trim();
+        
+        // 2. Criar e enviar a query para o Mediator
+        var query = new ValidationTokenQuery(token);
+        var result = await _mediator.Send(query);
+
+        // 3. Retornar resultado
+        if (result.IsValid)
+        {
+            return Ok(result);
+        }
+        
+        return Unauthorized(result);
+    }
 
 }
