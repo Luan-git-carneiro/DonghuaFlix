@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useCallback, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/ui/button"
@@ -12,41 +12,55 @@ import { useAuth } from "@/common/contexts/auth-context"
 import { Play, Eye, EyeOff } from "lucide-react"
 
 export default function RegisterPage() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  
+
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
   const { register, isLoading } = useAuth()
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
+  const nameRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+      
     e.preventDefault()
-    setError("")
+      setError("")
 
-    if (!name || !email || !password || !confirmPassword) {
-      setError("Por favor, preencha todos os campos")
-      return
-    }
+        // 5. Acesse os valores atuais diretamente dos refs
+      const email = emailRef.current?.value;
+      const password = passwordRef.current?.value;
+      const confirmPassword = confirmPasswordRef.current?.value;
+      const name = nameRef.current?.value;
 
-    if (password !== confirmPassword) {
-      setError("As senhas não coincidem")
-      return
-    }
 
-    if (password.length < 6) {
-      setError("A senha deve ter pelo menos 6 caracteres")
-      return
-    }
+      if (!name || !email || !password || !confirmPassword) {
+        setError("Por favor, preencha todos os campos")
+        return
+      }
 
-    const success = await register(email, password, name)
-    if (success) {
-      router.push("/")
-    } else {
-      setError("Erro ao criar conta. Tente novamente.")
-    }
-  }
+      if (password !== confirmPassword) {
+        setError("As senhas não coincidem")
+        return
+      }
+
+      if (password.length < 6) {
+        setError("A senha deve ter pelo menos 6 caracteres")
+        return
+      }
+
+      const { success , message } = await register( {email, password, name , confirmPassword})
+
+      if (success) {
+        router.push("/")
+      } else {
+        setError("Erro ao criar conta. Tente novamente. message: " + message )
+      }
+    } , [register , router ]
+  )
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
@@ -76,8 +90,7 @@ export default function RegisterPage() {
                   id="name"
                   type="text"
                   placeholder="Seu nome"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  ref={nameRef}
                   disabled={isLoading}
                 />
               </div>
@@ -90,8 +103,7 @@ export default function RegisterPage() {
                   id="email"
                   type="email"
                   placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  ref={emailRef}
                   disabled={isLoading}
                 />
               </div>
@@ -105,8 +117,7 @@ export default function RegisterPage() {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    ref={passwordRef}
                     disabled={isLoading}
                   />
                   <Button
@@ -129,8 +140,7 @@ export default function RegisterPage() {
                   id="confirmPassword"
                   type="password"
                   placeholder="••••••••"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  ref={confirmPasswordRef}
                   disabled={isLoading}
                 />
               </div>

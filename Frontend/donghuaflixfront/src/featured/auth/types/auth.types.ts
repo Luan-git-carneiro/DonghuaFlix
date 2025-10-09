@@ -11,13 +11,14 @@ export interface User {
   }
   
   export interface RegisterData {
+    name: string
     email: string
     password: string
-    name: string
+    confirmPassword: string
   }
   
   export interface LoginResponse {
-    isSuccess: boolean    // ✅ Corrigido para isSuccess
+    isSucess: boolean    // ✅ Corrigido para isSuccess
     message: string
     errorCode?: string | null   // ✅ Adicionado
     timestamp: string     // ✅ Adicionado

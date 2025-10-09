@@ -50,8 +50,21 @@ public class UserRepository : IUserRepository
         // A responsabilidade de chamar SaveChangesAsync agora é do handler que usar este método.
     }
 
-    public async Task<bool> ExistsAsync(string name , string email )
-        => await _context.Users.AnyAsync(u => u.Name == name && u.Email.Valor == email);
+    public async Task<(bool Exists, User? user)> ExistsAsync(string name , string email )
+    {
+       var existingUser = await _context.Users
+        .AsNoTracking()
+        .FirstOrDefaultAsync(u => u.Name == name || u.Email.Valor == email);
+
+        if(existingUser != null)
+        {
+            return (true , existingUser);
+        }
+
+        return (false , null);
+
+    }
+        
 
     public async Task UpdateAsync(User user)
     {

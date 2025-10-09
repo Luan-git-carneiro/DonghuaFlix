@@ -154,6 +154,7 @@ public class AppDbContext : DbContext
 
             d.Property(donghua => donghua.ReleaseDate);
             d.Property(donghua => donghua.CreatedAt).IsRequired();
+            d.Property(donghua  => donghua.Rating);
         });
 
         // --- Configuração de Episode (Raiz de Agregado) ---
@@ -234,6 +235,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.Concluido,
         Image = "https://cdn.donghua.com/kings-avatar.jpg",
         Genres = Genre.Acao | Genre.Sports,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -247,6 +249,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.Concluido,
         Image = "https://cdn.donghua.com/modaozushi.jpg",
         Genres = Genre.Acao | Genre.Sobrenatural,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -260,6 +263,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.EmAndamento,
         Image = "https://cdn.donghua.com/tgcf.jpg",
         Genres = Genre.Xianxia | Genre.Romance,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -273,6 +277,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.EmAndamento,
         Image = "https://cdn.donghua.com/scissor7.jpg",
         Genres = Genre.Comedia | Genre.Acao,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -286,6 +291,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.EmAndamento,
         Image = "https://cdn.donghua.com/whitecat.jpg",
         Genres = Genre.Misterio | Genre.Acao,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -299,6 +305,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.Pausado,
         Image = "https://cdn.donghua.com/foghill.jpg",
         Genres = Genre.Acao | Genre.Fantasia,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -312,6 +319,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.EmAndamento,
         Image = "https://cdn.donghua.com/immortalking.jpg",
         Genres = Genre.Comedia | Genre.Sobrenatural,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -325,6 +333,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.Concluido,
         Image = "https://cdn.donghua.com/bigfish.jpg",
         Genres = Genre.Fantasia | Genre.Drama,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -338,6 +347,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.Concluido,
         Image = "https://cdn.donghua.com/rakshasa.jpg",
         Genres = Genre.Acao | Genre.Sobrenatural,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     },
     new
@@ -351,6 +361,7 @@ public class AppDbContext : DbContext
         Status = DonghuaStatus.EmAndamento,
         Image = "https://cdn.donghua.com/greatlord.jpg",
         Genres = Genre.Fantasia | Genre.Xuanhuan,
+        Rating = 10.0f,
         CreatedAt = new DateTime(2024, 01, 01, 12, 0, 0, DateTimeKind.Utc)
     }
         );

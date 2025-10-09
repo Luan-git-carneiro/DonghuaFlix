@@ -7,10 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{C515
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DonghuaFlix", "Backend\src\DonghuaFlix.csproj", "{CB37519C-1C21-4113-9948-936F236493FB}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{66229CF1-EACF-46B3-ABF5-BB406804A27D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DonghuaFlix.UnitTests", "Backend\tests\UnitTests\DonghuaFlix.UnitTests.csproj", "{96FC6846-3947-48F5-9EA1-5E217EB36714}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8ED52B8D-D8EB-44DA-B483-240D77305E36}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DB613545-473B-491A-9AFB-1E16B8CCA719}"

@@ -34,6 +34,7 @@ export function useAuth(): AuthHook  {
   // Carregar sessão ao inicializar
   useEffect(() => {
     const initialAuth = async () => {
+      console.log('🔐 inicializando - montando a sessaõ')
       try {
         const authData = secureStorage.getAuthData();
 
@@ -64,77 +65,83 @@ export function useAuth(): AuthHook  {
 
     initialAuth();
 
-  }, [])
+  }, [isTokenExpired])
 
 
-  const login = async (credentials: LoginCredentials): Promise<{ success: boolean; message?: string }> => {
+    // ✅ Login memoizado com useCallback
+    const login = useCallback(async (credentials: LoginCredentials): Promise<{ success: boolean; message?: string }> => {
+      setState(prev => ({ ...prev, isLoading: true, error: null }));
+      
+      console.log('🔐 LOGIN CHAMADO - fazendo requisição')
 
-    setState(prev => ({ ...prev, isLoading: true, error: null }))
+      try {
+        const result: LoginResponse = await authApi.login(credentials);
+  
+        console.log(result);
+        console.log(result.isSucess)
+        console.log(result.data)
+        
+        if (result.isSucess && result.data) {
+          // Salvar dados de forma segura
+          secureStorage.setAuthData(result.data);
 
-    try {
-      const result: LoginResponse = await authApi.login(credentials);
+          console.log("Passou pelo if da verificação de sucesso é true e result tem dados")
+          
+          setState({
+            user: result.data.user,
+            token: result.data.token,
+            role: result.data.role,
+            expiresAt: result.data.expiresAt,
+            isLoading: false,
+            error: null,
+          });
+  
+          return { success: true };
+        } else {
+          const errorMessage = result.message || 'Login failed';
+          setState(prev => ({
+            ...prev,
+            isLoading: false,
+            error: errorMessage,
+          }));
+  
 
-      if (result.isSuccess && result.data) {
-        // Salvar dados de forma segura
-        secureStorage.setAuthData(result.data);
+          console.log("Passou pelo if da verificação se sucesso é true  deu que e false:")
 
-        setState(prev => ({
-          ...prev,
-          user: result.data ? result.data.user : null,
-          token: result.data ? result.data.token : null,
-          role: result.data ? result.data.role : null,
-          expiresAt: result.data ? result.data.expiresAt : null,
-          isLoading: false,
-          error: null,
-        }));
-
-        return { success: true };
-      } else {
-        const errorMessage = result.message || 'Login failed';
+          return { success: false, message: errorMessage };
+        }
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Network error';
         setState(prev => ({
           ...prev,
           isLoading: false,
           error: errorMessage,
         }));
-
+  
         return { success: false, message: errorMessage };
       }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Network error';
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        error: errorMessage,
-      }));
-
-      return { success: false, message: errorMessage };
-    }
-
-  }
+    }, []); // Sem dependências pois usa apenas setState e funções externas
 
 
-  // Register seguro
-  const register = async (userData: RegisterData): Promise<{ success: boolean; message?: string }> => {
+    // Register seguro
+  // ✅ Register memoizado com useCallback
+  const register = useCallback(async (userData: RegisterData): Promise<{ success: boolean; message?: string }> => {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
 
     try {
       const result: LoginResponse = await authApi.register(userData);
 
-      if (result.isSuccess && result.data) {
+      if (result.isSucess && result.data) {
         secureStorage.setAuthData(result.data);
 
-        setState(prev => (
-          {
-            ...prev,
-            user: result.data ? result.data.user : null,
-            token: result.data ? result.data.token : null,
-            role: result.data ? result.data.role : null,
-            expiresAt: result.data ? result.data.expiresAt : null,
-            isLoading: false,
-            error: null,
-          }
-        )
-        );
+        setState({
+          user: result.data.user,
+          token: result.data.token,
+          role: result.data.role,
+          expiresAt: result.data.expiresAt,
+          isLoading: false,
+          error: null,
+        });
 
         return { success: true };
       } else {
@@ -157,9 +164,7 @@ export function useAuth(): AuthHook  {
 
       return { success: false, message: errorMessage };
     }
-
-    
-  }
+  }, []); // Sem dependências pois usa apenas setState e funções externas
 
     // Logout
 

@@ -9,7 +9,7 @@ namespace DonghuaFlix.Backend.src.Core.Application.Repositories;
         Task AddAsync(User user);
         Task<User?> GetByIdAsync(Guid id);
         Task UpdateAsync(User user);
-        Task<bool> ExistsAsync(string name, string email);
+        Task< (bool Exists, User? user) > ExistsAsync(string name, string email);
         Task<User> GetByEmailAsync(Email email);
         Task SaveChangesAsync();
 

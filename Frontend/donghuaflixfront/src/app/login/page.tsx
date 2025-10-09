@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/ui/button"
@@ -19,7 +19,8 @@ export default function LoginPage() {
   const { login, isLoading } = useAuth()
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // ✅ Memoizar handleSubmit
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
 
@@ -28,14 +29,15 @@ export default function LoginPage() {
       return
     }
 
-    const success = await login({email, password})
-    if (success.success) {
-      console.log(`sucesso?  : ${success.success}`)
+    const { success, message } = await login({ email, password })
+    
+    if (success) {
+      console.log(`sucesso? : ${success}`)
       router.push("/")
     } else {
-      setError("Email ou senha incorretos")
+      setError("Email ou senha incorretos " + message)
     }
-  }
+  }, [email, password, login, router])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
@@ -121,9 +123,10 @@ export default function LoginPage() {
           <p className="text-sm text-muted-foreground text-center mb-2">
             <strong>Credenciais de teste:</strong>
           </p>
-          <p className="text-xs text-muted-foreground text-center">Email: user@example.com | Senha: 123456</p>
+          <p className="text-xs text-muted-foreground text-center">Email: administradorLuan@donghua.com | Senha: LuanAdmin123</p>
         </div>
       </div>
     </div>
   )
 }
+

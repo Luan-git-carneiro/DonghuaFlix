@@ -31,9 +31,21 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, A
         );
 
         // Verifica se o usuário já existe
-        if(await userRepository.ExistsAsync(user.Name, user.Email.Valor))
+        var (exists , userexists) = await userRepository.ExistsAsync(user.Name, user.Email.Valor);
+       
+       
+        const bool nameExiste = 
+        
+        if(exists)
         {
-            return AuthenticationResult.UserAlreadyExists();
+             switch(userexists!.Name)
+            {
+                case request.Name:
+
+                    AuthenticationResult.UserAlreadyExists();
+
+                    break;
+            }
         }
 
         await userRepository.AddAsync(user);

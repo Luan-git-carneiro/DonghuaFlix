@@ -39,7 +39,7 @@ public class UserController : ControllerBase
         
         if(result.IsSucess)
         {
-            return Ok( new { result.Data});
+            return Ok( result);
         }
 
         return Unauthorized(new { result });
@@ -58,7 +58,7 @@ public class UserController : ControllerBase
         // 3. Retornar a resposta com base no resultado Handler.
         if (result.IsSucess)
         {
-            return CreatedAtAction(nameof(Register), new { result });
+            return CreatedAtAction(nameof(Register), result );
         }
 
         if(result.Message.Contains("Conflict"))
