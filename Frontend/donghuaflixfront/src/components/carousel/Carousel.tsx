@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@/ui/button"
 import { Play, Info, ChevronLeft, ChevronRight } from "lucide-react"
 import { Donghua } from "@/Domain/entities/donghua"
+import Link from "next/link";
 
 
 
@@ -55,14 +56,17 @@ export function Carousel( {Donghuas}:  CarouselProps) {
                 <Play className="w-5 h-5 mr-2" />
                 Assistir Agora
               </Button>
-              <Button
+              <Link href={`/donghua/${currentAnime.DonghuaId}`}>
+                <Button
                 size="lg"
                 variant="outline"
                 className="border-white text-white hover:bg-white hover:text-black bg-transparent"
-              >
-                <Info className="w-5 h-5 mr-2" />
-                Mais Info
-              </Button>
+                >
+                  <Info className="w-5 h-5 mr-2" />
+                  Mais Info
+                </Button>
+              </Link>
+              
             </div>
           </div>
         </div>

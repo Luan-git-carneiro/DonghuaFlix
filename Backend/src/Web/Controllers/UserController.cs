@@ -61,12 +61,12 @@ public class UserController : ControllerBase
             return CreatedAtAction(nameof(Register), result );
         }
 
-        if(result.Message.Contains("Conflict"))
+        if(result.ErrorCode == "USER_ALREADY_EXISTS")
         {
-            return Conflict(new { result });
+            return Conflict( result );
         }
 
-        return BadRequest(new { result });
+        return BadRequest( result );
 
 
     }

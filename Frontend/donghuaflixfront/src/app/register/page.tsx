@@ -57,7 +57,7 @@ export default function RegisterPage() {
       if (success) {
         router.push("/")
       } else {
-        setError("Erro ao criar conta. Tente novamente. message: " + message )
+        setError("Erro ao criar conta, message: " + message + "  Tente novamente." )
       }
     } , [register , router ]
   )

@@ -27,8 +27,8 @@ public class AuthenticationResult  : BaseResult<AuthenticationData>
 
     // Este método está correto porque ele não depende de dados externos.
     // Ele simplesmente cria um resultado de falha com valores fixos.
-    public static AuthenticationResult UserAlreadyExists() 
-        => new(false, "Usuário já existe , Conflict", errorCode: "USER_ALREADY_EXISTS");
+    public static AuthenticationResult UserAlreadyExists(string message) 
+        => new(false,message, errorCode: "USER_ALREADY_EXISTS");
 
     public static AuthenticationResult Failure(string message, string errorCode )
         => new(false, message, errorCode);
