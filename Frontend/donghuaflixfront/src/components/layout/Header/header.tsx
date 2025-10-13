@@ -44,10 +44,10 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Link href="#" className="text-foreground hover:text-primary transition-colors">
+          <Link href="/populares" className="text-foreground hover:text-primary transition-colors">
             Populares
           </Link>
-          <Link href="#" className="text-foreground hover:text-primary transition-colors">
+          <Link href="/lancamentos" className="text-foreground hover:text-primary transition-colors">
             Lançamentos
           </Link>
         </nav>

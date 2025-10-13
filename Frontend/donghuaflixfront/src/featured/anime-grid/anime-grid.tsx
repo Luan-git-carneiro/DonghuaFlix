@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/ui/card"
 import { Badge } from "@/ui/badge"
 import { Star, Play } from "lucide-react"
+import Link from "next/link"
 
 const popularAnimes = [
   {
@@ -66,39 +67,40 @@ export function AnimeGrid() {
         <h2 className="text-3xl font-bold mb-8">Populares Agora</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 ">
           {popularAnimes.map((anime) => (
-            <Card
-              key={anime.id}
-              className="group cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg"
-            >
-              <CardContent className="p-0">
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <img
-                    src={anime.image || "/placeholder.svg"}
-                    alt={anime.title}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-300 flex items-center justify-center">
-                    <Play className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+            <Link key={anime.id} href={`/donghua/${anime.id}`}>
+              <Card className="group cursor-pointer hover:scale-105 transition-all duration-300 hover:shadow-lg">
+                <CardContent className="p-0">
+                  <div className="relative overflow-hidden rounded-t-lg">
+                    <img
+                      src={anime.image || "/placeholder.svg"}
+                      alt={anime.title}
+                      className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors duration-300 flex items-center justify-center">
+                      <Play className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+                    <Badge
+                      className={`absolute top-2 right-2 ${anime.status === "Completo" ? "bg-secondary" : "bg-primary"}`}
+                    >
+                      {anime.status}
+                    </Badge>
                   </div>
-                  <Badge
-                    className={`absolute top-2 right-2 ${anime.status === "Completo" ? "bg-secondary" : "bg-primary"}`}
-                  >
-                    {anime.status}
-                  </Badge>
-                </div>
-                <div className="p-3 space-y-2">
-                  <h3 className="font-semibold text-sm line-clamp-2 text-balance">{anime.title}</h3>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>{anime.year}</span>
-                    <span>{anime.episodes}</span>
+                  <div className="p-3 space-y-2">
+                    <h3 className="font-semibold text-sm line-clamp-2 text-balance">{anime.title}</h3>
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>{anime.year}</span>
+                      <span>{anime.episodes}</span>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      <span className="text-xs font-medium">{anime.rating}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                    <span className="text-xs font-medium">{anime.rating}</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </Link>
+
           ))}
         </div>
       </div>

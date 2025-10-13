@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
     return (
       <footer className="bg-card border-t">
@@ -14,24 +16,24 @@ export function Footer() {
               <h4 className="font-medium">Navegação</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>
-                  <a href="#" className="hover:text-primary transition-colors">
+                  <Link href="/" className="hover:text-primary transition-colors">
                     Início
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-primary transition-colors">
+                  <Link href="/generos" className="hover:text-primary transition-colors">
                     Gêneros
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-primary transition-colors">
+                  <Link href="/populares" className="hover:text-primary transition-colors">
                     Populares
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-primary transition-colors">
+                  <Link href="lancamentos" className="hover:text-primary transition-colors">
                     Lançamentos
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
