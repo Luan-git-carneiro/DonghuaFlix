@@ -3,16 +3,17 @@
 import Link from "next/link"
 import { Button } from "@/ui/button"
 import { Input } from "@/ui/input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/ui/dropdown-menu"
-import { Search, ChevronDown, Play, User, LogOut } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/ui/dropdown-menu"
+import { Search, ChevronDown, Play, User, LogOut, Shield } from "lucide-react"
 import { useAuth } from "@/common/contexts/auth-context"
+import { UserRole } from "@/featured/auth/types/auth.types"
 
 
 
 export function Header() {
-  const { user, logout } = useAuth()
+  const { user, logout , hasRole} = useAuth()
 
-  {console.log(`usuario :${user}`)}
+  console.log(`usuario :${user}`)
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
@@ -74,6 +75,19 @@ export function Header() {
                 </DropdownMenuItem>
                 <DropdownMenuItem>Meus Favoritos</DropdownMenuItem>
                 <DropdownMenuItem>Histórico</DropdownMenuItem>
+                {
+                  hasRole(UserRole.ADMIN) && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin" className="flex items-center cursor-pointer">
+                          <Shield className="w-4 h-4 mr-2" />
+                          Painel Admin
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )  
+                }
                 <DropdownMenuItem onClick={logout}>
                   <LogOut className="w-4 h-4 mr-2" />
                   Sair

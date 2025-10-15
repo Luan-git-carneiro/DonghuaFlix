@@ -4,6 +4,12 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
+// 1. Defina a constante para o ambiente *aqui*
+// O linter deve aceitar isso melhor, pois o valor se torna uma constante simples
+// O Next.js garante que este valor será o correto durante o build.
+// @ts-ignore
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
+
 interface AuthData {
     token: string;
     role: number;
@@ -33,7 +39,7 @@ export const secureStorage = {
     cookies.set('auth_token', data.token, { 
       path: '/',  // Cookie disponível em todo o site
       expires,    // Data de expiração
-      secure: process.env.NODE_ENV === 'production', // HTTPS em produção
+      secure: IS_PRODUCTION, // HTTPS em produção
       sameSite: 'strict' // Proteção contra CSRF
     });
     

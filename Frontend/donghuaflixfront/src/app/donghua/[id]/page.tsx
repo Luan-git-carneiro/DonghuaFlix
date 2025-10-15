@@ -4,6 +4,7 @@ import { Badge } from "@/ui/badge"
 import { Card, CardContent } from "@/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Play, Plus, Share2, Star, Calendar, Film, Clock } from "lucide-react"
+import Link from "next/link"
 
 // Dados simulados dos animes
 const animeDatabase = {
@@ -191,26 +192,28 @@ const {id} = await params;
               <TabsContent value="episodios" className="space-y-4">
                 <div className="grid gap-4">
                   {anime.episodesList.map((episode) => (
-                    <Card key={episode.number} className="group cursor-pointer hover:bg-accent transition-colors">
-                      <CardContent className="p-4">
-                        <div className="flex items-center space-x-4">
-                          <div className="relative w-32 h-20 rounded overflow-hidden flex-shrink-0">
-                            <img
-                              src={episode.thumbnail || "/placeholder.svg"}
-                              alt={episode.title}
-                              className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
-                              <Play className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Link key={episode.number} href={`/donghua/episodio/${episode.number}`}>
+                      <Card  className="group cursor-pointer hover:bg-accent transition-colors">
+                        <CardContent className="p-4">
+                          <div className="flex items-center space-x-4">
+                            <div className="relative w-32 h-20 rounded overflow-hidden flex-shrink-0">
+                              <img
+                                src={episode.thumbnail || "/placeholder.svg"}
+                                alt={episode.title}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+                                <Play className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                              </div>
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="font-semibold">{episode.title}</h4>
+                              <p className="text-sm text-muted-foreground">{episode.duration}</p>
                             </div>
                           </div>
-                          <div className="flex-1">
-                            <h4 className="font-semibold">{episode.title}</h4>
-                            <p className="text-sm text-muted-foreground">{episode.duration}</p>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
+                        </CardContent>
+                      </Card>
+                    </Link>
                   ))}
                 </div>
               </TabsContent>

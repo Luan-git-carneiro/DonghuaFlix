@@ -7,7 +7,8 @@ import {
   RegisterData,
   AuthState,
   LoginResponse,
-  AuthHook
+  AuthHook,
+  UserRole
 } from '../types/auth.types';
 import { authApi } from '../api/auth.api';
 
@@ -187,7 +188,7 @@ export function useAuth(): AuthHook  {
     }, [state.token, state.expiresAt, isTokenExpired]);
 
       // Verificar role
-    const hasRole = useCallback((requiredRole: number): boolean => {
+    const hasRole = useCallback((requiredRole: UserRole): boolean => {
       return state.role === requiredRole && isAuthenticated();
     }, [state.role, isAuthenticated]);
     
@@ -207,7 +208,8 @@ export function useAuth(): AuthHook  {
         logout();
         throw new Error('Authentication data not found');
       }
-  
+
+      // @ts-ignore
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
         ...options,
         headers: {

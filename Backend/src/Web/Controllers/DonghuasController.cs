@@ -175,7 +175,7 @@ public class DonghuaController : ControllerBase
                 genres: donghua.Genres,
                 type: donghua.Type,
                 status: donghua.Status,
-                imaagem: donghua.Image,
+                image: donghua.Image,
                 rating: donghua.Rating
         );
 

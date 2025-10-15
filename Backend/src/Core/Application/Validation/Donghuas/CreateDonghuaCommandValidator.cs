@@ -10,19 +10,24 @@ public class CreateDonghuaCommandValidator : AbstractValidator<CreateDonghuaComm
     {
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("O título é obrigatório.")
-                .MaximumLength(200).WithMessage("O título não pode ter mais de 200 caracteres.");
+                .MaximumLength(500).WithMessage("O título não pode ter mais de 200 caracteres.");
+
+             RuleFor(x => x.TitleEnglish)
+                .MaximumLength(500).WithMessage("O Titulo EM english não pode ter mais de 1000 caracteres.");
+
+             RuleFor(x => x.Description)
+                .MaximumLength(1000).WithMessage("A Descrição não pode ter mais de 2000 caracteres.");
 
             RuleFor(x => x.Sinopse)
                 .NotEmpty().WithMessage("A sinopse é obrigatória.")
                 .MaximumLength(1000).WithMessage("A sinopse não pode ter mais de 1000 caracteres.");
 
             RuleFor(x => x.Studio)
-                .NotEmpty().WithMessage("O estúdio é obrigatório.")
                 .MaximumLength(100).WithMessage("O estúdio não pode ter mais de 100 caracteres.");
 
             RuleFor(x => x.ReleaseYear)
-                .Must(BeAValidYear).WithMessage("O ano de lançamento deve ser válido.")
-                .When(x => x.ReleaseYear.HasValue);
+                .Must(BeAValidYear).WithMessage("O ano de lançamento deve ser válido.");
+
 
             RuleFor(x => x.Genres)
                 .Must(BeAValidGenreCombination).WithMessage("Combinação de gêneros inválida.");
@@ -37,6 +42,13 @@ public class CreateDonghuaCommandValidator : AbstractValidator<CreateDonghuaComm
                 .MaximumLength(500).WithMessage("A URL da imagem não pode ter mais de 500 caracteres.")
                 .Must(BeAValidUrlOrNull).WithMessage("A URL da imagem deve ser válida.")
                 .When(x => !string.IsNullOrEmpty(x.Image));
+
+            RuleFor(x => x.Banner)
+                .MaximumLength(500).WithMessage("A URL do Banner não pode ter mais de 500 caracteres.");
+
+            RuleFor(x => x.Trailer)
+                .MaximumLength(500).WithMessage("A URL do Tariler não pode ter mais de 500 caracteres.");
+ 
                 
     }
 

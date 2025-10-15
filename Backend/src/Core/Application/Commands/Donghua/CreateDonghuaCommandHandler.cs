@@ -45,14 +45,18 @@ public class CreateDonghuaCommandHandler : IRequestHandler<CreateDonghuaCommand,
         var donghua = new Backend.src.Core.Domain.Entities.Donghua(
 
             title: request.Title,
+            titleEnglish: request.TitleEnglish,
+            description: request.Description,
             sinopse: request.Sinopse,
             studio: request.Studio,
             releaseDate:  request.ReleaseYear != null ? request.ReleaseYear.Value : DateTime.Now,
             type: request.Type,
             status: request.Status,
-            image: string.IsNullOrEmpty(request.Image) ?  request.Image : null,
+            image: request.Image,
+            banner: request.Banner,
             genres: request.Genres,
-            rating: request.Rating
+            rating: request.Rating,
+            trailer: request.Trailer 
         );
         
         await _donghuaRepository.AddAsync(donghua);

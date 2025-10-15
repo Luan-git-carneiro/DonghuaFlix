@@ -40,6 +40,12 @@ public class UpdateDonghuaCommandHandler : IRequestHandler<UpdateDonghuaCommand,
         if (request.Title != null)
                 donghua.UpdateTitle(request.Title);
 
+        if (request.TileEnglish != null)
+                donghua.UpdateTitleEnglish(request.TileEnglish);
+
+        if (request.Description != null)
+                donghua.UpdateDescription(request.Description);
+
         if (request.Sinopse != null)
                 donghua.UpdateSinopse(request.Sinopse);
 
@@ -75,6 +81,12 @@ public class UpdateDonghuaCommandHandler : IRequestHandler<UpdateDonghuaCommand,
 
         if (request.Image != null)
             donghua.UpdateImage(request.Image);
+
+        if(request.Banner != null)
+            donghua.UpdateBanner(request.Banner);
+
+        if (request.Trailer != null)
+                donghua.UpdateTrailer(request.Trailer);
 
         await  _donghuaRepository.UpdateAsync(donghua); // Atualiza o donghua no repositório
                 

@@ -137,8 +137,12 @@ public class AppDbContext : DbContext
 
             // Mapear propriedades do Donghua
             d.Property(donghua => donghua.Title).IsRequired().HasMaxLength(250);
+            d.Property(donghua => donghua.TitleEnglish).HasMaxLength(250);
+            d.Property(donghua => donghua.Description).HasMaxLength(2000);
+            d.Property(donghua => donghua.Banner).HasMaxLength(500);
             d.Property(donghua => donghua.Sinopse).HasMaxLength(2000); // Ou tipo TEXT/NVARCHAR(MAX)
             d.Property(donghua => donghua.Image).HasMaxLength(500);
+            d.Property(donghua => donghua.Trailer).HasMaxLength(500);
 
             d.Property(donghua => donghua.Status)
                 .HasConversion<int>()

@@ -33,7 +33,7 @@ export interface User {
   export interface AuthState {
     user: User | null
     token: string | null
-    role: number | null   // ✅ Novo campo
+    role: UserRole | null   // ✅ Novo campo
     expiresAt: string | null // ✅ Novo campo
     isLoading: boolean
     error: string | null
@@ -52,4 +52,11 @@ export interface User {
     register: (userData: RegisterData) => Promise<{success: boolean ; message?: string | null}>
     logout: () => void
     authenticatedFetch: (url: string, options?: RequestInit) => Promise<Response>
+  }
+
+  export enum UserRole
+  {
+    ADMIN = 1,
+    REGULAR = 2,
+    VISITANTE =3
   }
