@@ -8,59 +8,71 @@ import { useState } from "react"
 
 export const FeaturedCarousel = () =>
 {
-  const [donghuas , SetDonghuas] =  useState( 
+  const [donghuas , SetDonghuas] =  useState<Donghua[]>( 
       [
           // Objeto 1: Mo Dao Zu Shi (conforme o banner da imagem)
-        new Donghua(
-          '1', // DonghuaId
-          'Mo Dao Zu Shi', // Title
-          'Wei Wuxian, conhecido como o Yiling Patriarch, retorna ao mundo dos vivos para desvendar mistérios do passado.', // Sinopse
-          'B.C. & E.C.', // Studio
-          '2018', // ReleaseYear
-          ["Ação , Aventura"], // Genre
-          DonghuaType.Serie, // Type
-          DonghuaStatus.Concluido, // Status
-          'https://via.placeholder.com/1200x675.png?text=Mo+Dao+Zu+Shi+Banner' // Image (substitua pela URL real)
-        ),
-
-        // Objeto 2: Um anime de Ação e Romance
-        new Donghua(
-          '2',
-          'Battle Through the Heavens',
-          'Xiao Yan, um gênio da cultivação, perde todo o seu poder e precisa embarcar em uma jornada para recuperá-lo.',
-          'Magic-Antimation',
-          '2017',
-          ["Aventura" , "Comedia"],
-          DonghuaType.Serie,
-          DonghuaStatus.EmAndamento,
-          'https://via.placeholder.com/300x450.png?text=Battle+Through+the+Heavens'
-        ),
-        
-        // Objeto 3: Um anime Histórico
-        new Donghua(
-          '3',
-          'The Legend of Qin',
-          'A história do jovem Tianming, que se envolve na tumultuada ascensão da dinastia Qin.',
-          'Sparkly Key Animation Studio',
-          '2007',
-          ["Aventura" , "Comedia"],
-          DonghuaType.Serie,
-          DonghuaStatus.EmAndamento,
-          'https://via.placeholder.com/300x450.png?text=The+Legend+of+Qin'
-        ),
+          {
+            DonghuaId: '1',
+            Title: "Mo Dao Zu Shi",
+            titleEnglish: "Grandmaster of Demonic Cultivation",
+            description: "Uma história épica de cultivação e redenção",
+            Image: "/mo-dao-zu-shi-anime-poster-with-dark-mystical-atmo.jpg",
+            banner: "/mo-dao-zu-shi-anime-poster-with-dark-mystical-atmo.jpg",
+            rating: 4.9,
+            ReleaseYear: new Date("2018-07-09"),
+            Status: DonghuaStatus.Concluido,
+            Studio: "Tencent Penguin Pictures",
+            Genre: ["Ação", "Fantasia", "Aventura"],
+            Sinopse: "Wei Wuxian, um jovem cultivador, é temido por suas práticas heterodoxas...",
+            Type: DonghuaType.Serie,
+          },
+          {
+            DonghuaId: '2',
+            Title: "The King's Avatar",
+            titleEnglish: "Quan Zhi Gao Shou",
+            description: "A jornada de um jogador profissional de e-sports",
+            Image: "/the-king-s-avatar-gaming-anime-poster-with-futuris.jpg",
+            banner: "/the-king-s-avatar-gaming-anime-poster-with-futuris.jpg",
+            rating: 4.8,
+            ReleaseYear: new Date("2017-04-07"),
+            Status: DonghuaStatus.Concluido,
+            Studio: "G.CMay Animation & Film",
+            Genre: ["Ação", "Fantasia", "Aventura"],
+            Sinopse: "Ye Xiu, um jogador profissional de e-sports, é forçado a se aposentar...",
+            Type: DonghuaType.Serie,
+          },
+          {
+            DonghuaId: '3',
+            Title: "Heaven Official's Blessing",
+            titleEnglish: "Tian Guan Ci Fu",
+            description: "Uma história celestial de amor e redenção",
+            Image: "/heaven-official-s-blessing-celestial-anime-poster-.jpg",
+            banner: "/heaven-official-s-blessing-celestial-anime-poster-.jpg",
+            rating: 4.9,
+            ReleaseYear: new Date("2020-10-31"),
+            Status:  DonghuaStatus.EmAndamento,
+            Studio: "Haoliners Animation League",
+            Genre: ["Ação", "Fantasia", "Aventura"],
+            Sinopse: "Xie Lian, um príncipe que ascendeu aos céus, é banido pela terceira vez...",
+            Type: DonghuaType.Serie,
+          },
 
         // Objeto 4: Um anime de Comédia
-        new Donghua(
-          '4',
-          'A Mortal\'s Journey to Immortality',
-          'Um garoto rural acidentalmente se junta a uma seita e embarca em sua jornada para se tornar um imortal.',
-          'Bilibili',
-          '2020',
-          ["Aventura" , "Comedia"],
-          DonghuaType.Serie,
-          DonghuaStatus.EmAndamento,
-          'https://via.placeholder.com/300x450.png?text=A+Mortal%27s+Journey'
-        ),
+        {
+          DonghuaId: '4',
+          Title: 'A Mortal\'s Journey to Immortality',
+          titleEnglish: "Tian Guan Ci Fu",
+          description: 'Um garoto rural acidentalmente se junta a uma seita e embarca em sua jornada para se tornar um imortal.',
+          Image: "/heaven-official-s-blessing-celestial-anime-poster-.jpg",
+          banner: "/heaven-official-s-blessing-celestial-anime-poster-.jpg",
+          rating: 4.9,
+          ReleaseYear: new Date("2020-10-31"),
+          Status:  DonghuaStatus.EmAndamento,
+          Studio: "Haoliners Animation League",
+          Genre: ["Ação", "Fantasia", "Aventura"],
+          Sinopse: "Xie Lian, um príncipe que ascendeu aos céus, é banido pela terceira vez...",
+          Type: DonghuaType.Serie,
+        },
     ]
   )
 

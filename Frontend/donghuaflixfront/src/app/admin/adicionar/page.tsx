@@ -1,4 +1,4 @@
-/*
+
 "use client"
 
 import type React from "react"
@@ -15,7 +15,10 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DonghuaStatus, DonghuaType, Genre, type Donghua } from "@/types/donghua"
+import { Donghua } from "@/Domain/entities/donghua"
+import { DonghuaStatus } from "@/Domain/enum/donghuaStatus"
+import { DonghuaType } from "@/Domain/enum/donghuaType"
+
 
 interface AnimeResult {
   mal_id: number
@@ -56,32 +59,32 @@ export default function AdminAddPage() {
   const [error, setError] = useState("")
 
   const [donghuaForm, setDonghuaForm] = useState<Donghua>({
-    title: "",
+    DonghuaId: "",
+    Title: "",
     titleEnglish: "",
     description: "",
-    image: "",
+    Image: "",
     banner: "",
     rating: 0,
-    releaseDate: undefined,
-    status: undefined,
-    studio: "",
-    genres: [],
-    sinopse: "",
-    trailer: "",
-    type: DonghuaType.TV,
+    ReleaseYear: new Date,
+    Status: DonghuaStatus.Concluido,
+    Studio: "",
+    Genre: [],
+    Sinopse: "",
+    Type: DonghuaType.Serie
   })
 
   const handleSelectAnime = (anime: AnimeResult) => {
     setSelectedAnime(anime)
     setDonghuaForm({
-      title: anime.title,
+      Title: anime.title,
       titleEnglish: anime.title_english || "",
       description: anime.synopsis || "",
-      image: anime.images.jpg.large_image_url,
+      Image: anime.images.jpg.large_image_url,
       banner: anime.images.jpg.large_image_url,
       rating: anime.score || 0,
-      releaseDate: anime.aired?.from ? new Date(anime.aired.from) : undefined,
-      status: mapStatus(anime.status),
+      ReleaseYear: anime.aired?.from ? new Date(anime.aired.from) : new Date,
+      Status: mapStatus(anime.status),
       studio: anime.studios[0]?.name || "",
       genres: [],
       sinopse: anime.synopsis || "",
@@ -92,9 +95,9 @@ export default function AdminAddPage() {
 
   const mapStatus = (status: string): DonghuaStatus | undefined => {
     const statusMap: Record<string, DonghuaStatus> = {
-      "Currently Airing": DonghuaStatus.AIRING,
-      "Finished Airing": DonghuaStatus.COMPLETED,
-      "Not yet aired": DonghuaStatus.UPCOMING,
+      "Currently Airing": DonghuaStatus.EmAndamento,
+      "Finished Airing": DonghuaStatus.Concluido,
+      "in Paused": DonghuaStatus.Pausado,
     }
     return statusMap[status]
   }
@@ -141,7 +144,7 @@ export default function AdminAddPage() {
       genres: [],
       sinopse: "",
       trailer: "",
-      type: DonghuaType.TV,
+      type: DonghuaType.Serie,
     })
   }
 
@@ -486,4 +489,3 @@ export default function AdminAddPage() {
   )
 }
 
-*/
