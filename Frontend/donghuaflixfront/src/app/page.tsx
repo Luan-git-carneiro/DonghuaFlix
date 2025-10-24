@@ -1,6 +1,6 @@
-import { AnimeGrid } from "@/featured/anime-grid/anime-grid";
-import { FeaturedCarousel } from "@/featured/featured-carousel/featured-carousel";
-import { GenreCards } from "@/featured/genre-cards/genre-cards";
+import { AnimeGrid } from "@/featured/home/anime-grid/anime-grid";
+import { FeaturedCarousel } from "@/featured/home/featured-carousel/featured-carousel";
+import { GenreCards } from "@/featured/home/genre-cards/genre-cards";
 
 
 export default function Home() {

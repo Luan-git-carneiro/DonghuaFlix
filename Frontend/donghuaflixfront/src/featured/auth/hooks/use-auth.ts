@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { secureStorage } from '@/lib/secure-storage';
 import {
   LoginCredentials,
@@ -24,6 +24,9 @@ export function useAuth(): AuthHook  {
     error: null
   }
   )
+
+    // ✅ Usar useRef para evitar renders desnecessários
+    const authDataRef = useRef(secureStorage.getAuthData())
 
   // Verificar se token está expirado
   const isTokenExpired = useCallback((expiresAt: string | null): boolean => {
@@ -96,6 +99,10 @@ export function useAuth(): AuthHook  {
             isLoading: false,
             error: null,
           });
+
+               // ✅ DEBUG: Verificar se salvou corretamente
+          const savedData = secureStorage.getAuthData()
+          console.log("✅ Dados salvos no secureStorage:", savedData)
   
           return { success: true };
         } else {

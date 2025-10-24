@@ -1,6 +1,6 @@
 export enum DonghuaType 
 {
-    Serie = 1,
-    Movie = 2,
-    Special = 3
+    Serie = "Série",
+    Movie = "Filme",
+    Special = "Ova"
 }

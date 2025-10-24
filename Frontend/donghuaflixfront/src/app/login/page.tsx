@@ -2,13 +2,13 @@
 
 import type React from "react"
 
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/ui/button"
 import { Input } from "@/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/ui/card"
-import { useAuth } from "@/common/contexts/auth-context"
+import { useAuth, useAuthContext } from "@/common/contexts/auth-context"
 import { Play, Eye, EyeOff } from "lucide-react"
 
 export default function LoginPage() {
@@ -16,28 +16,29 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
-  const { login, isLoading } = useAuth()
+  const { login, isLoading , user} = useAuthContext()
   const router = useRouter()
 
-  // ✅ Memoizar handleSubmit
+  useEffect(() => {
+    if (user) { // Quando user for setado (logado), redireciona
+      router.push("/");
+      // Não precisa de refresh, pois o estado já propagou
+    }
+  }, [user, router]); // Depende de user
+
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-
+    e.preventDefault();
+    setError("");
     if (!email || !password) {
-      setError("Por favor, preencha todos os campos")
-      return
+      setError("Por favor, preencha todos os campos");
+      return;
     }
-
-    const { success, message } = await login({ email, password })
-    
-    if (success) {
-      console.log(`sucesso? : ${success}`)
-      router.push("/")
-    } else {
-      setError("Email ou senha incorretos " + message)
+    const { success, message } = await login({ email, password });
+    if (!success) {
+      setError("Email ou senha incorretos " + message);
     }
-  }, [email, password, login, router])
+    // Não redirecione aqui; o useEffect cuida disso
+  }, [email, password, login]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">

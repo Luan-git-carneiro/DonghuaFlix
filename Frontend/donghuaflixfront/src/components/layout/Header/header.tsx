@@ -5,15 +5,34 @@ import { Button } from "@/ui/button"
 import { Input } from "@/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/ui/dropdown-menu"
 import { Search, ChevronDown, Play, User, LogOut, Shield } from "lucide-react"
-import { useAuth } from "@/common/contexts/auth-context"
+import { useAuthContext } from "@/common/contexts/auth-context"
 import { UserRole } from "@/featured/auth/types/auth.types"
 
 
 
 export function Header() {
-  const { user, logout , hasRole} = useAuth()
+  const { user, logout , hasRole , isLoading } = useAuthContext()
 
   console.log(`usuario :${user}`)
+
+  // ✅ Evitar renderização até a autenticação ser verificada
+  if (isLoading) {
+    return (
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+        <div className="container flex h-16 items-center justify-between px-4">
+          <Link href="/" className="flex items-center space-x-2">
+            {/* Logo simplificado */}
+            <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-lg">
+              <Play className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <span className="text-xl font-bold text-foreground">DonghuaStream</span>
+          </Link>
+          <div className="text-sm text-muted-foreground">Carregando...</div>
+        </div>
+      </header>
+    )
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
