@@ -3,6 +3,7 @@ using DonghuaFlix.Backend.src.Core.Domain.Enum;
 using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DonghuaFlix.Backend.src.Infrastructure.Persistence;
 
@@ -150,11 +151,13 @@ public class AppDbContext : DbContext
              d.Property(donghua => donghua.Type)
                 .HasConversion<int>()
                 .IsRequired();
-            // Para Genres, se for uma lista simples de Enums, pode usar OwnsMany ou uma tabela de junção
-            // Exemplo simplificado (requer mais detalhes se for coleção):
-            d.Property(donghua => donghua.Genres)
-                .HasConversion<int>() // armazena o bitwise como valor inteiro
-                .IsRequired();
+
+                d.Property(e => e.Genres)  // Assuma Genres como Genre[]
+                .HasConversion(
+                    v => string.Join(",", v.Select(g => g.ToStringValue())),  // Enum[] → "Action,Wuxia"
+                    v => v.Split(',',   StringSplitOptions.RemoveEmptyEntries).Select(x => GenreExtensions.StringToGenreMap[x.Trim()]).ToList(),
+                    new ValueConverter<List<Genre>, string>()
+                )  // Custom converter se precisar
 
             d.Property(donghua => donghua.ReleaseDate);
             d.Property(donghua => donghua.CreatedAt).IsRequired();

@@ -9,6 +9,7 @@ import Link from "next/link"
 import { LayoutDashboard, Film, Users, Plus, Settings, LogOut } from "lucide-react"
 import { Button } from "@/ui/button"
 import { UserRole } from "@/featured/auth/types/auth.types"
+import PainelAdmin from "@/featured/admin/painel"
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -21,7 +22,7 @@ const navItems = [
 export default function AdminLayout({ children, }: {  children: React.ReactNode }) {
   const { user, isLoading, logout , hasRole } = useAuth()
   const router = useRouter()
-  const pathname = usePathname()
+
 
   useEffect(() => {
     if (!isLoading && (!user || !hasRole(UserRole.ADMIN))) {
@@ -44,40 +45,18 @@ export default function AdminLayout({ children, }: {  children: React.ReactNode 
     return null
   }
 
+  const handleLogout = () => {
+    logout()
+    router.push("/")
+  }
+
   return (
     <div className="flex min-h-screen bg-muted/30">
       {/* Sidebar */}
-      <aside className="w-64 border-r bg-card">
-        <div className="flex h-16 items-center border-b px-6">
-          <h1 className="text-xl font-bold text-primary">Painel Admin</h1>
-        </div>
-        <nav className="space-y-1 p-4">
-          {navItems.map((item) => {
-            const Icon = item.icon
-            const isActive = pathname === item.href
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                  isActive
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
-              >
-                <Icon className="h-5 w-5" />
-                {item.label}
-              </Link>
-            )
-          })}
-        </nav>
-        <div className="absolute bottom-4 left-4 right-4">
-          <Button variant="outline" className="w-full justify-start gap-3 bg-transparent" onClick={logout}>
-            <LogOut className="h-5 w-5" />
-            Sair
-          </Button>
-        </div>
-      </aside>
+      <PainelAdmin 
+        items={navItems} 
+        onLogout={handleLogout}
+      />
 
       {/* Main Content */}
       <main className="flex-1">
