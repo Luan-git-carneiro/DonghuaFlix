@@ -1,5 +1,6 @@
 using DonghuaFlix.Backend.src.Core.Domain.Abstractions;
 using DonghuaFlix.Backend.src.Core.Domain.Enum;
+using DonghuaFlix.Backend.src.Core.Domain.Enum.Genre;
 using DonghuaFlix.Backend.src.Core.Domain.Exceptions;
 
 namespace DonghuaFlix.Backend.src.Core.Domain.Entities;
@@ -15,13 +16,13 @@ public class Donghua : Entity
     public DateTime? ReleaseDate { get; private set; }
     public DonghuaStatus? Status { get; private set; }
     public string? Studio { get; private set; }
-    public Genre[]? Genres { get; private set; }
+    public List<Genre>? Genres { get; private set; }
     public string Sinopse { get; private set; }
     public string? Trailer { get; private set; }
     public DonghuaType Type { get; private set; }
 
     public Donghua() {}
-    public Donghua(string title, string sinopse, DonghuaType type, Genre[] genre, float rating , string image)
+    public Donghua(string title, string sinopse, DonghuaType type, List<Genre>? genre, float rating , string image)
     {
         ParamDonghuaIsNullOrWhiteSpace(nameof(title), title);
         ParamDonghuaIsNullOrWhiteSpace(nameof(sinopse), sinopse);
@@ -35,7 +36,7 @@ public class Donghua : Entity
     }
 
     public Donghua(string title, string sinopse, string studio, DateTime? releaseDate, 
-                  DonghuaType type, DonghuaStatus status, string image, Genre[] genres, 
+                  DonghuaType type, DonghuaStatus status, string image, List<Genre>? genres, 
                   float? rating, string? titleEnglish = null, string? description = null, 
                   string? banner = null, string? trailer = null)
     {
@@ -102,7 +103,7 @@ public class Donghua : Entity
         ReleaseDate = releaseDate;
     }
 
-    public void UpdateGenres(Genre[] genres)
+    public void UpdateGenres(List<Genre>? genres)
     {
         Genres = genres;
     }
@@ -139,7 +140,7 @@ public class Donghua : Entity
     }
 
     public void UpdateDonghua(string title, string sinopse, string studio, DateTime? releaseDate, 
-                             DonghuaType type, DonghuaStatus status, string image , Genre[] genres, 
+                             DonghuaType type, DonghuaStatus status, string image , List<Genre>? genres, 
                              float? rating, string? titleEnglish = null, string? description = null, 
                              string? banner = null, string? trailer = null)
     {

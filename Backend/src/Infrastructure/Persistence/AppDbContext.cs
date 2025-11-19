@@ -1,5 +1,6 @@
 using DonghuaFlix.Backend.src.Core.Domain.Entities;
 using DonghuaFlix.Backend.src.Core.Domain.Enum;
+using DonghuaFlix.Backend.src.Core.Domain.Enum.Genre;
 using DonghuaFlix.Backend.src.Core.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -152,12 +153,28 @@ public class AppDbContext : DbContext
                 .HasConversion<int>()
                 .IsRequired();
 
-                d.Property(e => e.Genres)  // Assuma Genres como Genre[]
+                d.Property(donghua => donghua.Genres)  // Assuma Genres como Genre[]
                 .HasConversion(
-                    v => string.Join(",", v.Select(g => g.ToStringValue())),  // Enum[] → "Action,Wuxia"
-                    v => v.Split(',',   StringSplitOptions.RemoveEmptyEntries).Select(x => GenreExtensions.StringToGenreMap[x.Trim()]).ToList(),
-                    new ValueConverter<List<Genre>, string>()
-                )  // Custom converter se precisar
+                    generos => {
+
+                        if( generos == null || generos.Count == 0)
+                        {
+                            return string.Empty;
+                        }
+
+                        return string.Join(",", generos.Select(g => g.ToStringValue())) ; // Enum[] → "Action,Wuxia"
+                    }, generosInBanco => {
+
+                        String[] generosEmArray = generosInBanco.Split(',',   StringSplitOptions.RemoveEmptyEntries);
+
+                        if( generosEmArray.Length == 0)
+                        {
+                            return new List<Genre>();
+                        }
+
+                        return generosEmArray.Select(g => GenreExtensions.StringToGenreMap[g.Trim()]).ToList();
+                    } 
+                ); // Custom converter se precisar
 
             d.Property(donghua => donghua.ReleaseDate);
             d.Property(donghua => donghua.CreatedAt).IsRequired();

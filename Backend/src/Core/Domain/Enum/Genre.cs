@@ -1,10 +1,11 @@
+using System;
 using System.ComponentModel;
-using System.Linq;            // ToDictionary
-using System.Reflection;      // GetType, GetMember, GetCustomAttributes
+using System.Linq;
+using System.Reflection;
 using System.Collections.Generic;
 
 
-namespace DonghuaFlix.Backend.src.Core.Domain.Enum;
+namespace DonghuaFlix.Backend.src.Core.Domain.Enum.Genre;
 
 public enum Genre
     {
@@ -60,7 +61,7 @@ public enum Genre
     public static class GenreExtensions
     {
         // Helper público para extrair atributos (agora com Reflection)
-        public static T? GetAttributeOfType<T>(this Enum enumVal) where T : Attribute
+        public static T? GetAttributeOfType<T>(this System.Enum enumVal) where T : Attribute
         {
             var type = enumVal.GetType();
             var memInfo = type.GetMember(enumVal.ToString());
@@ -77,8 +78,8 @@ public enum Genre
             return genre.GetAttributeOfType<DescriptionAttribute>()?.Description ?? genre.ToString();
         }
 
-        public static IEnumerable<Genre> AllGenres => Enum.GetValues<Genre>();
+        public static IEnumerable<Genre> AllGenres =>System.Enum.GetValues<Genre>();
 
-        public static Dictionary<string, Genre> StringToGenreMap => AllGenres.ToDictionary(g => g.ToStringValue(), g => g);
+        public static readonly Dictionary<string, Genre> StringToGenreMap = AllGenres.ToDictionary(g => g.ToStringValue(), g => g);
     }
 
